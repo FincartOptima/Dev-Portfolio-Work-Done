@@ -1,0 +1,1020 @@
+<title>Fincart Optima</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+  :root{
+    --ink:#0b0e12;
+    --surface:#141920;
+    --surface-raised:#1b222c;
+    --surface-hi:#232c38;
+    --line:#2a3240;
+    --line-soft:#1f2733;
+    --text:#edf0f4;
+    --text-dim:#99a2b3;
+    --text-faint:#5c6577;
+    --gold:#cd9f4f;
+    --gold-soft:#e8c987;
+    --signal:#5b8def;
+    --gain:#3fbf8f;
+    --loss:#e2647a;
+    --violet:#9d8cf2;
+    --slate:#7f92a6;
+
+    --font-display:'Fraunces',ui-serif,Georgia,'Times New Roman',serif;
+    --font-body:'IBM Plex Sans',ui-sans-serif,system-ui,-apple-system,'Segoe UI',sans-serif;
+    --font-mono:'IBM Plex Mono',ui-monospace,'SFMono-Regular',Consolas,'Liberation Mono',monospace;
+
+    --sidebar-w:296px;
+    color-scheme: dark;
+  }
+
+  *{box-sizing:border-box;}
+  body{
+    background:var(--ink);
+    color:var(--text);
+    font-family:var(--font-body);
+    -webkit-font-smoothing:antialiased;
+  }
+  ::selection{background:var(--gold);color:#1a1305;}
+
+  h1,h2,h3{font-family:var(--font-display);font-weight:600;margin:0;text-wrap:balance;}
+  p{margin:0;}
+  a{color:inherit;}
+  img{display:block;max-width:100%;}
+  button{font-family:inherit;}
+
+  .mono{font-family:var(--font-mono);}
+  .tnum{font-variant-numeric:tabular-nums;}
+
+  /* ---------- layout shell ---------- */
+  .shell{display:flex;min-height:100vh;}
+
+  .navtoggle{
+    display:none;
+    position:fixed;top:16px;left:16px;z-index:40;
+    width:40px;height:40px;border-radius:8px;
+    background:var(--surface-raised);border:1px solid var(--line);
+    color:var(--text);align-items:center;justify-content:center;
+    cursor:pointer;
+  }
+  .navtoggle span, .navtoggle span::before, .navtoggle span::after{
+    content:"";display:block;width:16px;height:1.5px;background:var(--text);position:relative;
+  }
+  .navtoggle span::before{position:absolute;top:-5px;}
+  .navtoggle span::after{position:absolute;top:5px;}
+
+  /* ---------- ledger sidebar ---------- */
+  .ledger{
+    width:var(--sidebar-w);flex:none;
+    position:fixed;top:0;left:0;bottom:0;
+    background:var(--surface);
+    border-right:1px solid var(--line);
+    display:flex;flex-direction:column;
+    z-index:30;
+  }
+  .ledger-brand{
+    padding:28px 26px 18px;
+    border-bottom:1px solid var(--line-soft);
+  }
+  .ledger-eyebrow{
+    font-size:10.5px;letter-spacing:.14em;color:var(--gold);
+    text-transform:uppercase;margin-bottom:10px;
+  }
+  .ledger-brand h1{font-size:24px;line-height:1.15;color:var(--text);}
+  .ledger-byline{margin-top:8px;font-size:12px;color:var(--text-faint);}
+
+  .ledger-scroll{flex:1;overflow-y:auto;padding:6px 0 18px;}
+  .ledger-act{padding:16px 26px 6px;font-size:10px;letter-spacing:.13em;color:var(--text-faint);text-transform:uppercase;}
+  .ledger-list{list-style:none;margin:0;padding:0;}
+  .ledger-item{}
+  .ledger-link{
+    display:flex;align-items:baseline;gap:11px;
+    padding:7px 26px 7px 22px;
+    border-left:2px solid transparent;
+    color:var(--text-dim);text-decoration:none;
+    font-size:13.5px;line-height:1.3;
+    cursor:pointer;
+  }
+  .ledger-link:hover{color:var(--text);background:var(--surface-raised);}
+  .ledger-idx{font-family:var(--font-mono);font-size:11.5px;color:var(--text-faint);width:16px;flex:none;}
+  .ledger-item.active .ledger-link{
+    border-left-color:var(--gold);
+    color:var(--text);
+    background:var(--surface-raised);
+  }
+  .ledger-item.active .ledger-idx{color:var(--gold);}
+
+  .ledger-foot{
+    padding:16px 26px 22px;border-top:1px solid var(--line-soft);
+  }
+  .ledger-progress-label{display:flex;justify-content:space-between;font-size:11px;color:var(--text-faint);margin-bottom:8px;}
+  .ledger-progress-track{height:2px;background:var(--line);border-radius:2px;overflow:hidden;}
+  .ledger-progress-fill{height:100%;width:0%;background:var(--gold);transition:width .25s ease;}
+
+  /* ---------- deck ---------- */
+  .deck{
+    margin-left:var(--sidebar-w);
+    flex:1;
+    height:100vh;
+    overflow-y:auto;
+    scroll-snap-type:y proximity;
+  }
+  .page{
+    min-height:100svh;
+    scroll-snap-align:start;
+    scroll-snap-stop:always;
+    padding:78px 72px 64px;
+    display:flex;flex-direction:column;justify-content:center;
+    border-bottom:1px solid var(--line-soft);
+    position:relative;
+  }
+  .page-inner{max-width:1180px;margin:0 auto;width:100%;}
+
+  .eyebrow-row{display:flex;align-items:center;gap:10px;margin-bottom:18px;}
+  .eyebrow{
+    font-family:var(--font-mono);font-size:11.5px;letter-spacing:.1em;
+    color:var(--text-faint);text-transform:uppercase;
+  }
+  .status-dot{width:6px;height:6px;border-radius:50%;flex:none;}
+  .status-dot.gold{background:var(--gold);}
+  .status-dot.signal{background:var(--signal);}
+  .status-dot.violet{background:var(--violet);}
+  .status-dot.gain{background:var(--gain);}
+  .status-dot.slate{background:var(--slate);}
+  .status-dot.faint{background:var(--text-faint);}
+
+  .badge{
+    display:inline-flex;align-items:center;gap:6px;
+    font-family:var(--font-mono);font-size:10.5px;letter-spacing:.06em;
+    padding:4px 10px;border-radius:100px;border:1px solid var(--line);
+    color:var(--text-dim);text-transform:uppercase;
+  }
+
+  .headline{font-size:clamp(28px,3.1vw,42px);line-height:1.12;color:var(--text);max-width:16ch;}
+  .lede{margin-top:16px;font-size:16px;line-height:1.6;color:var(--text-dim);max-width:52ch;}
+
+  .page-body{
+    margin-top:44px;
+    display:grid;grid-template-columns:0.92fr 1.08fr;gap:56px;align-items:start;
+  }
+  .page.flip .page-body{grid-template-columns:1.08fr 0.92fr;}
+  .page.flip .narrative{order:2;}
+  .page.flip .exhibit-col{order:1;}
+
+  /* ---------- narrative ---------- */
+  .beat{margin-bottom:22px;}
+  .beat:last-of-type{margin-bottom:0;}
+  .beat-label{
+    font-family:var(--font-mono);font-size:10.5px;letter-spacing:.1em;
+    color:var(--gold);text-transform:uppercase;margin-bottom:6px;
+  }
+  .beat p{font-size:15px;line-height:1.65;color:var(--text-dim);max-width:50ch;}
+  .beat b{color:var(--text);font-weight:600;}
+
+  .stat-ticker{
+    display:flex;flex-wrap:wrap;gap:0;
+    margin-top:28px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+  }
+  .stat{
+    flex:1 1 120px;padding:16px 20px 16px 0;
+    border-right:1px solid var(--line);
+  }
+  .stat:last-child{border-right:none;}
+  .stat-val{font-family:var(--font-mono);font-size:24px;font-weight:600;letter-spacing:-.01em;}
+  .stat-val.gold{color:var(--gold-soft);}
+  .stat-val.gain{color:var(--gain);}
+  .stat-val.loss{color:var(--loss);}
+  .stat-val.neutral{color:var(--text);}
+  .stat-lbl{margin-top:5px;font-size:11.5px;line-height:1.4;color:var(--text-faint);max-width:20ch;}
+
+  .cta-row{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px;align-items:center;}
+  .btn{
+    display:inline-flex;align-items:center;gap:8px;
+    font-family:var(--font-mono);font-size:12.5px;letter-spacing:.03em;
+    padding:11px 18px;border-radius:7px;text-decoration:none;cursor:pointer;
+    border:1px solid transparent;transition:transform .15s ease,background .15s ease;
+  }
+  .btn:hover{transform:translateY(-1px);}
+  .btn-primary{background:var(--gold);color:#1a1305;font-weight:600;}
+  .btn-primary:hover{background:var(--gold-soft);}
+  .btn-outline{border-color:var(--line);color:var(--text-dim);}
+  .btn-outline:hover{border-color:var(--text-faint);color:var(--text);}
+  .cta-note{font-size:11.5px;color:var(--text-faint);font-family:var(--font-mono);}
+  .cta-note.warn{color:var(--loss);}
+
+  /* ---------- exhibits ---------- */
+  .exhibit-col{display:flex;flex-direction:column;gap:18px;}
+  .exhibit-group{display:flex;flex-direction:column;gap:22px;}
+  .exhibit-group.pair{flex-direction:row;gap:18px;}
+  .exhibit{flex:1;min-width:0;}
+  .exhibit-frame{
+    border:1px solid var(--line);border-radius:10px;overflow:hidden;
+    background:var(--surface);
+    box-shadow:0 24px 60px -34px rgba(0,0,0,.7);
+  }
+  .exhibit-bar{
+    display:flex;align-items:center;justify-content:space-between;gap:10px;
+    padding:9px 13px;border-bottom:1px solid var(--line);
+    background:var(--surface-raised);
+  }
+  .exhibit-bar-left{display:flex;align-items:center;gap:7px;font-family:var(--font-mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;}
+  .exhibit-bar-left .dot{width:6px;height:6px;border-radius:50%;flex:none;}
+  .dot.live{background:var(--gain);box-shadow:0 0 0 3px rgba(63,191,143,.18);animation:pulse 2.6s ease-in-out infinite;}
+  .dot.static{background:var(--text-faint);}
+  .dot.restricted{background:var(--loss);}
+  .dot.draft{background:var(--violet);}
+  @keyframes pulse{0%,100%{box-shadow:0 0 0 3px rgba(63,191,143,.18);}50%{box-shadow:0 0 0 5px rgba(63,191,143,.06);}}
+  .exhibit-bar-left .word.live{color:var(--gain);}
+  .exhibit-bar-left .word.static{color:var(--text-faint);}
+  .exhibit-bar-left .word.restricted{color:var(--loss);}
+  .exhibit-bar-left .word.draft{color:var(--violet);}
+  .exhibit-bar-right{font-family:var(--font-mono);font-size:10.5px;color:var(--text-faint);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:52%;}
+  .exhibit-shot{background:#000;}
+  .exhibit-shot img{width:100%;cursor:zoom-in;}
+  .exhibit-caption{margin-top:9px;font-size:12.5px;color:var(--text-faint);line-height:1.5;padding:0 2px;}
+
+  /* diagram exhibit (slide 14) */
+  .diagram{padding:26px 22px;display:flex;flex-direction:column;gap:16px;background:var(--surface);}
+  .diagram-row{display:flex;align-items:center;gap:14px;flex-wrap:wrap;}
+  .diagram-chip{
+    font-family:var(--font-mono);font-size:12px;padding:9px 13px;border-radius:7px;
+    border:1px solid var(--line);color:var(--text-dim);background:var(--surface-raised);
+  }
+  .diagram-arrow{color:var(--text-faint);font-size:16px;}
+  .diagram-target{
+    font-family:var(--font-mono);font-size:13px;padding:12px 16px;border-radius:7px;
+    border:1px solid var(--gold);color:var(--gold-soft);background:rgba(205,159,79,.08);
+  }
+
+  /* metric exhibit (slide 15) */
+  .metric-frame{padding:30px 26px;display:flex;align-items:center;justify-content:center;gap:22px;background:var(--surface);flex-wrap:wrap;}
+  .metric-block{text-align:center;}
+  .metric-num{font-family:var(--font-mono);font-size:30px;font-weight:600;color:var(--text-dim);}
+  .metric-block.after .metric-num{color:var(--gain);}
+  .metric-cap{margin-top:6px;font-size:11px;color:var(--text-faint);text-transform:uppercase;letter-spacing:.08em;}
+  .metric-arrow{font-size:22px;color:var(--gold);}
+
+  /* live-read exhibit (slide 16) */
+  .liveread{padding:26px;background:var(--surface);display:flex;gap:0;flex-wrap:wrap;}
+  .liveread .lr-stat{flex:1 1 33%;padding:6px 16px;border-right:1px solid var(--line);}
+  .liveread .lr-stat:last-child{border-right:none;}
+  .lr-val{font-family:var(--font-mono);font-size:26px;font-weight:600;color:var(--gold-soft);}
+  .lr-lbl{margin-top:6px;font-size:11.5px;color:var(--text-faint);}
+
+  /* ---------- cover ---------- */
+  .cover{padding-top:64px;}
+  .cover-eyebrow{font-family:var(--font-mono);font-size:12px;letter-spacing:.16em;color:var(--gold);text-transform:uppercase;}
+  .cover h1{
+    margin-top:18px;font-size:clamp(44px,7vw,84px);line-height:1;color:var(--text);
+  }
+  .cover h1 em{font-style:normal;color:var(--gold-soft);}
+  .cover-lede{margin-top:22px;font-size:18px;line-height:1.6;color:var(--text-dim);max-width:58ch;}
+
+  .cover-cols{
+    margin-top:46px;display:grid;grid-template-columns:repeat(3,1fr);gap:0;
+    border-top:1px solid var(--line);
+  }
+  .cover-col{padding:20px 26px 0 0;border-right:1px solid var(--line);}
+  .cover-col:last-child{border-right:none;padding-right:0;}
+  .cover-col:not(:first-child){padding-left:26px;}
+  .cover-col-label{font-family:var(--font-mono);font-size:10.5px;letter-spacing:.1em;color:var(--gold);text-transform:uppercase;margin-bottom:10px;}
+  .cover-col p{font-size:13.5px;line-height:1.6;color:var(--text-dim);}
+
+  .cover-ticker{margin-top:40px;display:flex;flex-wrap:wrap;border-top:1px solid var(--line);border-bottom:1px solid var(--line);}
+
+  .cover-exhibit{margin-top:44px;}
+  .cover-exhibit-label{font-family:var(--font-mono);font-size:10.5px;letter-spacing:.1em;color:var(--text-faint);text-transform:uppercase;margin-bottom:10px;}
+
+  .scrollcue{margin-top:40px;display:flex;align-items:center;gap:10px;font-family:var(--font-mono);font-size:11.5px;color:var(--text-faint);}
+  .scrollcue .arrow{animation:bob 1.8s ease-in-out infinite;}
+  @keyframes bob{0%,100%{transform:translateY(0);}50%{transform:translateY(4px);}}
+
+  /* ---------- closing ---------- */
+  .closing h2{font-size:clamp(32px,4.2vw,52px);color:var(--text);max-width:18ch;}
+  .closing-lede{margin-top:18px;font-size:16px;line-height:1.65;color:var(--text-dim);max-width:56ch;}
+  .closing-foot{margin-top:48px;display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:16px;font-family:var(--font-mono);font-size:12px;color:var(--text-faint);border-top:1px solid var(--line);padding-top:20px;}
+
+  /* ---------- floating controls ---------- */
+  .floatnav{
+    position:fixed;right:26px;bottom:26px;z-index:35;
+    display:flex;flex-direction:column;gap:8px;
+    background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:8px;
+  }
+  .floatnav button{
+    width:34px;height:34px;border-radius:6px;border:none;background:transparent;color:var(--text-dim);
+    cursor:pointer;display:flex;align-items:center;justify-content:center;
+  }
+  .floatnav button:hover{background:var(--surface-raised);color:var(--text);}
+  .floatnav .fn-count{font-family:var(--font-mono);font-size:10px;text-align:center;color:var(--text-faint);padding:2px 0;}
+
+  /* ---------- lightbox ---------- */
+  .lightbox{
+    position:fixed;inset:0;background:rgba(6,7,9,.92);
+    display:none;align-items:center;justify-content:center;padding:48px;z-index:60;
+    cursor:zoom-out;
+  }
+  .lightbox.open{display:flex;}
+  .lightbox img{max-width:100%;max-height:100%;border-radius:8px;box-shadow:0 30px 80px rgba(0,0,0,.6);}
+  .lightbox-close{
+    position:fixed;top:24px;right:28px;width:40px;height:40px;border-radius:50%;
+    background:var(--surface-raised);border:1px solid var(--line);color:var(--text);
+    display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:16px;
+  }
+
+  /* ---------- responsive ---------- */
+  @media (max-width:980px){
+    .page-body{grid-template-columns:1fr;gap:36px;}
+    .page.flip .narrative,.page.flip .exhibit-col{order:initial;}
+    .exhibit-group.pair{flex-direction:column;}
+    .cover-cols{grid-template-columns:1fr;}
+    .cover-col{border-right:none;border-bottom:1px solid var(--line);padding:18px 0;}
+    .cover-col:first-child{padding-top:0;}
+  }
+  @media (max-width:860px){
+    .navtoggle{display:flex;}
+    .ledger{transform:translateX(-100%);transition:transform .25s ease;width:min(84vw,320px);}
+    .ledger.open{transform:translateX(0);box-shadow:20px 0 60px rgba(0,0,0,.5);}
+    .deck{margin-left:0;}
+    .page{padding:88px 24px 48px;}
+    .floatnav{display:none;}
+  }
+
+  @media (prefers-reduced-motion:reduce){
+    .scrollcue .arrow{animation:none;}
+    .dot.live{animation:none;}
+    .btn{transition:none;}
+  }
+</style>
+
+<div class="shell">
+  <button class="navtoggle" id="navToggle" aria-label="Toggle contents"><span></span></button>
+
+  <aside class="ledger" id="ledger">
+    <div class="ledger-brand">
+      <div class="ledger-eyebrow">Build Log &middot; Performance Appraisal</div>
+      <h1>Fincart<br>Optima</h1>
+      <div class="ledger-byline">Dev Singhal</div>
+    </div>
+    <div class="ledger-scroll" id="ledgerScroll"></div>
+    <div class="ledger-foot">
+      <div class="ledger-progress-label"><span id="progLabel">00 / 18</span><span id="progName">Cover</span></div>
+      <div class="ledger-progress-track"><div class="ledger-progress-fill" id="progFill"></div></div>
+    </div>
+  </aside>
+
+  <main class="deck" id="deck"></main>
+
+  <div class="floatnav">
+    <button id="fnPrev" aria-label="Previous">&#8593;</button>
+    <div class="fn-count mono tnum" id="fnCount">00</div>
+    <button id="fnNext" aria-label="Next">&#8595;</button>
+  </div>
+</div>
+
+<div class="lightbox" id="lightbox">
+  <button class="lightbox-close" id="lightboxClose">&#10005;</button>
+  <img id="lightboxImg" src="" alt="">
+</div>
+
+<script>
+(function(){
+
+  var GROUPS = {
+    engine:  {label:'Investment Engine',        dot:'gold'},
+    trust:   {label:'Trust &amp; Client Tools',  dot:'signal'},
+    intel:   {label:'Business Intelligence',     dot:'violet'},
+    convert: {label:'Client Conversion',         dot:'gain'},
+    ops:     {label:'Operations Automation',     dot:'slate'},
+    next:    {label:"What's Next",               dot:'faint'}
+  };
+
+  var GROUP_ORDER = ['engine','trust','intel','convert','ops','next'];
+
+  var SLIDES = [
+    {
+      n:2, group:'engine', tag:'Quant Model',
+      headline:'90% of return comes from one decision — before a single fund is picked.',
+      lede:'Five broad categories. 39 sub-categories. 4,000+ funds. At that scale, allocation does almost all the work.',
+      beats:[
+        {label:'The problem', text:'Returns are overwhelmingly driven by <b>asset allocation</b>, not fund selection — yet most process still starts with picking funds first.'},
+        {label:'What I built', text:'A <b>Black-Litterman</b> model blends market equilibrium with Amit sir\'s market-regime indicators, regressed across multiple time horizons to find stable sector weights on the efficient frontier. A full report now generates on one click.'},
+        {label:'Why it matters', text:'Backtested 2015–2026: positive alpha in <b>11 of 12 years</b> — through both the 2020 crash and the 2022 drawdown.'}
+      ],
+      stats:[
+        {v:'11 / 12', l:'years of positive alpha', tone:'gain'},
+        {v:'+7.9%', l:'avg. annual alpha, 2015–26', tone:'gold'},
+        {v:'+16.96%', l:'best single-year alpha (2026)', tone:'gain'}
+      ],
+      exhibits:[{img:'img/backtest-alpha.png', kind:'static', label:'Backtested output · 2015–2026', alt:'Year-by-year portfolio return, volatility, beta and alpha table from 2015 to 2026', caption:'Year-by-year return, volatility, beta and alpha — twelve backtested cycles, one framework.'}]
+    },
+    {
+      n:3, group:'engine', tag:'Machine Learning',
+      headline:'4,000+ funds. A model built to find next year\'s winners, not last year\'s.',
+      lede:'Top funds of 2024 are rarely the top funds of 2025 — so ranking on trailing returns alone was quietly failing.',
+      beats:[
+        {label:'The problem', text:'Past performance isn\'t a guarantee of future results, and manually re-screening 4,000+ funds every cycle isn\'t humanly possible.'},
+        {label:'What I built', text:'An ensemble of <b>Random Forest, Gradient Boosting and regression analysis</b> scores 15–20 metrics per fund across 11 years of history. The workflow: drop in daily NAVs, click a button.'},
+        {label:'Why it matters', text:'Backtested hit-rate of <b>60%</b> — three of the model\'s top five picks went on to actually rank as top performers.'}
+      ],
+      stats:[
+        {v:'60%', l:'backtested hit-rate (3 of 5)', tone:'gain'},
+        {v:'11 yrs', l:'of fund history modelled', tone:'gold'},
+        {v:'15–20', l:'metrics scored per fund', tone:'neutral'}
+      ],
+      exhibits:[{img:'img/fund-model-vs-actual.png', kind:'static', label:'Model output · 2022 sample', alt:'Table comparing the model\'s predicted top funds against the actual top-performing funds of 2022, with matches highlighted in green', caption:'Model picks (left) vs. actual top performers (right) — highlighted rows are the hits.'}]
+    },
+    {
+      n:4, group:'engine', tag:'Automated Signals',
+      headline:'When a trade signal fires, every shareholder finds out the same day.',
+      lede:'Not just that a trade happened — exactly what triggered it, when, and how much.',
+      beats:[
+        {label:'The problem', text:'Shareholders need an explainable trigger for every trade — not a vague, after-the-fact summary.'},
+        {label:'What I built', text:'A custom <b>RSI + Dual-EMA + Volume</b> strategy, written in Pinescript on TradingView, fires on trigger and auto-generates a formatted PDF — sector, stock, quantity, trigger type — sent straight to shareholders.'},
+        {label:'Why it matters', text:'Backed by concall-transcript summaries, block-deal tracking, FII/DII holding shifts and news — so every alert comes with the context to act on it.'}
+      ],
+      stats:[
+        {v:'Same-day', l:'automated trigger alerts', tone:'gold'},
+        {v:'4 layers', l:'signal + concalls + deals + holdings', tone:'neutral'}
+      ],
+      exhibits:[{img:'img/stock-signal-alert.png', kind:'static', label:'Auto-generated alert · EMA Exit', alt:'Automated PDF listing EMA exit triggers by sector, stock, company and quantity', caption:'One trigger event, auto-compiled by sector — stock, company, quantity, and the rule that fired.'}]
+    },
+    {
+      n:5, group:'trust', tag:'Live Dashboard',
+      headline:'30+ signals on the Indian economy, on one screen, always current.',
+      lede:'RMs need credible, current macro talking points — not a stale slide from last quarter.',
+      beats:[
+        {label:'The problem', text:'Building client conviction needs live macro context, and nobody has time to hand-assemble it before every meeting.'},
+        {label:'What I built', text:'A cumulative dashboard tracking <b>30+ indicators</b> — repo rate, credit growth, inflation, GST collections, USD/INR, manufacturing PMI and more — paired with a second view of FII/DII sector flows.'},
+        {label:'Why it matters', text:'RMs walk into conversations with sourced, current data instead of guesswork — and a live talking point for whatever the client brings up.'}
+      ],
+      stats:[
+        {v:'30+', l:'macro indicators tracked', tone:'gold'},
+        {v:'2', l:'dashboards: macro + FII/DII flow', tone:'neutral'}
+      ],
+      exhibits:[{img:'img/macro-dashboard.png', kind:'live', label:'India Economic Pulse', domain:'fincartoptima.github.io/MacroEconomicCompleteDashboard', alt:'India Economic Pulse dashboard showing RBI repo rate, bank credit growth, inflation, GST collection, USD/INR and manufacturing PMI', caption:'Repo rate, credit growth, inflation, GST, FX and PMI — refreshed automatically, click any card for the trend.'}],
+      demo:{url:'https://fincartoptima.github.io/MacroEconomicCompleteDashboard/', label:'Launch live dashboard', note:'Live · still being extended', warn:false}
+    },
+    {
+      n:6, group:'trust', tag:'Live Dashboard',
+      headline:'The client\'s own portfolio, next to Optima, next to the index — no spin required.',
+      lede:'The pitch RMs needed wasn\'t a claim. It was a side-by-side they could hand the client.',
+      beats:[
+        {label:'The problem', text:'RMs needed an honest, visual way to show clients exactly what staying put was costing them.'},
+        {label:'What I built', text:'A full comparison dashboard lines up the client\'s actual holdings against Fincart Optima and the BSE 500 — return, risk, drawdown, pros and cons — side by side.'},
+        {label:'Why it matters', text:'One live client run: Optima at <b>18.41% XIRR</b> against the client\'s own 10.39% and the BSE 500\'s 13.77%. Indexed from 2015, Optima\'s growth curve reached 569.7 against the BSE 500\'s 346.5 — 64% further ahead from the same starting line.'}
+      ],
+      stats:[
+        {v:'18.41%', l:'Optima XIRR vs 10.39% client / 13.77% BSE 500', tone:'gain'},
+        {v:'569.7', l:'indexed value vs 346.5 (BSE 500), base 100 in 2015', tone:'gold'}
+      ],
+      exhibits:[
+        {img:'img/pms-xirr-snapshot.png', kind:'live', label:'XIRR Snapshot', domain:'fincartoptima.github.io/portfolio-dashboard', alt:'XIRR snapshot comparing a client portfolio at 10.39%, Fincart Optima at 18.41%, and BSE 500 at 13.77%', caption:'Since-inception XIRR: client vs. Optima vs. benchmark, on the same cashflow basis.'},
+        {img:'img/pms-performance-chart.png', kind:'live', label:'Indexed performance', domain:'fincartoptima.github.io/portfolio-dashboard', alt:'Indexed performance chart showing Optima portfolio reaching 569.7 versus BSE 500 at 346.5 and a hybrid 60/40 benchmark at 309.4, both based at 100', caption:'Portfolio value vs. benchmark, indexed to 100 — the gap compounding since 2015.'}
+      ],
+      demo:{url:'https://fincartoptima.github.io/portfolio-dashboard/', label:'Launch live dashboard', note:'Live · upload your own file to try it'}
+    },
+    {
+      n:7, group:'trust', tag:'Marketing Collateral',
+      headline:'One page, zero fund names — full conviction anyway.',
+      lede:'Prospects need proof of process, not the proprietary playbook.',
+      beats:[
+        {label:'The problem', text:'RMs pitching prospects needed to demonstrate the strategy without disclosing fund names or NAVs.'},
+        {label:'What I built', text:'A one-page PDF showing the holding-mix trend and trailing returns against the BSE 500 — the approach, without the picks.'},
+        {label:'Why it matters', text:'Optima\'s 5-year trailing return of 18.4% versus the BSE 500\'s 11.3% becomes the RM\'s opening line, not a closely-guarded secret.'}
+      ],
+      stats:[
+        {v:'18.4%', l:'Optima 5-year trailing return', tone:'gain'},
+        {v:'11.3%', l:'BSE 500 5-year trailing return', tone:'neutral'}
+      ],
+      exhibits:[{img:'img/one-pager.png', kind:'static', label:'One-pager PDF · prospect-safe', alt:'One-page PDF showing portfolio holding trend and a performance snapshot table comparing Fincart Optima to BSE 500', caption:'Holding-mix trend and trailing 1Y–5Y performance — no fund names, no NAVs.'}]
+    },
+    {
+      n:8, group:'intel', tag:'Live Dashboard',
+      headline:'From cold lead to converted client — the whole funnel, live.',
+      lede:'Marketing spend and lead quality were hard to trace all the way to revenue.',
+      beats:[
+        {label:'The problem', text:'Leads, plans, and revenue-generating clients lived in disconnected views — no single funnel to see where leads actually went.'},
+        {label:'What I built', text:'A cumulative dashboard tracking lead volume, MTD performance comparable across months, and a full funnel: leads → financial plans → clients above ₹15K revenue vs. purely transactional ones.'},
+        {label:'Why it matters', text:'6,409 YTD leads tracked end-to-end to a <b>9.69%</b> qualified-lead conversion rate — visible to marketing and RMs alike.'}
+      ],
+      stats:[
+        {v:'6,409', l:'YTD leads tracked', tone:'gold'},
+        {v:'9.69%', l:'qualified-lead conversion rate', tone:'gain'}
+      ],
+      exhibits:[{img:'img/marketing-mis.png', kind:'live', label:'Marketing MIS Dashboard', domain:'fincartoptima.github.io/MarketingMISDashboard', alt:'Marketing MIS dashboard showing 6,409 YTD leads, 284 converted, 9.69% conversion rate, and a status-distribution bar chart', caption:'Lead status distribution — assigned, on hold, follow-up, in process, converted, dead.'}],
+      demo:{url:'https://fincartoptima.github.io/MarketingMISDashboard/', label:'Launch live dashboard', note:'Live · still being extended'}
+    },
+    {
+      n:9, group:'intel', tag:'Live Dashboard',
+      headline:'Every revenue stream, every RM, one live ledger.',
+      lede:'Leadership needed a single source of truth for revenue — updated continuously, not at month-end.',
+      beats:[
+        {label:'The problem', text:'Revenue by stream and by RM was reconstructed by hand each month — slow, and always slightly out of date.'},
+        {label:'What I built', text:'A cumulative revenue dashboard breaking down YTD and monthly performance by stream and category, down to individual RM contribution.'},
+        {label:'Why it matters', text:'Sales leads can see exactly who\'s driving revenue and where, in real time — not in a month-end scramble.'}
+      ],
+      stats:[
+        {v:'65.2%', l:'of monthly AUM target reached, live run', tone:'gain'},
+        {v:'50.6%', l:'of monthly revenue target reached, live run', tone:'gold'}
+      ],
+      exhibits:[{img:'img/revenue-mis.png', kind:'live', label:'Revenue MIS', domain:'fincartoptima.github.io/RevenueMISDashboard', alt:'Revenue MIS dashboard showing revenue, client acquisition, AUM, SIP and Google talktime targets, with a revenue-by-team bar chart', caption:'Revenue by team, against target, for the current month-to-date.'}],
+      demo:{url:'https://fincartoptima.github.io/RevenueMISDashboard/', label:'Launch live dashboard', note:'Live · still being extended'}
+    },
+    {
+      n:10, group:'intel', tag:'Fund-Manager Console',
+      headline:'Every Optima client, one screen — built for the fund manager\'s eyes only.',
+      lede:'With every portfolio individually allocated, it\'s easy for one to quietly drift from the rest.',
+      beats:[
+        {label:'The problem', text:'A fund-level decision made for the book needs to reach every client\'s portfolio — with nobody silently left out.'},
+        {label:'What I built', text:'A cumulative, client-by-client console showing fund-wise performance and category allocation across the entire Optima book, so allocation can be rotated and kept consistent.'},
+        {label:'Why it matters', text:'Restricted to the fund manager by design — this is the control room, not a client-facing view.'}
+      ],
+      stats:[
+        {v:'360°', l:'collective + per-client view', tone:'neutral'},
+        {v:'Restricted', l:'fund-manager-only access', tone:'loss'}
+      ],
+      exhibits:[
+        {img:'img/birds-eye-client.png', kind:'restricted', label:'Client view', domain:'optima-birds-eye-view.onrender.com', alt:'Birds Eye View client screen showing a selected client\'s strategy description and asset allocation table', caption:'Per-client strategy, inception details and live asset allocation.'},
+        {img:'img/birds-eye-holdings.png', kind:'restricted', label:'Top holdings', domain:'optima-birds-eye-view.onrender.com', alt:'Table of a client\'s top 5 fund holdings with category, current value, allocation percentage and profit or loss', caption:'Top five holdings — value, weight, and unrealised P/L at a glance.'}
+      ],
+      demo:{url:'https://optima-birds-eye-view.onrender.com', label:'Open live console', note:'🔒 Sign-in required — restricted to authorised users', warn:true, secondaryUrl:'https://github.com/FincartOptima/Optima-Birds-Eye-View', secondaryLabel:'View source on GitHub'}
+    },
+    {
+      n:11, group:'convert', tag:'Client Conversion',
+      headline:'Most self-directed investors are quietly trailing the index. Now they can see it.',
+      lede:'Clients trading on their own usually assumed they were doing fine.',
+      beats:[
+        {label:'The problem', text:'Most clients investing on their own were actually earning less than the benchmark — with no way to see it clearly.'},
+        {label:'What I built', text:'The tool ingests a client\'s real tradebook — every transaction, every stock, every split and merger — rebuilds a true NAV series for their self-managed portfolio, and lines it up against Fincart Optima.'},
+        {label:'Why it matters', text:'A client either sees the gap and converts to Optima, or at minimum gets an honest read on their own performance for the first time. Still evolving — some steps are manual today.'}
+      ],
+      stats:[
+        {v:'1.18', l:'Optima Sharpe ratio vs 0.44 client, sample run', tone:'gain'},
+        {v:'-10.4%', l:'Optima max drawdown vs -21.4% client, sample run', tone:'gold'}
+      ],
+      exhibits:[{img:'img/stock-pms-comparison.png', kind:'draft', label:'Portfolio Comparison — draft output', alt:'Draft portfolio comparison dashboard showing client XIRR of 13.19%, Fincart Optima at 16.64%, BSE 500 at 8.62%, with a NAV performance chart, metrics table and sector-allocation donut', caption:'Draft output, built to visualise the idea — XIRR, NAV curve, Sharpe, drawdown and sector mix in one view.'}]
+    },
+    {
+      n:12, group:'ops', tag:'Ops Automation',
+      headline:'22,500+ transactions checked automatically — and it tells you why the money\'s missing.',
+      lede:'Brokerage doesn\'t always land even when the revenue is booked on the books.',
+      beats:[
+        {label:'The problem', text:'Finding out why brokerage didn\'t get paid meant manually cross-checking transaction lists against what AMCs actually remitted.'},
+        {label:'What I built', text:'The tool matches every company transaction against brokerage received and surfaces exactly which ones are still pending verification, via a custom Google Sheets menu that drafts — never auto-sends — emails to the RM and the AMC. Sending stays a deliberate human step: an email can\'t be unsent.'},
+        {label:'Why it matters', text:'22,523 transactions flagged for verification in the latest run, with every stakeholder notified and able to see exactly where brokerage is pending.'}
+      ],
+      stats:[
+        {v:'22,523', l:'transactions flagged for verification', tone:'gold'},
+        {v:'16,665', l:'excluded / already resolved', tone:'neutral'}
+      ],
+      exhibits:[
+        {img:'img/brokerage-sheet.png', kind:'app', label:'Brokerage Reconciliation', domain:'Google Sheets — custom menu', alt:'Google Sheets brokerage reconciliation tracker with a custom "Brokerage Mailer" menu offering to mail RMs and AMCs', caption:'22,523 rows, one custom menu — draft RM and AMC mailers straight from the sheet.'},
+        {img:'img/brokerage-app.png', kind:'app', label:'Reconciliation Tool', domain:'Desktop application', alt:'Desktop application window for the Brokerage Reconciliation Tool with file pickers and a progress log', caption:'A desktop front-end so anyone on the team can run the match without touching a script.'}
+      ]
+    },
+    {
+      n:13, group:'ops', tag:'Ops Automation',
+      headline:'What used to take hours now takes seconds.',
+      lede:'Health and non-health policy data only ever arrived as PDFs.',
+      beats:[
+        {label:'The problem', text:'Amit Singh sir was manually downloading each PDF, copying fields into Excel by hand, then re-uploading to Workpoint — slow, and one typo away from an error.'},
+        {label:'What I built', text:'An app that takes the PDFs and CSVs directly as input and produces Workpoint-ready output — no manual transcription in between.'},
+        {label:'Why it matters', text:'A task that used to eat hours of a senior team member\'s time now runs in seconds.'}
+      ],
+      stats:[
+        {v:'Hours', l:'→ Seconds, per update cycle', tone:'gain'}
+      ],
+      exhibits:[{img:'img/insurance-tracker.png', kind:'live', label:'Insurance Policy Tracker', domain:'Internal web app', alt:'Insurance Policy Tracker app: select an insurance company, upload its files, and generate a unified report', caption:'Pick a company, upload its files, get one unified report — no copy-paste in between.'}]
+    },
+    {
+      n:14, group:'next', tag:'In Progress',
+      headline:'Taking four tools off spreadsheets and into one secure product.',
+      lede:'Black-Litterman, fund selection, portfolio tracking and the PMS comparison tool all lived on Google Sheets or local machines.',
+      beats:[
+        {label:'The goal', text:'Working directly with the tech team to integrate all four into the <b>DIY app</b>, backed by a proper secure database instead of spreadsheets and local files.'},
+        {label:'Where it stands', text:'Fund Selection is furthest along — nearly finalized, being made dynamic, with its hit-rate still improving.'},
+        {label:'Why it matters', text:'This is what puts every model in this deck inside the product itself, not beside it.'}
+      ],
+      stats:[
+        {v:'4', l:'systems moving into the DIY app', tone:'gold'},
+        {v:'1st', l:'Fund Selection — nearest to shipping', tone:'gain'}
+      ],
+      diagram:{
+        from:['Google Sheets','Local files / scripts'],
+        to:'DIY App — secure database',
+        chips:['Black-Litterman','Fund Selection','Portfolio Tracking','PMS Comparison']
+      }
+    },
+    {
+      n:15, group:'ops', tag:'Ops Automation',
+      headline:'A 30–60 minute manual grind, on a path to three.',
+      lede:'Building the revenue MIS file meant pasting data by hand and dragging formulas down, every day.',
+      beats:[
+        {label:'The problem', text:'The daily revenue MIS file was built through manual copy-paste and formula drag-downs — 30 to 60 minutes lost to it each day.'},
+        {label:'What I built', text:'An app that takes a straight Workpoint export and generates the revenue MIS file directly.'},
+        {label:'What\'s still open', text:'MF trail brokerage isn\'t counted yet, revenue rates need final verification, and the file size is still large — flagged rather than hidden.'}
+      ],
+      stats:[
+        {v:'30–60 min', l:'today, manual', tone:'neutral'},
+        {v:'2–3 min', l:'projected, once rates are finalized', tone:'gain'}
+      ],
+      metric:{beforeVal:'30–60', beforeLbl:'minutes / day, today', afterVal:'2–3', afterLbl:'minutes / day, projected'}
+    },
+    {
+      n:16, group:'intel', tag:'Live Dashboard',
+      headline:'How many plans, from whom, converting how often.',
+      lede:'The L&D team had no live view of how many financial plans were actually being produced.',
+      beats:[
+        {label:'The problem', text:'Plan volume, category mix and conversion existed only as scattered, manually-assembled snapshots.'},
+        {label:'What I built', text:'A dashboard tracking plan volume by client category, conversion rate, and monthly plan velocity for the L&D team.'},
+        {label:'What\'s next', text:'Comparing every plan the team creates directly against the model portfolio.'}
+      ],
+      stats:[
+        {v:'1,703', l:'clients in view, live reading', tone:'gold'},
+        {v:'1,281', l:'FY tickets tracked, live reading', tone:'neutral'},
+        {v:'360', l:'converted, live reading', tone:'gain'}
+      ],
+      liveread:true,
+      demo:{url:'https://fincartoptima.github.io/L-D-Financial-Plan/', label:'Launch live dashboard', note:'Live · public'}
+    },
+    {
+      n:17, group:'ops', tag:'Ops Automation',
+      headline:'Rate chart × commission received × policy file → one clean, flagged report.',
+      lede:'Reconciling commission received against what was actually owed was a slow, manual cross-check.',
+      beats:[
+        {label:'The problem', text:'The accounts team had to manually verify every policy against its rate chart and the commission actually received.'},
+        {label:'What I built', text:'Upload the rate chart, the commission-received file, and the Workpoint insurance file — the tool checks every policy match and rate application automatically.'},
+        {label:'Why it matters', text:'Every mismatch is flagged automatically, cutting reconciliation time for accounts and raising the integrity of the output.'}
+      ],
+      stats:[
+        {v:'Auto-flagged', l:'every rate / policy mismatch', tone:'gain'}
+      ],
+      exhibits:[{img:'img/health-insurance-recon.png', kind:'live', label:'Health Insurance Commission Reconciliation', domain:'Internal web app', alt:'Health Insurance Commission Reconciliation app with fields for AMC and period, and upload zones for rate charts, commission received files and insurance-done files', caption:'Rate chart, commission received, and policy file in — one reviewable, flagged report out.'}]
+    }
+  ];
+
+  /* ---------------- render helpers ---------------- */
+
+  function el(tag, cls, html){
+    var d = document.createElement(tag);
+    if(cls) d.className = cls;
+    if(html !== undefined) d.innerHTML = html;
+    return d;
+  }
+
+  function statTicker(stats){
+    var wrap = el('div','stat-ticker');
+    stats.forEach(function(s){
+      var t = el('div','stat');
+      t.appendChild(el('div','stat-val tnum '+(s.tone||'neutral'), s.v));
+      t.appendChild(el('div','stat-lbl', s.l));
+      wrap.appendChild(t);
+    });
+    return wrap;
+  }
+
+  function exhibitFrame(ex){
+    var frame = el('div','exhibit-frame');
+    var bar = el('div','exhibit-bar');
+    var left = el('div','exhibit-bar-left');
+    var kind = ex.kind || 'static';
+    var dotClass = kind==='live' ? 'live' : kind==='restricted' ? 'restricted' : kind==='draft' ? 'draft' : 'static';
+    var word = kind==='live' ? 'Live' : kind==='restricted' ? 'Restricted' : kind==='draft' ? 'Draft' : kind==='app' ? 'App' : 'Static output';
+    left.appendChild(el('span','dot '+dotClass));
+    left.appendChild(el('span','word '+dotClass, word));
+    bar.appendChild(left);
+    bar.appendChild(el('div','exhibit-bar-right', ex.domain || ex.label));
+    frame.appendChild(bar);
+    var shot = el('div','exhibit-shot');
+    var img = document.createElement('img');
+    img.src = ex.img; img.alt = ex.alt || ex.label; img.loading = 'lazy';
+    img.addEventListener('click', function(){ openLightbox(ex.img, ex.alt||ex.label); });
+    shot.appendChild(img);
+    frame.appendChild(shot);
+    var col = el('div','exhibit');
+    col.appendChild(frame);
+    col.appendChild(el('div','exhibit-caption', ex.caption || ''));
+    return col;
+  }
+
+  function diagramExhibit(d){
+    var col = el('div','exhibit');
+    var frame = el('div','exhibit-frame');
+    var bar = el('div','exhibit-bar');
+    var left = el('div','exhibit-bar-left');
+    left.appendChild(el('span','dot draft'));
+    left.appendChild(el('span','word draft','In progress'));
+    bar.appendChild(left);
+    bar.appendChild(el('div','exhibit-bar-right','Migration in flight'));
+    frame.appendChild(bar);
+    var diag = el('div','diagram');
+    var row1 = el('div','diagram-row');
+    d.from.forEach(function(f){ row1.appendChild(el('div','diagram-chip', f)); });
+    row1.appendChild(el('div','diagram-arrow','&#8594;'));
+    row1.appendChild(el('div','diagram-target', d.to));
+    diag.appendChild(row1);
+    var row2 = el('div','diagram-row');
+    d.chips.forEach(function(c){ row2.appendChild(el('div','diagram-chip', c)); });
+    diag.appendChild(row2);
+    frame.appendChild(diag);
+    col.appendChild(frame);
+    col.appendChild(el('div','exhibit-caption','Four spreadsheet-and-local tools, consolidating into one product surface.'));
+    return col;
+  }
+
+  function metricExhibit(m){
+    var col = el('div','exhibit');
+    var frame = el('div','exhibit-frame');
+    var bar = el('div','exhibit-bar');
+    var left = el('div','exhibit-bar-left');
+    left.appendChild(el('span','dot static'));
+    left.appendChild(el('span','word static','Before / after'));
+    bar.appendChild(left);
+    bar.appendChild(el('div','exhibit-bar-right','Daily file-generation time'));
+    frame.appendChild(bar);
+    var mf = el('div','metric-frame');
+    var b1 = el('div','metric-block');
+    b1.appendChild(el('div','metric-num tnum', m.beforeVal));
+    b1.appendChild(el('div','metric-cap', m.beforeLbl));
+    var arrow = el('div','metric-arrow','&#8594;');
+    var b2 = el('div','metric-block after');
+    b2.appendChild(el('div','metric-num tnum', m.afterVal));
+    b2.appendChild(el('div','metric-cap', m.afterLbl));
+    mf.appendChild(b1); mf.appendChild(arrow); mf.appendChild(b2);
+    frame.appendChild(mf);
+    col.appendChild(frame);
+    col.appendChild(el('div','exhibit-caption','Once revenue rates are finalized, the daily run drops to a few minutes.'));
+    return col;
+  }
+
+  function liveReadExhibit(stats){
+    var col = el('div','exhibit');
+    var frame = el('div','exhibit-frame');
+    var bar = el('div','exhibit-bar');
+    var left = el('div','exhibit-bar-left');
+    left.appendChild(el('span','dot live'));
+    left.appendChild(el('span','word live','Live reading'));
+    bar.appendChild(left);
+    bar.appendChild(el('div','exhibit-bar-right','fincartoptima.github.io/L-D-Financial-Plan'));
+    frame.appendChild(bar);
+    var lr = el('div','liveread');
+    stats.forEach(function(s){
+      var b = el('div','lr-stat');
+      b.appendChild(el('div','lr-val tnum', s.v));
+      b.appendChild(el('div','lr-lbl', s.l));
+      lr.appendChild(b);
+    });
+    frame.appendChild(lr);
+    col.appendChild(frame);
+    col.appendChild(el('div','exhibit-caption','Pulled directly from the live dashboard while building this deck.'));
+    return col;
+  }
+
+  function ctaRow(demo){
+    var row = el('div','cta-row');
+    var a = document.createElement('a');
+    a.href = demo.url; a.target = '_blank'; a.rel = 'noopener noreferrer';
+    a.className = 'btn btn-primary';
+    a.innerHTML = demo.label + ' &#8599;';
+    row.appendChild(a);
+    if(demo.secondaryUrl){
+      var a2 = document.createElement('a');
+      a2.href = demo.secondaryUrl; a2.target = '_blank'; a2.rel = 'noopener noreferrer';
+      a2.className = 'btn btn-outline';
+      a2.innerHTML = demo.secondaryLabel + ' &#8599;';
+      row.appendChild(a2);
+    }
+    if(demo.note){
+      row.appendChild(el('div','cta-note'+(demo.warn?' warn':''), demo.note));
+    }
+    return row;
+  }
+
+  function buildPage(slide, idx){
+    var page = el('section','page'+(idx%2===1?' flip':''));
+    page.id = 'p'+slide.n;
+    page.setAttribute('data-idx', idx);
+    page.setAttribute('data-name', 'Entry '+String(slide.n).padStart(2,'0'));
+
+    var inner = el('div','page-inner');
+
+    var eyebrowRow = el('div','eyebrow-row');
+    eyebrowRow.appendChild(el('span','status-dot '+GROUPS[slide.group].dot));
+    eyebrowRow.appendChild(el('span','eyebrow','Ledger entry '+String(slide.n).padStart(2,'0')+' &middot; '+GROUPS[slide.group].label));
+    inner.appendChild(eyebrowRow);
+
+    inner.appendChild(el('h2','headline', slide.headline));
+    inner.appendChild(el('p','lede', slide.lede));
+
+    var body = el('div','page-body');
+    var narrative = el('div','narrative');
+    slide.beats.forEach(function(b){
+      var beat = el('div','beat');
+      beat.appendChild(el('div','beat-label', b.label));
+      beat.appendChild(el('p','', b.text));
+      narrative.appendChild(beat);
+    });
+    if(!slide.liveread && !slide.metric) narrative.appendChild(statTicker(slide.stats));
+    if(slide.demo) narrative.appendChild(ctaRow(slide.demo));
+    body.appendChild(narrative);
+
+    var exCol = el('div','exhibit-col');
+    if(slide.exhibits){
+      var group = el('div','exhibit-group'+(slide.exhibits.length>1?' pair':''));
+      slide.exhibits.forEach(function(ex){ group.appendChild(exhibitFrame(ex)); });
+      exCol.appendChild(group);
+    } else if(slide.diagram){
+      exCol.appendChild(diagramExhibit(slide.diagram));
+    } else if(slide.metric){
+      exCol.appendChild(metricExhibit(slide.metric));
+    } else if(slide.liveread){
+      exCol.appendChild(liveReadExhibit(slide.stats));
+    }
+    body.appendChild(exCol);
+
+    inner.appendChild(body);
+    page.appendChild(inner);
+    return page;
+  }
+
+  function buildCover(totalTools){
+    var page = el('section','page cover');
+    page.id = 'p0';
+    page.setAttribute('data-idx', 0);
+    page.setAttribute('data-name','Cover');
+    var inner = el('div','page-inner');
+
+    inner.appendChild(el('div','cover-eyebrow','Performance appraisal &middot; Build log'));
+    inner.innerHTML += '<h1>Fincart <em>Optima</em></h1>';
+    inner.appendChild(el('p','cover-lede','A year of turning a 4,000-fund universe into an automated, data-driven portfolio system — sixteen tools, walked through end to end.'));
+
+    var cols = el('div','cover-cols');
+    var c1 = el('div','cover-col'); c1.appendChild(el('div','cover-col-label','The problem')); c1.appendChild(el('p','','5 categories, 39 sub-categories, 4,000+ funds — no manual process could personalize a portfolio at that scale, and clerical work was eating the time that should have gone to clients.'));
+    var c2 = el('div','cover-col'); c2.appendChild(el('div','cover-col-label','The approach')); c2.appendChild(el('p','','Automate fund shortlisting and asset allocation end to end, then hand RMs a transparent, data-backed story to tell — and strip out the manual work that added no value.'));
+    var c3 = el('div','cover-col'); c3.appendChild(el('div','cover-col-label','The outcome')); c3.appendChild(el('p','','Sixteen systems shipped — quant models, live dashboards and operations automation — turning hours of manual work into one-click processes.'));
+    cols.appendChild(c1); cols.appendChild(c2); cols.appendChild(c3);
+    inner.appendChild(cols);
+
+    inner.appendChild(statTicker([
+      {v:'16', l:'tools & systems shipped', tone:'gold'},
+      {v:'4,000+', l:'funds screened by the model', tone:'neutral'},
+      {v:'6', l:'live dashboards in production', tone:'gain'},
+      {v:'22,523', l:'transactions auto-flagged, one run', tone:'gold'}
+    ]));
+
+    var exWrap = el('div','cover-exhibit');
+    exWrap.appendChild(el('div','cover-exhibit-label','Exhibit A &middot; the headline result'));
+    exWrap.appendChild(exhibitFrame({
+      img:'img/pms-performance-chart.png', kind:'live', label:'Indexed performance',
+      domain:'fincartoptima.github.io/portfolio-dashboard',
+      alt:'Indexed performance chart showing Fincart Optima reaching 569.7 versus BSE 500 at 346.5 and a hybrid 60/40 benchmark at 309.4, all indexed to 100',
+      caption:'Fincart Optima vs. BSE 500 vs. a 60/40 hybrid benchmark — indexed to 100 in 2015. Slide 06 walks through how.'
+    }));
+    inner.appendChild(exWrap);
+
+    inner.appendChild(el('div','scrollcue','<span>Sixteen entries follow — scroll, or use &#8593; &#8595;</span><span class="arrow">&#8595;</span>'));
+
+    page.appendChild(inner);
+    return page;
+  }
+
+  function buildClosing(){
+    var page = el('section','page closing');
+    page.id = 'pclose';
+    page.setAttribute('data-idx', SLIDES.length+1);
+    page.setAttribute('data-name','Closing');
+    var inner = el('div','page-inner');
+    inner.appendChild(el('div','eyebrow-row','<span class="eyebrow">Closing entry</span>'));
+    inner.appendChild(el('h2','', 'Sixteen systems. One year. Still building.'));
+    inner.appendChild(el('p','closing-lede','From a Black-Litterman allocator to a same-day trade alert, six live dashboards and five operations tools that took hours down to minutes — the throughline is the same: turn a manual, error-prone process into something that runs on a click. Entry 14 is already the next chapter — moving these tools off spreadsheets and into the product itself.'));
+    inner.appendChild(statTicker([
+      {v:'16', l:'tools & systems shipped', tone:'gold'},
+      {v:'4,000+', l:'funds screened by the model', tone:'neutral'},
+      {v:'6', l:'live dashboards in production', tone:'gain'},
+      {v:'22,523', l:'transactions auto-flagged, one run', tone:'gold'}
+    ]));
+    var foot = el('div','closing-foot');
+    foot.appendChild(el('span','','Prepared by Dev Singhal'));
+    foot.appendChild(el('span','','Fincart Optima &middot; Build Log'));
+    inner.appendChild(foot);
+    page.appendChild(inner);
+    return page;
+  }
+
+  /* ---------------- assemble ---------------- */
+
+  var deck = document.getElementById('deck');
+  var pages = [];
+  var coverPage = buildCover();
+  deck.appendChild(coverPage); pages.push(coverPage);
+  SLIDES.forEach(function(s,i){ var p = buildPage(s,i+1); deck.appendChild(p); pages.push(p); });
+  var closePage = buildClosing();
+  deck.appendChild(closePage); pages.push(closePage);
+
+  /* ledger nav */
+  var ledgerScroll = document.getElementById('ledgerScroll');
+  var navLinks = [];
+
+  var coverLi = el('li','ledger-item');
+  var coverA = el('a','ledger-link');
+  coverA.appendChild(el('span','ledger-idx mono','00'));
+  coverA.appendChild(el('span','','Cover'));
+  coverA.addEventListener('click', function(){ goTo(0); });
+  coverLi.appendChild(coverA);
+  var coverList = el('ul','ledger-list');
+  coverList.appendChild(coverLi);
+  ledgerScroll.appendChild(coverList);
+  navLinks.push(coverLi);
+
+  var currentGroup = null, currentList = null;
+  SLIDES.forEach(function(s, i){
+    if(s.group !== currentGroup){
+      currentGroup = s.group;
+      ledgerScroll.appendChild(el('div','ledger-act', GROUPS[s.group].label));
+      currentList = el('ul','ledger-list');
+      ledgerScroll.appendChild(currentList);
+    }
+    var li = el('li','ledger-item');
+    var a = el('a','ledger-link');
+    a.appendChild(el('span','ledger-idx mono', String(s.n).padStart(2,'0')));
+    a.appendChild(el('span','', s.tag));
+    (function(idx){ a.addEventListener('click', function(){ goTo(idx+1); }); })(i);
+    li.appendChild(a);
+    currentList.appendChild(li);
+    navLinks.push(li);
+  });
+
+  var closeLi = el('li','ledger-item');
+  var closeA = el('a','ledger-link');
+  closeA.appendChild(el('span','ledger-idx mono','&#8226;'));
+  closeA.appendChild(el('span','','Closing'));
+  closeA.addEventListener('click', function(){ goTo(pages.length-1); });
+  closeLi.appendChild(closeA);
+  var closeList = el('ul','ledger-list');
+  closeList.appendChild(closeLi);
+  ledgerScroll.appendChild(closeList);
+  navLinks.push(closeLi);
+
+  /* ---------------- interactivity ---------------- */
+
+  var progLabel = document.getElementById('progLabel');
+  var progName = document.getElementById('progName');
+  var progFill = document.getElementById('progFill');
+  var fnCount = document.getElementById('fnCount');
+  var activeIdx = 0;
+
+  function setActive(idx){
+    activeIdx = idx;
+    navLinks.forEach(function(li,i){ li.classList.toggle('active', i===idx); });
+    var active = navLinks[idx];
+    if(active) active.scrollIntoView({block:'nearest'});
+    progLabel.textContent = String(idx).padStart(2,'0')+' / '+String(pages.length-1).padStart(2,'0');
+    progName.textContent = pages[idx].getAttribute('data-name');
+    progFill.style.width = (idx/(pages.length-1)*100)+'%';
+    fnCount.textContent = String(idx).padStart(2,'0');
+  }
+
+  function goTo(idx){
+    idx = Math.max(0, Math.min(pages.length-1, idx));
+    pages[idx].scrollIntoView({behavior:'smooth', block:'start'});
+  }
+
+  var observer = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if(entry.isIntersecting && entry.intersectionRatio > 0.5){
+        var idx = parseInt(entry.target.getAttribute('data-idx'),10);
+        setActive(idx);
+      }
+    });
+  }, {root: document.getElementById('deck'), threshold:[0.5]});
+  pages.forEach(function(p){ observer.observe(p); });
+
+  document.getElementById('fnPrev').addEventListener('click', function(){ goTo(activeIdx-1); });
+  document.getElementById('fnNext').addEventListener('click', function(){ goTo(activeIdx+1); });
+
+  document.addEventListener('keydown', function(e){
+    if(e.target.tagName==='INPUT' || e.target.tagName==='TEXTAREA') return;
+    if(e.key==='ArrowDown' || e.key==='PageDown'){ e.preventDefault(); goTo(activeIdx+1); }
+    else if(e.key==='ArrowUp' || e.key==='PageUp'){ e.preventDefault(); goTo(activeIdx-1); }
+  });
+
+  /* mobile drawer */
+  var ledger = document.getElementById('ledger');
+  var navToggle = document.getElementById('navToggle');
+  navToggle.addEventListener('click', function(){ ledger.classList.toggle('open'); });
+  navLinks.forEach(function(li){
+    li.querySelector('a').addEventListener('click', function(){ ledger.classList.remove('open'); });
+  });
+
+  /* lightbox */
+  var lightbox = document.getElementById('lightbox');
+  var lightboxImg = document.getElementById('lightboxImg');
+  function openLightbox(src, alt){ lightboxImg.src = src; lightboxImg.alt = alt; lightbox.classList.add('open'); }
+  function closeLightbox(){ lightbox.classList.remove('open'); lightboxImg.src=''; }
+  lightbox.addEventListener('click', closeLightbox);
+  document.getElementById('lightboxClose').addEventListener('click', function(e){ e.stopPropagation(); closeLightbox(); });
+  document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeLightbox(); });
+
+  setActive(0);
+
+})();
+</script>
