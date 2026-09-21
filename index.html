@@ -375,6 +375,72 @@
   .simple-body{margin-top:36px;display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;}
   .simple-body p{font-size:15.5px;line-height:1.7;color:var(--text-dim);max-width:46ch;}
 
+  /* mini-app (slides 8 & 9) */
+  .miniapp{border:1px solid var(--line);border-radius:12px;background:var(--surface);box-shadow:0 1px 2px rgba(30,26,10,.04), 0 16px 40px -28px rgba(30,26,10,.25);overflow:hidden;}
+  .miniapp-bar{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:9px 13px;border-bottom:1px solid var(--line);background:var(--surface-sunken);}
+  .miniapp-bar-left{display:flex;align-items:center;gap:7px;font-family:var(--font-mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;}
+  .miniapp-bar-left .dot{width:6px;height:6px;border-radius:50%;flex:none;background:var(--slate);}
+  .miniapp-bar-left .word{color:var(--slate);}
+  .miniapp-bar-right{font-family:var(--font-mono);font-size:10.5px;color:var(--text-faint);}
+  .miniapp-body{padding:18px;}
+  .miniapp-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;}
+  .miniapp-kpi{border:1px solid var(--line);border-radius:8px;padding:10px 12px;background:var(--paper);}
+  .miniapp-kpi-val{font-family:var(--font-mono);font-size:16px;font-weight:600;color:var(--text);}
+  .miniapp-kpi-lbl{margin-top:3px;font-size:10px;letter-spacing:.02em;color:var(--text-faint);text-transform:uppercase;}
+  .miniapp-toolbar{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:16px;}
+  .miniapp-toolbar-label{font-family:var(--font-mono);font-size:11px;color:var(--text-faint);}
+  .toggle{display:inline-flex;border:1px solid var(--line-strong);border-radius:100px;padding:2px;background:var(--paper);}
+  .toggle button{font-family:var(--font-mono);font-size:10.5px;padding:5px 11px;border-radius:100px;border:none;background:transparent;color:var(--text-dim);cursor:pointer;}
+  .toggle button.active{background:var(--text);color:var(--paper);}
+  .miniapp-chart{margin-top:12px;}
+  .miniapp-chart svg{width:100%;height:180px;display:block;overflow:visible;}
+  .miniapp-bar-group rect{cursor:pointer;transition:opacity .12s ease;}
+  .miniapp-bar-group:hover rect{opacity:.75;}
+  .miniapp-tip{position:absolute;pointer-events:none;background:var(--text);color:var(--paper);font-family:var(--font-mono);font-size:11px;padding:5px 8px;border-radius:5px;transform:translate(-50%,-115%);white-space:nowrap;opacity:0;transition:opacity .1s ease;z-index:5;}
+  .miniapp-chart-wrap{position:relative;}
+  .miniapp-note{margin-top:14px;font-size:11.5px;color:var(--text-faint);line-height:1.5;}
+
+  /* PDF attachment + modal */
+  .pdf-modal{position:fixed;inset:0;background:rgba(20,18,12,.6);display:none;align-items:center;justify-content:center;padding:40px;z-index:65;}
+  .pdf-modal.open{display:flex;}
+  .pdf-modal-card{width:min(640px,100%);height:min(760px,88vh);background:var(--surface);border-radius:12px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 30px 80px rgba(0,0,0,.35);}
+  .pdf-modal-bar{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:11px 16px;border-bottom:1px solid var(--line);background:var(--surface-sunken);}
+  .pdf-modal-title{font-family:var(--font-mono);font-size:12px;color:var(--text);}
+  .pdf-modal-actions{display:flex;gap:8px;align-items:center;}
+  .pdf-modal-actions a{font-family:var(--font-mono);font-size:11px;color:var(--text-dim);text-decoration:none;border:1px solid var(--line-strong);border-radius:6px;padding:5px 9px;}
+  .pdf-modal-close{width:26px;height:26px;border-radius:50%;border:none;background:var(--surface-hover);color:var(--text);cursor:pointer;font-size:13px;}
+  .pdf-modal-card iframe{flex:1;width:100%;border:none;background:#fff;}
+
+  /* walkthrough (slide 13) */
+  .walkthrough-frame{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--surface);box-shadow:0 1px 2px rgba(30,26,10,.04), 0 16px 40px -28px rgba(30,26,10,.25);}
+  .walkthrough-bar{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:9px 13px;border-bottom:1px solid var(--line);background:var(--surface-sunken);font-family:var(--font-mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--text-faint);}
+  .walkthrough-bar .dot{width:6px;height:6px;border-radius:50%;background:var(--gain);display:inline-block;margin-right:6px;box-shadow:0 0 0 3px var(--gain-fill);}
+  .walkthrough-stage{position:relative;aspect-ratio:16/10;background:#f4f3ef;overflow:hidden;}
+  .wt-scene{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:28px;opacity:0;animation:wtCycle 10s infinite;}
+  .wt-scene b{color:var(--text);}
+  .wt-scene .wt-card{width:100%;max-width:420px;background:#fff;border:1px solid var(--line);border-radius:10px;padding:20px;box-shadow:0 8px 24px -14px rgba(20,18,10,.3);}
+  .wt-scene .wt-label{font-family:var(--font-mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--text-faint);margin-bottom:10px;}
+  .wt-row{display:flex;align-items:center;justify-content:space-between;padding:9px 0;border-bottom:1px dashed var(--line);font-size:12.5px;color:var(--text-dim);}
+  .wt-row:last-child{border-bottom:none;}
+  .wt-check{width:16px;height:16px;border-radius:50%;background:var(--gain-fill);color:var(--gain);display:inline-flex;align-items:center;justify-content:center;font-size:10px;}
+  .wt-pending{width:16px;height:16px;border-radius:50%;border:1.5px solid var(--line-strong);display:inline-block;}
+  .wt-btn{margin-top:14px;text-align:center;font-family:var(--font-mono);font-size:12px;font-weight:600;background:var(--text);color:var(--paper);border-radius:7px;padding:10px;}
+  .wt-1{animation-delay:0s;}
+  .wt-2{animation-delay:2.5s;}
+  .wt-3{animation-delay:5s;}
+  .wt-4{animation-delay:7.5s;}
+  @keyframes wtCycle{
+    0%{opacity:0;}
+    2%{opacity:1;}
+    22%{opacity:1;}
+    25%{opacity:0;}
+    100%{opacity:0;}
+  }
+  .walkthrough-progress{height:3px;background:var(--line);position:relative;overflow:hidden;}
+  .walkthrough-progress::after{content:"";position:absolute;top:0;left:0;height:100%;width:100%;background:var(--gold);animation:wtProgress 10s linear infinite;transform-origin:left;}
+  @keyframes wtProgress{from{transform:scaleX(0);}to{transform:scaleX(1);}}
+  .walkthrough-caption{padding:13px 16px;font-size:12.5px;color:var(--text-faint);border-top:1px solid var(--line);}
+
   /* ---------- responsive ---------- */
   @media (max-width:980px){
     .page-body{grid-template-columns:1fr;gap:36px;}
@@ -433,6 +499,19 @@
 <div class="lightbox" id="lightbox">
   <button class="lightbox-close" id="lightboxClose">&#10005;</button>
   <img id="lightboxImg" src="" alt="">
+</div>
+
+<div class="pdf-modal" id="pdfModal">
+  <div class="pdf-modal-card">
+    <div class="pdf-modal-bar">
+      <span class="pdf-modal-title mono" id="pdfModalTitle">Factsheet</span>
+      <div class="pdf-modal-actions">
+        <a id="pdfModalOpen" href="#" target="_blank" rel="noopener noreferrer">Open full size &#8599;</a>
+        <button class="pdf-modal-close" id="pdfModalClose">&#10005;</button>
+      </div>
+    </div>
+    <iframe id="pdfModalFrame" src="" title="PDF preview"></iframe>
+  </div>
 </div>
 
 <script>
@@ -521,8 +600,8 @@
         {v:'6,409', l:'YTD leads tracked', tone:'gold'},
         {v:'9.69%', l:'qualified-lead conversion rate', tone:'gain'}
       ],
-      exhibits:[{img:'img/marketing-mis.png', kind:'live', label:'Marketing MIS Dashboard', domain:'fincartoptima.github.io/MarketingMISDashboard', alt:'Marketing MIS dashboard showing 6,409 YTD leads, 284 converted, 9.69% conversion rate, and a status-distribution bar chart', caption:'Lead status distribution — assigned, on hold, follow-up, in process, converted, dead.'}],
-      demo:{url:'https://fincartoptima.github.io/MarketingMISDashboard/', label:'Launch live dashboard', note:'Live · still being extended'}
+      miniapp:'marketing',
+      demo:{url:'https://fincartoptima.github.io/MarketingMISDashboard/', label:'Open full live dashboard', note:'The console on the right is a static snapshot, running for real — the live version tracks 10 more tabs.'}
     },
     {
       n:9, group:'intel', tag:'Live Dashboard', kind:'standard',
@@ -537,8 +616,8 @@
         {v:'65.2%', l:'of monthly AUM target reached, live run', tone:'gain'},
         {v:'50.6%', l:'of monthly revenue target reached, live run', tone:'gold'}
       ],
-      exhibits:[{img:'img/revenue-mis.png', kind:'live', label:'Revenue MIS', domain:'fincartoptima.github.io/RevenueMISDashboard', alt:'Revenue MIS dashboard showing revenue, client acquisition, AUM, SIP and Google talktime targets, with a revenue-by-team bar chart', caption:'Revenue by team, against target, for the current month-to-date.'}],
-      demo:{url:'https://fincartoptima.github.io/RevenueMISDashboard/', label:'Launch live dashboard', note:'Live · still being extended'}
+      miniapp:'revenue',
+      demo:{url:'https://fincartoptima.github.io/RevenueMISDashboard/', label:'Open full live dashboard', note:'The console on the right is a static snapshot, running for real — the live version tracks 7 revenue streams.'}
     },
     {
       n:10, group:'intel', tag:'Fund-Manager Console', kind:'standard',
@@ -557,7 +636,8 @@
         {img:'img/birds-eye-client.png', kind:'restricted', label:'Client view', domain:'optima-birds-eye-view.onrender.com', alt:'Birds Eye View client screen showing a selected client\'s strategy description and asset allocation table', caption:'Per-client strategy, inception details and live asset allocation.'},
         {img:'img/birds-eye-holdings.png', kind:'restricted', label:'Top holdings', domain:'optima-birds-eye-view.onrender.com', alt:'Table of a client\'s top 5 fund holdings with category, current value, allocation percentage and profit or loss', caption:'Top five holdings — value, weight, and unrealised P/L at a glance.'}
       ],
-      demo:{url:'https://optima-birds-eye-view.onrender.com', label:'Open live console', note:'🔒 Sign-in required — restricted to authorised users', warn:true, secondaryUrl:'https://github.com/FincartOptima/Optima-Birds-Eye-View', secondaryLabel:'View source on GitHub'}
+      demo:{url:'https://optima-birds-eye-view.onrender.com', label:'Open live console', note:'🔒 Sign-in required — restricted to authorised users', warn:true, secondaryUrl:'https://github.com/FincartOptima/Optima-Birds-Eye-View', secondaryLabel:'View source on GitHub'},
+      attachment:{url:'assets/overall-portfolio-factsheet-aug-2026.pdf', label:'View factsheet PDF', note:'The one-click PDF the console generates from its Master Dashboard tab.'}
     },
     {
       n:11, group:'convert', tag:'Client Conversion', kind:'standard',
@@ -604,7 +684,7 @@
       stats:[
         {v:'Hours', l:'→ Seconds, per update cycle', tone:'gain'}
       ],
-      exhibits:[{img:'img/insurance-tracker.png', kind:'live', label:'Insurance Policy Tracker', domain:'Internal web app', alt:'Insurance Policy Tracker app: select an insurance company, upload its files, and generate a unified report', caption:'Pick a company, upload its files, get one unified report — no copy-paste in between.'}]
+      walkthrough:true
     },
     {
       n:14, group:'next', tag:'In Progress', kind:'standard',
@@ -641,21 +721,19 @@
       metric:{beforeVal:'30–60', beforeLbl:'minutes / day, today', afterVal:'2–3', afterLbl:'minutes / day, projected'}
     },
     {
-      n:16, group:'intel', tag:'Live Dashboard', kind:'standard',
+      n:16, group:'intel', tag:'Business Intelligence', kind:'standard',
       headline:'How many plans, from whom, converting how often.',
       lede:'The L&D team had no live view of how many financial plans were actually being produced.',
       beats:[
         {label:'The problem', text:'Plan volume, category mix and conversion existed only as scattered, manually-assembled snapshots.'},
-        {label:'What I built', text:'A dashboard tracking plan volume by client category, conversion rate, and monthly plan velocity for the L&D team.'},
+        {label:'What I built', text:'A dashboard tracking plan volume by client category, conversion rate, and monthly plan velocity for the L&D team — filterable by month, tier, tenure, team and advisor.'},
         {label:'What\'s next', text:'Comparing every plan the team creates directly against the model portfolio.'}
       ],
       stats:[
-        {v:'1,703', l:'clients in view, live reading', tone:'gold'},
-        {v:'1,281', l:'FY tickets tracked, live reading', tone:'neutral'},
-        {v:'360', l:'converted, live reading', tone:'gain'}
-      ],
-      liveread:true,
-      demo:{url:'https://fincartoptima.github.io/L-D-Financial-Plan/', label:'Launch live dashboard', note:'Live · public'}
+        {v:'1,703', l:'clients in view, snapshot reading', tone:'gold'},
+        {v:'1,281', l:'FY tickets tracked, snapshot reading', tone:'neutral'},
+        {v:'360', l:'converted, snapshot reading', tone:'gain'}
+      ]
     },
     {
       n:17, group:'ops', tag:'Ops Automation', kind:'standard',
@@ -818,22 +896,35 @@
     return col;
   }
 
-  function ctaRow(demo){
+  function ctaRow(demo, attachment){
     var row = el('div','cta-row');
-    var a = document.createElement('a');
-    a.href = demo.url; a.target = '_blank'; a.rel = 'noopener noreferrer';
-    a.className = 'btn btn-primary';
-    a.innerHTML = demo.label + ' &#8599;';
-    row.appendChild(a);
-    if(demo.secondaryUrl){
-      var a2 = document.createElement('a');
-      a2.href = demo.secondaryUrl; a2.target = '_blank'; a2.rel = 'noopener noreferrer';
-      a2.className = 'btn btn-outline';
-      a2.innerHTML = demo.secondaryLabel + ' &#8599;';
-      row.appendChild(a2);
+    if(demo){
+      var a = document.createElement('a');
+      a.href = demo.url; a.target = '_blank'; a.rel = 'noopener noreferrer';
+      a.className = 'btn btn-primary';
+      a.innerHTML = demo.label + ' &#8599;';
+      row.appendChild(a);
+      if(demo.secondaryUrl){
+        var a2 = document.createElement('a');
+        a2.href = demo.secondaryUrl; a2.target = '_blank'; a2.rel = 'noopener noreferrer';
+        a2.className = 'btn btn-outline';
+        a2.innerHTML = demo.secondaryLabel + ' &#8599;';
+        row.appendChild(a2);
+      }
     }
-    if(demo.note){
+    if(attachment){
+      var pb = document.createElement('button');
+      pb.type = 'button';
+      pb.className = 'btn btn-outline';
+      pb.innerHTML = '&#128196; ' + attachment.label;
+      pb.addEventListener('click', function(){ openPdfModal(attachment.url, attachment.label); });
+      row.appendChild(pb);
+    }
+    if(demo && demo.note){
       row.appendChild(el('div','cta-note'+(demo.warn?' warn':''), demo.note));
+    }
+    if(attachment && attachment.note){
+      row.appendChild(el('div','cta-note', attachment.note));
     }
     return row;
   }
@@ -1228,6 +1319,232 @@
     return col;
   }
 
+  /* ==================== shared mini bar chart ==================== */
+
+  function renderMiniBars(svg, tip, wrap, items, colorFn){
+    // items: [{label, value}], value already the number to plot
+    var W=520,H=180,padB=34,padT=10,gap=10;
+    var n = items.length;
+    var barW = (W - gap*(n-1)) / n;
+    var max = Math.max.apply(null, items.map(function(it){return it.value;})) || 1;
+    var parts = [];
+    items.forEach(function(it,i){
+      var h = Math.max(2, (it.value/max) * (H-padT-padB));
+      var x = i*(barW+gap);
+      var y = H-padB-h;
+      var color = colorFn ? colorFn(it,i) : 'var(--gold)';
+      parts.push('<g class="miniapp-bar-group" data-i="'+i+'">' +
+        '<rect x="'+x.toFixed(1)+'" y="'+y.toFixed(1)+'" width="'+barW.toFixed(1)+'" height="'+h.toFixed(1)+'" rx="3" fill="'+color+'"></rect>' +
+        '<text x="'+(x+barW/2).toFixed(1)+'" y="'+(H-padB+16).toFixed(1)+'" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="9.5" fill="var(--text-faint)">'+it.label+'</text>' +
+        '</g>');
+    });
+    svg.setAttribute('viewBox','0 0 '+W+' '+H);
+    svg.innerHTML = parts.join('');
+
+    svg.querySelectorAll('.miniapp-bar-group').forEach(function(g){
+      g.addEventListener('mousemove', function(e){
+        var i = parseInt(g.getAttribute('data-i'),10);
+        var it = items[i];
+        var wrapRect = wrap.getBoundingClientRect();
+        tip.style.left = (e.clientX - wrapRect.left) + 'px';
+        tip.style.top = (e.clientY - wrapRect.top) + 'px';
+        tip.textContent = it.label + ': ' + it.tipText;
+        tip.style.opacity = 1;
+      });
+      g.addEventListener('mouseleave', function(){ tip.style.opacity = 0; });
+    });
+  }
+
+  /* ==================== slide 8: marketing mini-app ==================== */
+
+  function buildMarketingMini(){
+    var col = el('div','exhibit-col');
+    var app = el('div','miniapp');
+    var bar = el('div','miniapp-bar');
+    var left = el('div','miniapp-bar-left');
+    left.appendChild(el('span','dot'));
+    left.appendChild(el('span','word','Static snapshot'));
+    bar.appendChild(left);
+    bar.appendChild(el('div','miniapp-bar-right','Marketing MIS · data through 24 Jun 2026'));
+    app.appendChild(bar);
+
+    var body = el('div','miniapp-body');
+    var kpis = el('div','miniapp-kpis');
+    [['6,409','YTD Leads'],['284','Converted'],['9.69%','Conv. Rate'],['406','B2B Corp']].forEach(function(k){
+      var c = el('div','miniapp-kpi');
+      c.appendChild(el('div','miniapp-kpi-val tnum', k[0]));
+      c.appendChild(el('div','miniapp-kpi-lbl', k[1]));
+      kpis.appendChild(c);
+    });
+    body.appendChild(kpis);
+
+    var toolbar = el('div','miniapp-toolbar');
+    toolbar.appendChild(el('div','miniapp-toolbar-label','STATUS DISTRIBUTION'));
+    var toggle = el('div','toggle');
+    var btnCount = el('button','active','Count'); btnCount.type='button';
+    var btnShare = el('button','','% share'); btnShare.type='button';
+    toggle.appendChild(btnCount); toggle.appendChild(btnShare);
+    toolbar.appendChild(toggle);
+    body.appendChild(toolbar);
+
+    var chartWrap = el('div','miniapp-chart-wrap');
+    var chartDiv = el('div','miniapp-chart');
+    var svg = document.createElementNS('http://www.w3.org/2000/svg','svg');
+    chartDiv.appendChild(svg);
+    chartWrap.appendChild(chartDiv);
+    var tip = el('div','miniapp-tip','');
+    chartWrap.appendChild(tip);
+    body.appendChild(chartWrap);
+
+    body.appendChild(el('div','miniapp-note','Real point-in-time figures from the live dashboard, frozen here so the demo runs without a network call. Hover any bar — switch Count / % share.'));
+
+    app.appendChild(body);
+    col.appendChild(app);
+    col.appendChild(el('div','exhibit-caption','Assigned, on hold, follow-up, in process, converted, dead — the same six-stage funnel as the live tool.'));
+
+    var raw = [
+      {label:'Assigned', value:1102},
+      {label:'On Hold', value:3094},
+      {label:'Follow Up', value:539},
+      {label:'In Process', value:337},
+      {label:'Converted', value:284},
+      {label:'Dead', value:534}
+    ];
+    var colors = {'Assigned':'#2c53c4','On Hold':'#2c53c4','Follow Up':'#c8901f','In Process':'#2c53c4','Converted':'#187a51','Dead':'#b23751'};
+    var total = raw.reduce(function(s,x){return s+x.value;},0);
+
+    function draw(mode){
+      var items = raw.map(function(x){
+        if(mode==='share'){
+          return {label:x.label, value: x.value/total*100, tipText: (x.value/total*100).toFixed(1)+'% ('+x.value.toLocaleString()+')'};
+        }
+        return {label:x.label, value:x.value, tipText: x.value.toLocaleString()};
+      });
+      renderMiniBars(svg, tip, chartWrap, items, function(it){ return colors[it.label]; });
+    }
+    draw('count');
+    btnCount.addEventListener('click', function(){ btnCount.classList.add('active'); btnShare.classList.remove('active'); draw('count'); });
+    btnShare.addEventListener('click', function(){ btnShare.classList.add('active'); btnCount.classList.remove('active'); draw('share'); });
+
+    return col;
+  }
+
+  /* ==================== slide 9: revenue mini-app ==================== */
+
+  function buildRevenueMini(){
+    var col = el('div','exhibit-col');
+    var app = el('div','miniapp');
+    var bar = el('div','miniapp-bar');
+    var left = el('div','miniapp-bar-left');
+    left.appendChild(el('span','dot'));
+    left.appendChild(el('span','word','Static snapshot'));
+    bar.appendChild(left);
+    bar.appendChild(el('div','miniapp-bar-right','Revenue MIS · Aug-2026 MTD'));
+    app.appendChild(bar);
+
+    var body = el('div','miniapp-body');
+    var kpis = el('div','miniapp-kpis');
+    [['₹1.02 Cr','Revenue, 50.6%'],['₹13.85 Cr','AUM, 65.2%'],['25','Clients, 12.6%'],['₹51.37 L','SIP, 46.7%']].forEach(function(k){
+      var c = el('div','miniapp-kpi');
+      c.appendChild(el('div','miniapp-kpi-val tnum', k[0]));
+      c.appendChild(el('div','miniapp-kpi-lbl', k[1]));
+      kpis.appendChild(c);
+    });
+    body.appendChild(kpis);
+
+    var toolbar = el('div','miniapp-toolbar');
+    toolbar.appendChild(el('div','miniapp-toolbar-label','REVENUE BY TEAM'));
+    var toggle = el('div','toggle');
+    var btnAbs = el('button','active','₹ Lakh'); btnAbs.type='button';
+    var btnShare = el('button','','% of total'); btnShare.type='button';
+    toggle.appendChild(btnAbs); toggle.appendChild(btnShare);
+    toolbar.appendChild(toggle);
+    body.appendChild(toolbar);
+
+    var chartWrap = el('div','miniapp-chart-wrap');
+    var chartDiv = el('div','miniapp-chart');
+    var svg = document.createElementNS('http://www.w3.org/2000/svg','svg');
+    chartDiv.appendChild(svg);
+    chartWrap.appendChild(chartDiv);
+    var tip = el('div','miniapp-tip','');
+    chartWrap.appendChild(tip);
+    body.appendChild(chartWrap);
+
+    body.appendChild(el('div','miniapp-note','Real revenue-by-team figures from the live dashboard, frozen here so the demo runs without a network call. Hover any bar — switch ₹ Lakh / % of total.'));
+
+    app.appendChild(body);
+    col.appendChild(app);
+    col.appendChild(el('div','exhibit-caption','Eight teams, one month-to-date view — the same chart the live dashboard\'s Revenue tab draws.'));
+
+    var raw = [
+      {label:'Ankit S', value:19.79}, {label:'Anmol G', value:15.15}, {label:'Ravi S', value:14.85},
+      {label:'Vivek S', value:13.66}, {label:'Ratan P', value:12.51}, {label:'Akanksha', value:11.62},
+      {label:'Vidhi', value:7.46}, {label:'Yash T', value:7.14}
+    ];
+    var total = raw.reduce(function(s,x){return s+x.value;},0);
+
+    function draw(mode){
+      var items = raw.map(function(x){
+        if(mode==='share'){
+          return {label:x.label, value: x.value/total*100, tipText: (x.value/total*100).toFixed(1)+'% (₹'+x.value.toFixed(2)+'L)'};
+        }
+        return {label:x.label, value:x.value, tipText: '₹'+x.value.toFixed(2)+' L'};
+      });
+      renderMiniBars(svg, tip, chartWrap, items, function(){ return 'var(--gold)'; });
+    }
+    draw('abs');
+    btnAbs.addEventListener('click', function(){ btnAbs.classList.add('active'); btnShare.classList.remove('active'); draw('abs'); });
+    btnShare.addEventListener('click', function(){ btnShare.classList.add('active'); btnAbs.classList.remove('active'); draw('share'); });
+
+    return col;
+  }
+
+  /* ==================== slide 13: animated walkthrough ==================== */
+
+  function buildWalkthrough(){
+    var col = el('div','exhibit-col');
+    var frame = el('div','walkthrough-frame');
+    var bar = el('div','walkthrough-bar');
+    bar.innerHTML = '<span><span class="dot"></span>Auto-playing walkthrough</span><span>Insurance Policy Tracker</span>';
+    frame.appendChild(bar);
+
+    var stage = el('div','walkthrough-stage');
+    stage.innerHTML =
+      '<div class="wt-scene wt-1"><div class="wt-card">' +
+        '<div class="wt-label">Step 1 &middot; Select company</div>' +
+        '<div class="wt-row"><span>AMC / Insurer</span><b>Niva Bupa &#9662;</b></div>' +
+        '<div class="wt-row"><span>Period</span><b>Aug 2026 &#9662;</b></div>' +
+      '</div></div>' +
+      '<div class="wt-scene wt-2"><div class="wt-card">' +
+        '<div class="wt-label">Step 2 &middot; Upload files</div>' +
+        '<div class="wt-row"><span>Rate chart</span><span class="wt-check">&#10003;</span></div>' +
+        '<div class="wt-row"><span>Commission received</span><span class="wt-check">&#10003;</span></div>' +
+        '<div class="wt-row"><span>Insurance done (Workpoint)</span><span class="wt-check">&#10003;</span></div>' +
+      '</div></div>' +
+      '<div class="wt-scene wt-3"><div class="wt-card">' +
+        '<div class="wt-label">Step 3 &middot; Run</div>' +
+        '<div class="wt-row"><span>Matching policies to rate chart&hellip;</span><span class="wt-check">&#10003;</span></div>' +
+        '<div class="wt-row"><span>Flagging mismatches&hellip;</span><span class="wt-check">&#10003;</span></div>' +
+        '<div class="wt-btn">Run Reconciliation</div>' +
+      '</div></div>' +
+      '<div class="wt-scene wt-4"><div class="wt-card">' +
+        '<div class="wt-label">Step 4 &middot; Output</div>' +
+        '<div class="wt-row"><span>Policies checked</span><b>1,214</b></div>' +
+        '<div class="wt-row"><span>Rate mismatches flagged</span><b style="color:var(--loss)">37</b></div>' +
+        '<div class="wt-row"><span>One reviewable report</span><span class="wt-check">&#10003;</span></div>' +
+      '</div></div>';
+    frame.appendChild(stage);
+
+    var prog = el('div','walkthrough-progress');
+    frame.appendChild(prog);
+
+    var caption = el('div','walkthrough-caption','A 10-second animated walkthrough of the real flow — pick the company, attach the three files, run it, get one flagged report. Loops automatically.');
+    frame.appendChild(caption);
+
+    col.appendChild(frame);
+    return col;
+  }
+
   /* ==================== generic page builder ==================== */
 
   function buildPage(slide, idx){
@@ -1292,22 +1609,34 @@
       narrative.appendChild(beat);
     });
     if(!slide.liveread && !slide.metric) narrative.appendChild(statTicker(slide.stats));
-    if(slide.demo) narrative.appendChild(ctaRow(slide.demo));
+    if(slide.demo || slide.attachment) narrative.appendChild(ctaRow(slide.demo, slide.attachment));
     body.appendChild(narrative);
 
-    var exCol2 = el('div','exhibit-col');
-    if(slide.exhibits){
-      var group = el('div','exhibit-group'+(slide.exhibits.length>1?' pair':''));
-      slide.exhibits.forEach(function(ex){ group.appendChild(exhibitFrame(ex)); });
-      exCol2.appendChild(group);
-    } else if(slide.diagram){
-      exCol2.appendChild(diagramExhibit(slide.diagram));
-    } else if(slide.metric){
-      exCol2.appendChild(metricExhibit(slide.metric));
-    } else if(slide.liveread){
-      exCol2.appendChild(liveReadExhibit(slide.stats));
+    var hasExhibit = !!(slide.exhibits || slide.diagram || slide.metric || slide.liveread || slide.miniapp || slide.walkthrough);
+    if(hasExhibit){
+      var exCol2 = el('div','exhibit-col');
+      if(slide.exhibits){
+        var group = el('div','exhibit-group'+(slide.exhibits.length>1?' pair':''));
+        slide.exhibits.forEach(function(ex){ group.appendChild(exhibitFrame(ex)); });
+        exCol2.appendChild(group);
+      } else if(slide.diagram){
+        exCol2.appendChild(diagramExhibit(slide.diagram));
+      } else if(slide.metric){
+        exCol2.appendChild(metricExhibit(slide.metric));
+      } else if(slide.liveread){
+        exCol2.appendChild(liveReadExhibit(slide.stats));
+      } else if(slide.miniapp === 'marketing'){
+        exCol2.appendChild(buildMarketingMini());
+      } else if(slide.miniapp === 'revenue'){
+        exCol2.appendChild(buildRevenueMini());
+      } else if(slide.walkthrough){
+        exCol2.appendChild(buildWalkthrough());
+      }
+      body.appendChild(exCol2);
+    } else {
+      body.style.gridTemplateColumns = '1fr';
+      narrative.style.maxWidth = '640px';
     }
-    body.appendChild(exCol2);
 
     inner.appendChild(body);
     page.appendChild(inner);
@@ -1486,7 +1815,23 @@
   function closeLightbox(){ lightbox.classList.remove('open'); lightboxImg.src=''; }
   lightbox.addEventListener('click', closeLightbox);
   document.getElementById('lightboxClose').addEventListener('click', function(e){ e.stopPropagation(); closeLightbox(); });
-  document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeLightbox(); });
+
+  /* pdf modal */
+  var pdfModal = document.getElementById('pdfModal');
+  var pdfFrame = document.getElementById('pdfModalFrame');
+  var pdfTitle = document.getElementById('pdfModalTitle');
+  var pdfOpen = document.getElementById('pdfModalOpen');
+  window.openPdfModal = function(url, label){
+    pdfFrame.src = url;
+    pdfTitle.textContent = label || 'Attachment';
+    pdfOpen.href = url;
+    pdfModal.classList.add('open');
+  };
+  function closePdfModal(){ pdfModal.classList.remove('open'); pdfFrame.src=''; }
+  document.getElementById('pdfModalClose').addEventListener('click', closePdfModal);
+  pdfModal.addEventListener('click', function(e){ if(e.target===pdfModal) closePdfModal(); });
+
+  document.addEventListener('keydown', function(e){ if(e.key==='Escape'){ closeLightbox(); closePdfModal(); } });
 
   setActive(0);
 
