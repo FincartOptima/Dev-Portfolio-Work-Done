@@ -2,39 +2,43 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
 <style>
   :root{
-    --ink:#0b0e12;
-    --surface:#141920;
-    --surface-raised:#1b222c;
-    --surface-hi:#232c38;
-    --line:#2a3240;
-    --line-soft:#1f2733;
-    --text:#edf0f4;
-    --text-dim:#99a2b3;
-    --text-faint:#5c6577;
-    --gold:#cd9f4f;
-    --gold-soft:#e8c987;
-    --signal:#5b8def;
-    --gain:#3fbf8f;
-    --loss:#e2647a;
-    --violet:#9d8cf2;
-    --slate:#7f92a6;
+    --paper:#ffffff;
+    --sidebar:#f7f7f5;
+    --surface:#ffffff;
+    --surface-sunken:#f2f2ef;
+    --surface-hover:#ececE7;
+    --line:#e2e1da;
+    --line-strong:#cfcdc2;
+    --text:#1c1d1a;
+    --text-dim:#5a5c56;
+    --text-faint:#8d8f87;
+    --gold:#96650f;
+    --gold-soft:#7a5209;
+    --gold-fill:#f7ead0;
+    --signal:#2c53c4;
+    --gain:#187a51;
+    --gain-fill:#e1f3ea;
+    --loss:#b23751;
+    --loss-fill:#fbe8ec;
+    --violet:#6247b8;
+    --slate:#54687a;
 
     --font-display:'Fraunces',ui-serif,Georgia,'Times New Roman',serif;
     --font-body:'IBM Plex Sans',ui-sans-serif,system-ui,-apple-system,'Segoe UI',sans-serif;
     --font-mono:'IBM Plex Mono',ui-monospace,'SFMono-Regular',Consolas,'Liberation Mono',monospace;
 
     --sidebar-w:296px;
-    color-scheme: dark;
+    color-scheme: light;
   }
 
   *{box-sizing:border-box;}
   body{
-    background:var(--ink);
+    background:var(--paper);
     color:var(--text);
     font-family:var(--font-body);
     -webkit-font-smoothing:antialiased;
   }
-  ::selection{background:var(--gold);color:#1a1305;}
+  ::selection{background:var(--gold-fill);color:var(--gold-soft);}
 
   h1,h2,h3{font-family:var(--font-display);font-weight:600;margin:0;text-wrap:balance;}
   p{margin:0;}
@@ -52,9 +56,9 @@
     display:none;
     position:fixed;top:16px;left:16px;z-index:40;
     width:40px;height:40px;border-radius:8px;
-    background:var(--surface-raised);border:1px solid var(--line);
+    background:var(--surface);border:1px solid var(--line);
     color:var(--text);align-items:center;justify-content:center;
-    cursor:pointer;
+    cursor:pointer;box-shadow:0 2px 8px rgba(20,18,10,.08);
   }
   .navtoggle span, .navtoggle span::before, .navtoggle span::after{
     content:"";display:block;width:16px;height:1.5px;background:var(--text);position:relative;
@@ -66,18 +70,18 @@
   .ledger{
     width:var(--sidebar-w);flex:none;
     position:fixed;top:0;left:0;bottom:0;
-    background:var(--surface);
+    background:var(--sidebar);
     border-right:1px solid var(--line);
     display:flex;flex-direction:column;
     z-index:30;
   }
   .ledger-brand{
     padding:28px 26px 18px;
-    border-bottom:1px solid var(--line-soft);
+    border-bottom:1px solid var(--line);
   }
   .ledger-eyebrow{
     font-size:10.5px;letter-spacing:.14em;color:var(--gold);
-    text-transform:uppercase;margin-bottom:10px;
+    text-transform:uppercase;margin-bottom:10px;font-weight:600;
   }
   .ledger-brand h1{font-size:24px;line-height:1.15;color:var(--text);}
   .ledger-byline{margin-top:8px;font-size:12px;color:var(--text-faint);}
@@ -94,17 +98,18 @@
     font-size:13.5px;line-height:1.3;
     cursor:pointer;
   }
-  .ledger-link:hover{color:var(--text);background:var(--surface-raised);}
+  .ledger-link:hover{color:var(--text);background:var(--surface-hover);}
   .ledger-idx{font-family:var(--font-mono);font-size:11.5px;color:var(--text-faint);width:16px;flex:none;}
   .ledger-item.active .ledger-link{
     border-left-color:var(--gold);
     color:var(--text);
-    background:var(--surface-raised);
+    background:var(--surface-hover);
+    font-weight:500;
   }
   .ledger-item.active .ledger-idx{color:var(--gold);}
 
   .ledger-foot{
-    padding:16px 26px 22px;border-top:1px solid var(--line-soft);
+    padding:16px 26px 22px;border-top:1px solid var(--line);
   }
   .ledger-progress-label{display:flex;justify-content:space-between;font-size:11px;color:var(--text-faint);margin-bottom:8px;}
   .ledger-progress-track{height:2px;background:var(--line);border-radius:2px;overflow:hidden;}
@@ -124,7 +129,7 @@
     scroll-snap-stop:always;
     padding:78px 72px 64px;
     display:flex;flex-direction:column;justify-content:center;
-    border-bottom:1px solid var(--line-soft);
+    border-bottom:1px solid var(--line);
     position:relative;
   }
   .page-inner{max-width:1180px;margin:0 auto;width:100%;}
@@ -142,14 +147,7 @@
   .status-dot.slate{background:var(--slate);}
   .status-dot.faint{background:var(--text-faint);}
 
-  .badge{
-    display:inline-flex;align-items:center;gap:6px;
-    font-family:var(--font-mono);font-size:10.5px;letter-spacing:.06em;
-    padding:4px 10px;border-radius:100px;border:1px solid var(--line);
-    color:var(--text-dim);text-transform:uppercase;
-  }
-
-  .headline{font-size:clamp(28px,3.1vw,42px);line-height:1.12;color:var(--text);max-width:16ch;}
+  .headline{font-size:clamp(28px,3.1vw,42px);line-height:1.12;color:var(--text);max-width:17ch;}
   .lede{margin-top:16px;font-size:16px;line-height:1.6;color:var(--text-dim);max-width:52ch;}
 
   .page-body{
@@ -165,7 +163,7 @@
   .beat:last-of-type{margin-bottom:0;}
   .beat-label{
     font-family:var(--font-mono);font-size:10.5px;letter-spacing:.1em;
-    color:var(--gold);text-transform:uppercase;margin-bottom:6px;
+    color:var(--gold);text-transform:uppercase;margin-bottom:6px;font-weight:600;
   }
   .beat p{font-size:15px;line-height:1.65;color:var(--text-dim);max-width:50ch;}
   .beat b{color:var(--text);font-weight:600;}
@@ -179,8 +177,8 @@
     border-right:1px solid var(--line);
   }
   .stat:last-child{border-right:none;}
-  .stat-val{font-family:var(--font-mono);font-size:24px;font-weight:600;letter-spacing:-.01em;}
-  .stat-val.gold{color:var(--gold-soft);}
+  .stat-val{font-family:var(--font-mono);font-size:23px;font-weight:600;letter-spacing:-.01em;}
+  .stat-val.gold{color:var(--gold);}
   .stat-val.gain{color:var(--gain);}
   .stat-val.loss{color:var(--loss);}
   .stat-val.neutral{color:var(--text);}
@@ -194,10 +192,10 @@
     border:1px solid transparent;transition:transform .15s ease,background .15s ease;
   }
   .btn:hover{transform:translateY(-1px);}
-  .btn-primary{background:var(--gold);color:#1a1305;font-weight:600;}
-  .btn-primary:hover{background:var(--gold-soft);}
-  .btn-outline{border-color:var(--line);color:var(--text-dim);}
-  .btn-outline:hover{border-color:var(--text-faint);color:var(--text);}
+  .btn-primary{background:var(--text);color:var(--paper);font-weight:600;}
+  .btn-primary:hover{background:#000;}
+  .btn-outline{border-color:var(--line-strong);color:var(--text-dim);}
+  .btn-outline:hover{border-color:var(--text-faint);color:var(--text);background:var(--surface-hover);}
   .cta-note{font-size:11.5px;color:var(--text-faint);font-family:var(--font-mono);}
   .cta-note.warn{color:var(--loss);}
 
@@ -209,20 +207,20 @@
   .exhibit-frame{
     border:1px solid var(--line);border-radius:10px;overflow:hidden;
     background:var(--surface);
-    box-shadow:0 24px 60px -34px rgba(0,0,0,.7);
+    box-shadow:0 1px 2px rgba(30,26,10,.04), 0 16px 40px -28px rgba(30,26,10,.25);
   }
   .exhibit-bar{
     display:flex;align-items:center;justify-content:space-between;gap:10px;
     padding:9px 13px;border-bottom:1px solid var(--line);
-    background:var(--surface-raised);
+    background:var(--surface-sunken);
   }
   .exhibit-bar-left{display:flex;align-items:center;gap:7px;font-family:var(--font-mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;}
   .exhibit-bar-left .dot{width:6px;height:6px;border-radius:50%;flex:none;}
-  .dot.live{background:var(--gain);box-shadow:0 0 0 3px rgba(63,191,143,.18);animation:pulse 2.6s ease-in-out infinite;}
+  .dot.live{background:var(--gain);box-shadow:0 0 0 3px var(--gain-fill);animation:pulse 2.6s ease-in-out infinite;}
   .dot.static{background:var(--text-faint);}
   .dot.restricted{background:var(--loss);}
   .dot.draft{background:var(--violet);}
-  @keyframes pulse{0%,100%{box-shadow:0 0 0 3px rgba(63,191,143,.18);}50%{box-shadow:0 0 0 5px rgba(63,191,143,.06);}}
+  @keyframes pulse{0%,100%{box-shadow:0 0 0 3px var(--gain-fill);}50%{box-shadow:0 0 0 5px transparent;}}
   .exhibit-bar-left .word.live{color:var(--gain);}
   .exhibit-bar-left .word.static{color:var(--text-faint);}
   .exhibit-bar-left .word.restricted{color:var(--loss);}
@@ -232,41 +230,13 @@
   .exhibit-shot img{width:100%;cursor:zoom-in;}
   .exhibit-caption{margin-top:9px;font-size:12.5px;color:var(--text-faint);line-height:1.5;padding:0 2px;}
 
-  /* diagram exhibit (slide 14) */
-  .diagram{padding:26px 22px;display:flex;flex-direction:column;gap:16px;background:var(--surface);}
-  .diagram-row{display:flex;align-items:center;gap:14px;flex-wrap:wrap;}
-  .diagram-chip{
-    font-family:var(--font-mono);font-size:12px;padding:9px 13px;border-radius:7px;
-    border:1px solid var(--line);color:var(--text-dim);background:var(--surface-raised);
-  }
-  .diagram-arrow{color:var(--text-faint);font-size:16px;}
-  .diagram-target{
-    font-family:var(--font-mono);font-size:13px;padding:12px 16px;border-radius:7px;
-    border:1px solid var(--gold);color:var(--gold-soft);background:rgba(205,159,79,.08);
-  }
-
-  /* metric exhibit (slide 15) */
-  .metric-frame{padding:30px 26px;display:flex;align-items:center;justify-content:center;gap:22px;background:var(--surface);flex-wrap:wrap;}
-  .metric-block{text-align:center;}
-  .metric-num{font-family:var(--font-mono);font-size:30px;font-weight:600;color:var(--text-dim);}
-  .metric-block.after .metric-num{color:var(--gain);}
-  .metric-cap{margin-top:6px;font-size:11px;color:var(--text-faint);text-transform:uppercase;letter-spacing:.08em;}
-  .metric-arrow{font-size:22px;color:var(--gold);}
-
-  /* live-read exhibit (slide 16) */
-  .liveread{padding:26px;background:var(--surface);display:flex;gap:0;flex-wrap:wrap;}
-  .liveread .lr-stat{flex:1 1 33%;padding:6px 16px;border-right:1px solid var(--line);}
-  .liveread .lr-stat:last-child{border-right:none;}
-  .lr-val{font-family:var(--font-mono);font-size:26px;font-weight:600;color:var(--gold-soft);}
-  .lr-lbl{margin-top:6px;font-size:11.5px;color:var(--text-faint);}
-
   /* ---------- cover ---------- */
   .cover{padding-top:64px;}
-  .cover-eyebrow{font-family:var(--font-mono);font-size:12px;letter-spacing:.16em;color:var(--gold);text-transform:uppercase;}
+  .cover-eyebrow{font-family:var(--font-mono);font-size:12px;letter-spacing:.16em;color:var(--gold);text-transform:uppercase;font-weight:600;}
   .cover h1{
     margin-top:18px;font-size:clamp(44px,7vw,84px);line-height:1;color:var(--text);
   }
-  .cover h1 em{font-style:normal;color:var(--gold-soft);}
+  .cover h1 em{font-style:normal;color:var(--gold);}
   .cover-lede{margin-top:22px;font-size:18px;line-height:1.6;color:var(--text-dim);max-width:58ch;}
 
   .cover-cols{
@@ -276,13 +246,8 @@
   .cover-col{padding:20px 26px 0 0;border-right:1px solid var(--line);}
   .cover-col:last-child{border-right:none;padding-right:0;}
   .cover-col:not(:first-child){padding-left:26px;}
-  .cover-col-label{font-family:var(--font-mono);font-size:10.5px;letter-spacing:.1em;color:var(--gold);text-transform:uppercase;margin-bottom:10px;}
+  .cover-col-label{font-family:var(--font-mono);font-size:10.5px;letter-spacing:.1em;color:var(--gold);text-transform:uppercase;margin-bottom:10px;font-weight:600;}
   .cover-col p{font-size:13.5px;line-height:1.6;color:var(--text-dim);}
-
-  .cover-ticker{margin-top:40px;display:flex;flex-wrap:wrap;border-top:1px solid var(--line);border-bottom:1px solid var(--line);}
-
-  .cover-exhibit{margin-top:44px;}
-  .cover-exhibit-label{font-family:var(--font-mono);font-size:10.5px;letter-spacing:.1em;color:var(--text-faint);text-transform:uppercase;margin-bottom:10px;}
 
   .scrollcue{margin-top:40px;display:flex;align-items:center;gap:10px;font-family:var(--font-mono);font-size:11.5px;color:var(--text-faint);}
   .scrollcue .arrow{animation:bob 1.8s ease-in-out infinite;}
@@ -298,27 +263,117 @@
     position:fixed;right:26px;bottom:26px;z-index:35;
     display:flex;flex-direction:column;gap:8px;
     background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:8px;
+    box-shadow:0 4px 16px rgba(20,18,10,.08);
   }
   .floatnav button{
     width:34px;height:34px;border-radius:6px;border:none;background:transparent;color:var(--text-dim);
     cursor:pointer;display:flex;align-items:center;justify-content:center;
   }
-  .floatnav button:hover{background:var(--surface-raised);color:var(--text);}
+  .floatnav button:hover{background:var(--surface-hover);color:var(--text);}
   .floatnav .fn-count{font-family:var(--font-mono);font-size:10px;text-align:center;color:var(--text-faint);padding:2px 0;}
 
   /* ---------- lightbox ---------- */
   .lightbox{
-    position:fixed;inset:0;background:rgba(6,7,9,.92);
+    position:fixed;inset:0;background:rgba(20,18,12,.85);
     display:none;align-items:center;justify-content:center;padding:48px;z-index:60;
     cursor:zoom-out;
   }
   .lightbox.open{display:flex;}
-  .lightbox img{max-width:100%;max-height:100%;border-radius:8px;box-shadow:0 30px 80px rgba(0,0,0,.6);}
+  .lightbox img{max-width:100%;max-height:100%;border-radius:8px;box-shadow:0 30px 80px rgba(0,0,0,.4);}
   .lightbox-close{
     position:fixed;top:24px;right:28px;width:40px;height:40px;border-radius:50%;
-    background:var(--surface-raised);border:1px solid var(--line);color:var(--text);
+    background:var(--surface);border:1px solid var(--line);color:var(--text);
     display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:16px;
   }
+
+  /* ================= new interactive components ================= */
+
+  /* console (fund selector) */
+  .console{border:1px solid var(--line);border-radius:12px;background:var(--surface);box-shadow:0 1px 2px rgba(30,26,10,.04), 0 16px 40px -28px rgba(30,26,10,.25);overflow:hidden;}
+  .console-bar{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:9px 13px;border-bottom:1px solid var(--line);background:var(--surface-sunken);font-family:var(--font-mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--text-faint);}
+  .console-body{padding:22px;}
+  .console-controls{display:flex;flex-wrap:wrap;align-items:center;gap:14px;}
+  .console-controls-label{font-family:var(--font-mono);font-size:11px;letter-spacing:.08em;color:var(--text-faint);text-transform:uppercase;}
+  .year-tabs{display:flex;gap:6px;flex-wrap:wrap;}
+  .year-tab{font-family:var(--font-mono);font-size:13px;padding:8px 14px;border-radius:7px;border:1px solid var(--line-strong);background:var(--paper);color:var(--text-dim);cursor:pointer;}
+  .year-tab:hover{background:var(--surface-hover);}
+  .year-tab.active{background:var(--text);color:var(--paper);border-color:var(--text);}
+  .run-btn{margin-left:auto;font-family:var(--font-mono);font-size:12.5px;font-weight:600;padding:10px 18px;border-radius:7px;background:var(--gold);color:#fff;border:none;cursor:pointer;}
+  .run-btn:hover{background:var(--gold-soft);}
+  .run-btn:disabled{opacity:.55;cursor:default;}
+  .console-status{margin-top:16px;font-family:var(--font-mono);font-size:12px;color:var(--gold);min-height:18px;}
+  .console-results{margin-top:20px;display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+  .result-col-head{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:12.5px;font-weight:600;color:var(--text);margin-bottom:10px;}
+  .hit-badge{font-family:var(--font-mono);font-size:11px;font-weight:600;padding:3px 9px;border-radius:100px;background:var(--gain-fill);color:var(--gain);}
+  .fund-row{display:flex;align-items:center;gap:8px;padding:7px 9px;border-radius:6px;font-size:12.5px;}
+  .fund-row + .fund-row{margin-top:2px;}
+  .fund-row.hit{background:var(--gain-fill);}
+  .fund-rank{font-family:var(--font-mono);font-size:11px;color:var(--text-faint);width:16px;flex:none;}
+  .fund-name{flex:1;color:var(--text);min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .fund-ret{font-family:var(--font-mono);font-size:12px;font-weight:600;flex:none;}
+  .fund-ret.pos{color:var(--gain);}
+  .fund-ret.neg{color:var(--loss);}
+  .fund-check{width:14px;flex:none;color:var(--gain);font-size:12px;}
+  .console-summary{margin-top:18px;padding-top:16px;border-top:1px solid var(--line);font-size:13px;color:var(--text-dim);}
+  .console-summary b{color:var(--text);font-family:var(--font-mono);}
+
+  /* macro grid */
+  .macro-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
+  .macro-card{border:1px solid var(--line);border-radius:10px;background:var(--surface);padding:16px;box-shadow:0 1px 2px rgba(30,26,10,.04);}
+  .macro-card-head{display:flex;align-items:baseline;justify-content:space-between;gap:6px;font-size:12px;font-weight:600;color:var(--text);}
+  .macro-delta{font-family:var(--font-mono);font-size:11.5px;font-weight:600;}
+  .macro-delta.up{color:var(--gain);}
+  .macro-delta.down{color:var(--loss);}
+  .macro-card svg{width:100%;height:44px;margin-top:8px;display:block;}
+  .macro-card-note{margin-top:8px;font-size:11.5px;line-height:1.5;color:var(--text-faint);}
+  .macro-conclusion{margin-top:22px;padding-top:20px;border-top:1px solid var(--line);}
+  .macro-conclusion p{font-size:14.5px;line-height:1.7;color:var(--text-dim);}
+  .macro-conclusion p+p{margin-top:10px;}
+  .macro-conclusion b{color:var(--text);font-weight:600;}
+
+  /* investment simulator */
+  .sim{border:1px solid var(--line);border-radius:12px;background:var(--surface);box-shadow:0 1px 2px rgba(30,26,10,.04), 0 16px 40px -28px rgba(30,26,10,.25);overflow:hidden;}
+  .sim-bar{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:9px 13px;border-bottom:1px solid var(--line);background:var(--surface-sunken);font-family:var(--font-mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--text-faint);}
+  .sim-body{padding:22px;}
+  .sim-amount-row{display:flex;align-items:center;gap:10px;margin-bottom:18px;}
+  .sim-amount-row label{font-family:var(--font-mono);font-size:11px;letter-spacing:.06em;color:var(--text-faint);text-transform:uppercase;}
+  .sim-amount-wrap{display:flex;align-items:center;gap:6px;border:1px solid var(--line-strong);border-radius:7px;padding:7px 11px;background:var(--paper);}
+  .sim-amount-wrap span{font-family:var(--font-mono);color:var(--text-faint);font-size:13px;}
+  .sim-amount-wrap input{border:none;outline:none;font-family:var(--font-mono);font-size:14px;width:110px;color:var(--text);background:transparent;}
+  .sim-range-label{display:flex;justify-content:space-between;font-family:var(--font-mono);font-size:12.5px;color:var(--text);margin-bottom:8px;}
+  .sim-range-label b{color:var(--gold);}
+  .range-wrap{position:relative;height:34px;}
+  .range-track-bg{position:absolute;top:15px;left:0;right:0;height:4px;background:var(--line);border-radius:4px;}
+  .range-track-fill{position:absolute;top:15px;height:4px;background:var(--gold);border-radius:4px;}
+  .range-wrap input[type=range]{
+    position:absolute;top:0;left:0;width:100%;height:34px;margin:0;
+    -webkit-appearance:none;appearance:none;background:transparent;pointer-events:none;
+  }
+  .range-wrap input[type=range]::-webkit-slider-thumb{
+    -webkit-appearance:none;pointer-events:auto;width:18px;height:18px;border-radius:50%;
+    background:#fff;border:2.5px solid var(--gold);cursor:grab;margin-top:0;box-shadow:0 1px 3px rgba(0,0,0,.25);
+    position:relative;top:8px;
+  }
+  .range-wrap input[type=range]::-moz-range-thumb{
+    pointer-events:auto;width:18px;height:18px;border-radius:50%;
+    background:#fff;border:2.5px solid var(--gold);cursor:grab;box-shadow:0 1px 3px rgba(0,0,0,.25);
+  }
+  .range-wrap input[type=range]::-webkit-slider-runnable-track{background:transparent;}
+  .sim-results{margin-top:20px;display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+  .sim-card{border:1px solid var(--line);border-radius:9px;padding:14px;background:var(--surface-sunken);}
+  .sim-card-label{font-family:var(--font-mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--text-faint);}
+  .sim-card-value{margin-top:8px;font-family:var(--font-mono);font-size:19px;font-weight:600;color:var(--text);}
+  .sim-card-sub{margin-top:4px;font-family:var(--font-mono);font-size:12px;}
+  .sim-card-sub.pos{color:var(--gain);}
+  .sim-card-sub.neg{color:var(--loss);}
+  .sim-card.hero{background:var(--gold-fill);border-color:#e9cf94;}
+  .sim-chart-wrap{margin-top:18px;}
+  .sim-chart-wrap svg{width:100%;height:120px;display:block;}
+  .sim-note{margin-top:12px;font-size:11.5px;color:var(--text-faint);}
+
+  /* simple static slide */
+  .simple-body{margin-top:36px;display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;}
+  .simple-body p{font-size:15.5px;line-height:1.7;color:var(--text-dim);max-width:46ch;}
 
   /* ---------- responsive ---------- */
   @media (max-width:980px){
@@ -328,14 +383,19 @@
     .cover-cols{grid-template-columns:1fr;}
     .cover-col{border-right:none;border-bottom:1px solid var(--line);padding:18px 0;}
     .cover-col:first-child{padding-top:0;}
+    .console-results{grid-template-columns:1fr;}
+    .macro-grid{grid-template-columns:repeat(2,1fr);}
+    .sim-results{grid-template-columns:1fr;}
+    .simple-body{grid-template-columns:1fr;}
   }
   @media (max-width:860px){
     .navtoggle{display:flex;}
     .ledger{transform:translateX(-100%);transition:transform .25s ease;width:min(84vw,320px);}
-    .ledger.open{transform:translateX(0);box-shadow:20px 0 60px rgba(0,0,0,.5);}
+    .ledger.open{transform:translateX(0);box-shadow:20px 0 60px rgba(0,0,0,.15);}
     .deck{margin-left:0;}
     .page{padding:88px 24px 48px;}
     .floatnav{display:none;}
+    .macro-grid{grid-template-columns:1fr;}
   }
 
   @media (prefers-reduced-motion:reduce){
@@ -378,6 +438,16 @@
 <script>
 (function(){
 
+  /* ==================== embedded datasets ==================== */
+
+  var FUND_DATA = {"2020":{"train_year":2020,"test_year":2021,"ml_ranking":[{"rank":1,"fund":"BANK OF INDIA SMALL CAP FUND - Direct Plan - Growth","group":"1Y_2Y","ret":0.7133492252681762,"hit":true},{"rank":2,"fund":"Canara Robeco Small Cap Fund - Direct Plan - GROWTH OPTION","group":"1Y_2Y","ret":0.7221828490432318,"hit":true},{"rank":3,"fund":"Sundaram Small Cap Fund - Direct Plan - GROWTH","group":"1Y_2Y","ret":0.6017263964458053,"hit":false},{"rank":4,"fund":"Quant Small Cap Fund - Direct Plan - Growth Option","group":"1Y_3Y","ret":0.8989762641898867,"hit":true},{"rank":5,"fund":"Axis Small Cap Fund - Direct Plan - Growth Option","group":"2Y_3Y","ret":0.596613314776154,"hit":false},{"rank":6,"fund":"ICICI Prudential Small Cap Fund - Direct Plan - Growth","group":"2Y_3Y","ret":0.6170774647887325,"hit":false},{"rank":7,"fund":"DSP Small Cap Fund - Direct Plan - Growth","group":"1Y_2Y_3Y","ret":0.5930817943350732,"hit":false},{"rank":8,"fund":"Kotak Small Cap Fund - Direct Plan - Growth","group":"1Y_2Y_3Y","ret":0.72,"hit":true},{"rank":9,"fund":"SBI SMALL CAP FUND - Direct Plan - Growth","group":"1Y_2Y_3Y","ret":0.47558288268892235,"hit":false},{"rank":10,"fund":"Union Small Cap Fund - Direct Plan - Growth Option","group":"1Y_2Y_3Y","ret":0.6193914388860235,"hit":true}],"actual_top10":[{"rank":1,"fund":"Quant Small Cap Fund - Direct Plan - Growth Option","ret":0.8989762641898867},{"rank":2,"fund":"Nippon India Small Cap Fund - Direct Plan - Growth Option","ret":0.7412325733185682},{"rank":3,"fund":"Tata Small Cap Fund - Direct Plan - Growth Option","ret":0.7246178517308852},{"rank":4,"fund":"Canara Robeco Small Cap Fund - Direct Plan - GROWTH OPTION","ret":0.7221828490432318},{"rank":5,"fund":"Kotak Small Cap Fund - Direct Plan - Growth","ret":0.7157780453981459},{"rank":6,"fund":"BANK OF INDIA SMALL CAP FUND - Direct Plan - Growth","ret":0.7133492252681762},{"rank":7,"fund":"Edelweiss Small Cap Fund - Direct Plan - Growth","ret":0.6835320657428295},{"rank":8,"fund":"HDFC Small Cap Fund - Direct Plan - Growth Option","ret":0.6572799620845593},{"rank":9,"fund":"Invesco India Small Cap Fund - Direct Plan - Growth","ret":0.6358463726884779},{"rank":10,"fund":"Union Small Cap Fund - Direct Plan - Growth Option","ret":0.6193914388860235}],"hits":5,"total":10},"2021":{"train_year":2021,"test_year":2022,"ml_ranking":[{"rank":1,"fund":"HDFC Small Cap Fund - Direct Plan - Growth Option","group":"1Y_2Y","ret":0.042850757504469754,"hit":true},{"rank":2,"fund":"BANK OF INDIA SMALL CAP FUND - Direct Plan - Growth","group":"1Y_3Y","ret":-0.012354152367879184,"hit":false},{"rank":3,"fund":"Canara Robeco Small Cap Fund - Direct Plan - GROWTH OPTION","group":"1Y_3Y","ret":0.07099391480730223,"hit":true},{"rank":4,"fund":"Union Small Cap Fund - Direct Plan - Growth Option","group":"1Y_3Y","ret":-0.01196096946805159,"hit":false},{"rank":5,"fund":"Axis Small Cap Fund - Direct Plan - Growth Option","group":"2Y_3Y","ret":0.02871088142405972,"hit":true},{"rank":6,"fund":"Invesco India Small Cap Fund - Direct Plan - Growth","group":"2Y_3Y","ret":0.0012942191544435349,"hit":false},{"rank":7,"fund":"SBI SMALL CAP FUND - Direct Plan - Growth","group":"2Y_3Y","ret":0.08066995107337302,"hit":true},{"rank":8,"fund":"Tata Small Cap Fund - Direct Plan - Growth Option","group":"2Y_3Y","ret":0.08808850510865354,"hit":true},{"rank":9,"fund":"DSP Small Cap Fund - Direct Plan - Growth","group":"1Y_2Y_3Y","ret":0.00024618010536509445,"hit":false},{"rank":10,"fund":"ICICI Prudential Small Cap Fund - Direct Plan - Growth","group":"1Y_2Y_3Y","ret":0.06337774576881533,"hit":true}],"actual_top10":[{"rank":1,"fund":"Quant Small Cap Fund - Direct Plan - Growth Option","ret":0.09172079827613559},{"rank":2,"fund":"Tata Small Cap Fund - Direct Plan - Growth Option","ret":0.08808850510865354},{"rank":3,"fund":"SBI SMALL CAP FUND - Direct Plan - Growth","ret":0.08066995107337302},{"rank":4,"fund":"Canara Robeco Small Cap Fund - Direct Plan - GROWTH OPTION","ret":0.07099391480730223},{"rank":5,"fund":"ICICI Prudential Small Cap Fund - Direct Plan - Growth","ret":0.06337774576881533},{"rank":6,"fund":"Nippon India Small Cap Fund - Direct Plan - Growth Option","ret":0.058826761832382404},{"rank":7,"fund":"HDFC Small Cap Fund - Direct Plan - Growth Option","ret":0.042850757504469754},{"rank":8,"fund":"Franklin India Small Cap Fund - Direct Plan - Growth","ret":0.03211139417747619},{"rank":9,"fund":"Edelweiss Small Cap Fund - Direct Plan - Growth","ret":0.029069988951118286},{"rank":10,"fund":"Axis Small Cap Fund - Direct Plan - Growth Option","ret":0.02871088142405972}],"hits":6,"total":10},"2022":{"train_year":2022,"test_year":2023,"ml_ranking":[{"rank":1,"fund":"BANK OF INDIA SMALL CAP FUND - Direct Plan - Growth","group":"1Y_2Y","ret":0.4215076071922544,"hit":false},{"rank":2,"fund":"Edelweiss Small Cap Fund - Direct Plan - Growth","group":"1Y_2Y","ret":0.4320293847566575,"hit":false},{"rank":3,"fund":"HDFC Small Cap Fund - Direct Plan - Growth Option","group":"1Y_2Y","ret":0.44770650401054596,"hit":true},{"rank":4,"fund":"Sundaram Small Cap Fund - Direct Plan - GROWTH","group":"1Y_2Y","ret":0.45640516605575304,"hit":true},{"rank":5,"fund":"Tata Small Cap Fund - Direct Plan - Growth Option","group":"1Y_3Y","ret":0.34596961764909073,"hit":false},{"rank":6,"fund":"SBI SMALL CAP FUND - Direct Plan - Growth","group":"2Y_3Y","ret":0.26122649803974335,"hit":false},{"rank":7,"fund":"DSP Small Cap Fund - Direct Plan - Growth","group":"1Y_2Y_3Y","ret":0.4155878036849829,"hit":false},{"rank":8,"fund":"Franklin India Small Cap Fund - Direct Plan - Growth","group":"1Y_2Y_3Y","ret":0.5277569898886458,"hit":true},{"rank":9,"fund":"Invesco India Small Cap Fund - Direct Plan - Growth","group":"1Y_2Y_3Y","ret":0.4479077711357811,"hit":true},{"rank":10,"fund":"Union Small Cap Fund - Direct Plan - Growth Option","group":"1Y_2Y_3Y","ret":0.4265734265734266,"hit":false}],"actual_top10":[{"rank":1,"fund":"Mahindra Manulife Small Cap Fund - Direct Plan - Growth","ret":0.5868866209981826},{"rank":2,"fund":"BANDHAN Small Cap Fund - Direct Plan - Growth","ret":0.552259323311605},{"rank":3,"fund":"ITI Small Cap Fund - Direct Plan - Growth Option","ret":0.5345114453211318},{"rank":4,"fund":"Franklin India Small Cap Fund - Direct Plan - Growth","ret":0.5277569898886458},{"rank":5,"fund":"Nippon India Small Cap Fund - Direct Plan - Growth Option","ret":0.49247921273084},{"rank":6,"fund":"HSBC Small Cap Fund","ret":0.46365752289179085},{"rank":7,"fund":"Sundaram Small Cap Fund - Direct Plan - GROWTH","ret":0.45640516605575304},{"rank":8,"fund":"Quant Small Cap Fund - Direct Plan - Growth Option","ret":0.4556376718274982},{"rank":9,"fund":"Invesco India Small Cap Fund - Direct Plan - Growth","ret":0.4479077711357811},{"rank":10,"fund":"HDFC Small Cap Fund - Direct Plan - Growth Option","ret":0.44770650401054596}],"hits":4,"total":10},"2023":{"train_year":2023,"test_year":2024,"ml_ranking":[{"rank":1,"fund":"BANDHAN Small Cap Fund - Direct Plan - Growth","group":"1Y_2Y","ret":0.44327056885632343,"hit":true},{"rank":2,"fund":"Kotak Small Cap Fund - Direct Plan - Growth","group":"1Y_3Y","ret":0.2634350286942631,"hit":false},{"rank":3,"fund":"Union Small Cap Fund - Direct Plan - Growth Option","group":"1Y_3Y","ret":0.24822222222222226,"hit":false},{"rank":4,"fund":"Sundaram Small Cap Fund - Direct Plan - GROWTH","group":"2Y_3Y","ret":0.20289184959271428,"hit":false},{"rank":5,"fund":"Axis Small Cap Fund - Direct Plan - Growth Option","group":"1Y_2Y_3Y","ret":0.2649361351462711,"hit":false},{"rank":6,"fund":"BANK OF INDIA SMALL CAP FUND - Direct Plan - Growth","group":"1Y_2Y_3Y","ret":0.3167475728155339,"hit":true},{"rank":7,"fund":"DSP Small Cap Fund - Direct Plan - Growth","group":"1Y_2Y_3Y","ret":0.2577917771883289,"hit":false},{"rank":8,"fund":"Invesco India Small Cap Fund - Direct Plan - Growth","group":"1Y_2Y_3Y","ret":0.38959129667744785,"hit":true}],"actual_top10":[{"rank":1,"fund":"Motilal Oswal Small Cap Fund - Direct Plan - Growth","ret":0.4762219939147272},{"rank":2,"fund":"BANDHAN Small Cap Fund - Direct Plan - Growth","ret":0.44327056885632343},{"rank":3,"fund":"LIC MF Small Cap Fund - Direct Plan - Growth","ret":0.40874958946645573},{"rank":4,"fund":"Invesco India Small Cap Fund - Direct Plan - Growth","ret":0.38959129667744785},{"rank":5,"fund":"ITI Small Cap Fund - Direct Plan - Growth Option","ret":0.3561412308172152},{"rank":6,"fund":"Tata Small Cap Fund - Direct Plan - Growth Option","ret":0.326078769499118},{"rank":7,"fund":"BANK OF INDIA SMALL CAP FUND - Direct Plan - Growth","ret":0.3167475728155339},{"rank":8,"fund":"HSBC Small Cap Fund","ret":0.2995201856592069},{"rank":9,"fund":"Mahindra Manulife Small Cap Fund - Direct Plan - Growth","ret":0.28546532977326344},{"rank":10,"fund":"UTI Small Cap Fund - Direct Plan - Growth","ret":0.2799281902510655}],"hits":3,"total":8},"2024":{"train_year":2024,"test_year":2025,"ml_ranking":[{"rank":1,"fund":"BANDHAN Small Cap Fund - Direct Plan - Growth","group":"1Y_2Y","ret":-0.005803274844659758,"hit":true},{"rank":2,"fund":"BANK OF INDIA SMALL CAP FUND - Direct Plan - Growth","group":"1Y_2Y","ret":-0.0820419325432999,"hit":false},{"rank":3,"fund":"HSBC Small Cap Fund","group":"1Y_2Y","ret":-0.1143449859472068,"hit":false},{"rank":4,"fund":"Sundaram Small Cap Fund - Direct Plan - GROWTH","group":"2Y_3Y","ret":0.007930165129469481,"hit":true},{"rank":5,"fund":"UTI Small Cap Fund - Direct Plan - Growth","group":"2Y_3Y","ret":-0.049582074119822836,"hit":false},{"rank":6,"fund":"DSP Small Cap Fund - Direct Plan - Growth","group":"1Y_2Y_3Y","ret":-0.02654132760767197,"hit":false}],"actual_top10":[{"rank":1,"fund":"QUANTUM SMALL CAP FUND - Direct Plan - Growth Option","ret":0.04578313253012051},{"rank":2,"fund":"Sundaram Small Cap Fund - Direct Plan - GROWTH","ret":0.007930165129469481},{"rank":3,"fund":"PGIM India Small Cap Fund - Direct Plan - Direct Growth","ret":0.004084014002333739},{"rank":4,"fund":"ICICI Prudential Small Cap Fund - Direct Plan - Growth","ret":0.0031052686057343667},{"rank":5,"fund":"TRUSTMF SMALL CAP FUND - Direct Plan - Growth","ret":0.002757352941176412},{"rank":6,"fund":"HDFC Small Cap Fund - Direct Plan - Growth Option","ret":-0.0054422454301515785},{"rank":7,"fund":"BANDHAN Small Cap Fund - Direct Plan - Growth","ret":-0.005803274844659758},{"rank":8,"fund":"Axis Small Cap Fund - Direct Plan - Growth Option","ret":-0.016018121511204627},{"rank":9,"fund":"Edelweiss Small Cap Fund - Direct Plan - Growth","ret":-0.016867372992099047},{"rank":10,"fund":"Mahindra Manulife Small Cap Fund - Direct Plan - Growth","ret":-0.019559373061255932}],"hits":2,"total":6}};
+
+  var MACRO_DATA = {"bank_credit_growth_yoy":[["2024-10",11.7],["2024-11",10.6],["2024-12",11.1],["2025-01",11.3],["2025-02",11.1],["2025-03",10.9],["2025-04",9.8],["2025-05",9.8],["2025-06",10.2],["2025-07",9.9],["2025-08",9.9],["2025-09",10.2],["2025-10",11.1],["2025-11",11.4],["2025-12",14.4],["2026-01",14.4],["2026-02",14.3],["2026-03",15.9],["2026-04",15.8],["2026-05",17.4],["2026-06",18.3],["2026-07",19.1],["2026-08",null]],"gdp_growth_yoy":[["2024-10",6.4],["2024-11",6.4],["2024-12",6.4],["2025-01",7.4],["2025-02",7.4],["2025-03",7.4],["2025-04",6.7],["2025-05",6.7],["2025-06",6.7],["2025-07",6.7],["2025-08",6.7],["2025-09",6.7],["2025-10",7.8],["2025-11",7.8],["2025-12",7.8],["2026-01",7.8],["2026-02",7.8],["2026-03",7.8],["2026-04",7.8],["2026-05",7.8],["2026-06",7.8],["2026-07",null],["2026-08",null]],"fii_net_flow":[["2024-10",null],["2024-11",null],["2024-12",null],["2025-01",null],["2025-02",null],["2025-03",null],["2025-04",null],["2025-05",null],["2025-06",12467.09],["2025-07",-47666.68],["2025-08",-46902.92],["2025-09",-34176.82],["2025-10",-2346.89],["2025-11",-17500.31],["2025-12",-9668.18],["2026-01",2337.66],["2026-02",-8895.42],["2026-03",-122540.41],["2026-04",-43706.01],["2026-05",-55963.33],["2026-06",null],["2026-07",-5780],["2026-08",29631]],"dii_net_flow":[["2024-10",null],["2024-11",null],["2024-12",null],["2025-01",null],["2025-02",null],["2025-03",null],["2025-04",null],["2025-05",null],["2025-06",13443.7],["2025-07",60939.16],["2025-08",94828.55],["2025-09",63050.06],["2025-10",52794.02],["2025-11",77083.78],["2025-12",20161.42],["2026-01",5398.32],["2026-02",38418.96],["2026-03",142960.37],["2026-04",28594.96],["2026-05",82668.93],["2026-06",null],["2026-07",35100],["2026-08",48347]],"nifty50_pe":[["2024-10",23.25],["2024-11",22.13],["2024-12",22.3],["2025-01",21.43],["2025-02",20.65],["2025-03",20.34],["2025-04",21.34],["2025-05",22.18],["2025-06",22.48],["2025-07",22.51],["2025-08",21.75],["2025-09",21.92],["2025-10",22.5],["2025-11",22.55],["2025-12",22.64],["2026-01",22.33],["2026-02",22.35],["2026-03",20.65],["2026-04",20.91],["2026-05",20.64],["2026-06",20.43],["2026-07",20.7],["2026-08",20.42]],"cpi_inflation":[["2024-10",6.25],["2024-11",5.5],["2024-12",5.21],["2025-01",4.06],["2025-02",3.49],["2025-03",3.56],["2025-04",3.34],["2025-05",3.03],["2025-06",2.31],["2025-07",1.62],["2025-08",2.01],["2025-09",1.41],["2025-10",0.04],["2025-11",0.49],["2025-12",1.17],["2026-01",2.73],["2026-02",3.21],["2026-03",3.4],["2026-04",3.48],["2026-05",3.94],["2026-06",4.38],["2026-07",4.45],["2026-08",null]],"rbi_repo_rate":[["2024-10",6.5],["2024-11",6.5],["2024-12",6.5],["2025-01",6.5],["2025-02",6.25],["2025-03",6.25],["2025-04",6],["2025-05",6],["2025-06",5.5],["2025-07",5.5],["2025-08",5.5],["2025-09",5.5],["2025-10",5.5],["2025-11",5.5],["2025-12",5.25],["2026-01",5.25],["2026-02",5.25],["2026-03",5.25],["2026-04",5.25],["2026-05",5.25],["2026-06",5.25],["2026-07",5.25],["2026-08",5.25]]};
+
+  var PERF_DATA_URL = "data/perf_series.json";
+
+  /* ==================== groups + slide content ==================== */
+
   var GROUPS = {
     engine:  {label:'Investment Engine',        dot:'gold'},
     trust:   {label:'Trust &amp; Client Tools',  dot:'signal'},
@@ -387,11 +457,9 @@
     next:    {label:"What's Next",               dot:'faint'}
   };
 
-  var GROUP_ORDER = ['engine','trust','intel','convert','ops','next'];
-
   var SLIDES = [
     {
-      n:2, group:'engine', tag:'Quant Model',
+      n:2, group:'engine', tag:'Quant Model', kind:'standard',
       headline:'90% of return comes from one decision — before a single fund is picked.',
       lede:'Five broad categories. 39 sub-categories. 4,000+ funds. At that scale, allocation does almost all the work.',
       beats:[
@@ -406,24 +474,13 @@
       ],
       exhibits:[{img:'img/backtest-alpha.png', kind:'static', label:'Backtested output · 2015–2026', alt:'Year-by-year portfolio return, volatility, beta and alpha table from 2015 to 2026', caption:'Year-by-year return, volatility, beta and alpha — twelve backtested cycles, one framework.'}]
     },
-    {
-      n:3, group:'engine', tag:'Machine Learning',
+    { n:3, group:'engine', tag:'Machine Learning', kind:'fund-sim',
       headline:'4,000+ funds. A model built to find next year\'s winners, not last year\'s.',
-      lede:'Top funds of 2024 are rarely the top funds of 2025 — so ranking on trailing returns alone was quietly failing.',
-      beats:[
-        {label:'The problem', text:'Past performance isn\'t a guarantee of future results, and manually re-screening 4,000+ funds every cycle isn\'t humanly possible.'},
-        {label:'What I built', text:'An ensemble of <b>Random Forest, Gradient Boosting and regression analysis</b> scores 15–20 metrics per fund across 11 years of history. The workflow: drop in daily NAVs, click a button.'},
-        {label:'Why it matters', text:'Backtested hit-rate of <b>60%</b> — three of the model\'s top five picks went on to actually rank as top performers.'}
-      ],
-      stats:[
-        {v:'60%', l:'backtested hit-rate (3 of 5)', tone:'gain'},
-        {v:'11 yrs', l:'of fund history modelled', tone:'gold'},
-        {v:'15–20', l:'metrics scored per fund', tone:'neutral'}
-      ],
-      exhibits:[{img:'img/fund-model-vs-actual.png', kind:'static', label:'Model output · 2022 sample', alt:'Table comparing the model\'s predicted top funds against the actual top-performing funds of 2022, with matches highlighted in green', caption:'Model picks (left) vs. actual top performers (right) — highlighted rows are the hits.'}]
+      lede:'Top funds of one year are rarely the top funds of the next — so ranking on trailing returns alone was quietly failing. Pick a year below and run the ML engine on it.',
+      note:'Applied here to the small-cap universe. The engine keeps a fund only if it ranks near the top across overlapping 1-, 2- and 3-year windows — the "intersection" group shown against each pick.'
     },
     {
-      n:4, group:'engine', tag:'Automated Signals',
+      n:4, group:'engine', tag:'Automated Signals', kind:'standard',
       headline:'When a trade signal fires, every shareholder finds out the same day.',
       lede:'Not just that a trade happened — exactly what triggered it, when, and how much.',
       beats:[
@@ -437,58 +494,22 @@
       ],
       exhibits:[{img:'img/stock-signal-alert.png', kind:'static', label:'Auto-generated alert · EMA Exit', alt:'Automated PDF listing EMA exit triggers by sector, stock, company and quantity', caption:'One trigger event, auto-compiled by sector — stock, company, quantity, and the rule that fired.'}]
     },
-    {
-      n:5, group:'trust', tag:'Live Dashboard',
-      headline:'30+ signals on the Indian economy, on one screen, always current.',
-      lede:'RMs need credible, current macro talking points — not a stale slide from last quarter.',
-      beats:[
-        {label:'The problem', text:'Building client conviction needs live macro context, and nobody has time to hand-assemble it before every meeting.'},
-        {label:'What I built', text:'A cumulative dashboard tracking <b>30+ indicators</b> — repo rate, credit growth, inflation, GST collections, USD/INR, manufacturing PMI and more — paired with a second view of FII/DII sector flows.'},
-        {label:'Why it matters', text:'RMs walk into conversations with sourced, current data instead of guesswork — and a live talking point for whatever the client brings up.'}
-      ],
-      stats:[
-        {v:'30+', l:'macro indicators tracked', tone:'gold'},
-        {v:'2', l:'dashboards: macro + FII/DII flow', tone:'neutral'}
-      ],
-      exhibits:[{img:'img/macro-dashboard.png', kind:'live', label:'India Economic Pulse', domain:'fincartoptima.github.io/MacroEconomicCompleteDashboard', alt:'India Economic Pulse dashboard showing RBI repo rate, bank credit growth, inflation, GST collection, USD/INR and manufacturing PMI', caption:'Repo rate, credit growth, inflation, GST, FX and PMI — refreshed automatically, click any card for the trend.'}],
-      demo:{url:'https://fincartoptima.github.io/MacroEconomicCompleteDashboard/', label:'Launch live dashboard', note:'Live · still being extended', warn:false}
+    { n:5, group:'trust', tag:'Macro Analysis', kind:'macro',
+      headline:'30+ signals on the Indian economy. Here\'s what they say right now.',
+      lede:'Live indicators are only useful if someone reads them. Here\'s the read, in my own words, off the actual live dashboard.'
+    },
+    { n:6, group:'trust', tag:'Live Simulator', kind:'invest-sim',
+      headline:'Pick any date. See what ₹10 lakh would actually be worth today.',
+      lede:'The client\'s own portfolio, next to Optima, next to the index — drag the range and watch the money move.'
     },
     {
-      n:6, group:'trust', tag:'Live Dashboard',
-      headline:'The client\'s own portfolio, next to Optima, next to the index — no spin required.',
-      lede:'The pitch RMs needed wasn\'t a claim. It was a side-by-side they could hand the client.',
-      beats:[
-        {label:'The problem', text:'RMs needed an honest, visual way to show clients exactly what staying put was costing them.'},
-        {label:'What I built', text:'A full comparison dashboard lines up the client\'s actual holdings against Fincart Optima and the BSE 500 — return, risk, drawdown, pros and cons — side by side.'},
-        {label:'Why it matters', text:'One live client run: Optima at <b>18.41% XIRR</b> against the client\'s own 10.39% and the BSE 500\'s 13.77%. Indexed from 2015, Optima\'s growth curve reached 569.7 against the BSE 500\'s 346.5 — 64% further ahead from the same starting line.'}
-      ],
-      stats:[
-        {v:'18.41%', l:'Optima XIRR vs 10.39% client / 13.77% BSE 500', tone:'gain'},
-        {v:'569.7', l:'indexed value vs 346.5 (BSE 500), base 100 in 2015', tone:'gold'}
-      ],
-      exhibits:[
-        {img:'img/pms-xirr-snapshot.png', kind:'live', label:'XIRR Snapshot', domain:'fincartoptima.github.io/portfolio-dashboard', alt:'XIRR snapshot comparing a client portfolio at 10.39%, Fincart Optima at 18.41%, and BSE 500 at 13.77%', caption:'Since-inception XIRR: client vs. Optima vs. benchmark, on the same cashflow basis.'},
-        {img:'img/pms-performance-chart.png', kind:'live', label:'Indexed performance', domain:'fincartoptima.github.io/portfolio-dashboard', alt:'Indexed performance chart showing Optima portfolio reaching 569.7 versus BSE 500 at 346.5 and a hybrid 60/40 benchmark at 309.4, both based at 100', caption:'Portfolio value vs. benchmark, indexed to 100 — the gap compounding since 2015.'}
-      ],
-      demo:{url:'https://fincartoptima.github.io/portfolio-dashboard/', label:'Launch live dashboard', note:'Live · upload your own file to try it'}
-    },
-    {
-      n:7, group:'trust', tag:'Marketing Collateral',
+      n:7, group:'trust', tag:'Marketing Collateral', kind:'simple',
       headline:'One page, zero fund names — full conviction anyway.',
-      lede:'Prospects need proof of process, not the proprietary playbook.',
-      beats:[
-        {label:'The problem', text:'RMs pitching prospects needed to demonstrate the strategy without disclosing fund names or NAVs.'},
-        {label:'What I built', text:'A one-page PDF showing the holding-mix trend and trailing returns against the BSE 500 — the approach, without the picks.'},
-        {label:'Why it matters', text:'Optima\'s 5-year trailing return of 18.4% versus the BSE 500\'s 11.3% becomes the RM\'s opening line, not a closely-guarded secret.'}
-      ],
-      stats:[
-        {v:'18.4%', l:'Optima 5-year trailing return', tone:'gain'},
-        {v:'11.3%', l:'BSE 500 5-year trailing return', tone:'neutral'}
-      ],
-      exhibits:[{img:'img/one-pager.png', kind:'static', label:'One-pager PDF · prospect-safe', alt:'One-page PDF showing portfolio holding trend and a performance snapshot table comparing Fincart Optima to BSE 500', caption:'Holding-mix trend and trailing 1Y–5Y performance — no fund names, no NAVs.'}]
+      lede:'A one-page PDF shows the strategy and its track record — holding-mix trend, trailing returns vs BSE 500 — without disclosing fund names or NAVs. It\'s the RM\'s opening line with a prospect: proof of process, without the proprietary playbook.',
+      exhibit:{img:'img/one-pager.png', kind:'static', label:'One-pager PDF · prospect-safe', alt:'One-page PDF showing portfolio holding trend and a performance snapshot table comparing Fincart Optima to BSE 500', caption:'Holding-mix trend and trailing 1Y–5Y performance — no fund names, no NAVs.'}
     },
     {
-      n:8, group:'intel', tag:'Live Dashboard',
+      n:8, group:'intel', tag:'Live Dashboard', kind:'standard',
       headline:'From cold lead to converted client — the whole funnel, live.',
       lede:'Marketing spend and lead quality were hard to trace all the way to revenue.',
       beats:[
@@ -504,7 +525,7 @@
       demo:{url:'https://fincartoptima.github.io/MarketingMISDashboard/', label:'Launch live dashboard', note:'Live · still being extended'}
     },
     {
-      n:9, group:'intel', tag:'Live Dashboard',
+      n:9, group:'intel', tag:'Live Dashboard', kind:'standard',
       headline:'Every revenue stream, every RM, one live ledger.',
       lede:'Leadership needed a single source of truth for revenue — updated continuously, not at month-end.',
       beats:[
@@ -520,7 +541,7 @@
       demo:{url:'https://fincartoptima.github.io/RevenueMISDashboard/', label:'Launch live dashboard', note:'Live · still being extended'}
     },
     {
-      n:10, group:'intel', tag:'Fund-Manager Console',
+      n:10, group:'intel', tag:'Fund-Manager Console', kind:'standard',
       headline:'Every Optima client, one screen — built for the fund manager\'s eyes only.',
       lede:'With every portfolio individually allocated, it\'s easy for one to quietly drift from the rest.',
       beats:[
@@ -539,7 +560,7 @@
       demo:{url:'https://optima-birds-eye-view.onrender.com', label:'Open live console', note:'🔒 Sign-in required — restricted to authorised users', warn:true, secondaryUrl:'https://github.com/FincartOptima/Optima-Birds-Eye-View', secondaryLabel:'View source on GitHub'}
     },
     {
-      n:11, group:'convert', tag:'Client Conversion',
+      n:11, group:'convert', tag:'Client Conversion', kind:'standard',
       headline:'Most self-directed investors are quietly trailing the index. Now they can see it.',
       lede:'Clients trading on their own usually assumed they were doing fine.',
       beats:[
@@ -554,7 +575,7 @@
       exhibits:[{img:'img/stock-pms-comparison.png', kind:'draft', label:'Portfolio Comparison — draft output', alt:'Draft portfolio comparison dashboard showing client XIRR of 13.19%, Fincart Optima at 16.64%, BSE 500 at 8.62%, with a NAV performance chart, metrics table and sector-allocation donut', caption:'Draft output, built to visualise the idea — XIRR, NAV curve, Sharpe, drawdown and sector mix in one view.'}]
     },
     {
-      n:12, group:'ops', tag:'Ops Automation',
+      n:12, group:'ops', tag:'Ops Automation', kind:'standard',
       headline:'22,500+ transactions checked automatically — and it tells you why the money\'s missing.',
       lede:'Brokerage doesn\'t always land even when the revenue is booked on the books.',
       beats:[
@@ -572,7 +593,7 @@
       ]
     },
     {
-      n:13, group:'ops', tag:'Ops Automation',
+      n:13, group:'ops', tag:'Ops Automation', kind:'standard',
       headline:'What used to take hours now takes seconds.',
       lede:'Health and non-health policy data only ever arrived as PDFs.',
       beats:[
@@ -586,7 +607,7 @@
       exhibits:[{img:'img/insurance-tracker.png', kind:'live', label:'Insurance Policy Tracker', domain:'Internal web app', alt:'Insurance Policy Tracker app: select an insurance company, upload its files, and generate a unified report', caption:'Pick a company, upload its files, get one unified report — no copy-paste in between.'}]
     },
     {
-      n:14, group:'next', tag:'In Progress',
+      n:14, group:'next', tag:'In Progress', kind:'standard',
       headline:'Taking four tools off spreadsheets and into one secure product.',
       lede:'Black-Litterman, fund selection, portfolio tracking and the PMS comparison tool all lived on Google Sheets or local machines.',
       beats:[
@@ -605,7 +626,7 @@
       }
     },
     {
-      n:15, group:'ops', tag:'Ops Automation',
+      n:15, group:'ops', tag:'Ops Automation', kind:'standard',
       headline:'A 30–60 minute manual grind, on a path to three.',
       lede:'Building the revenue MIS file meant pasting data by hand and dragging formulas down, every day.',
       beats:[
@@ -620,7 +641,7 @@
       metric:{beforeVal:'30–60', beforeLbl:'minutes / day, today', afterVal:'2–3', afterLbl:'minutes / day, projected'}
     },
     {
-      n:16, group:'intel', tag:'Live Dashboard',
+      n:16, group:'intel', tag:'Live Dashboard', kind:'standard',
       headline:'How many plans, from whom, converting how often.',
       lede:'The L&D team had no live view of how many financial plans were actually being produced.',
       beats:[
@@ -637,7 +658,7 @@
       demo:{url:'https://fincartoptima.github.io/L-D-Financial-Plan/', label:'Launch live dashboard', note:'Live · public'}
     },
     {
-      n:17, group:'ops', tag:'Ops Automation',
+      n:17, group:'ops', tag:'Ops Automation', kind:'standard',
       headline:'Rate chart × commission received × policy file → one clean, flagged report.',
       lede:'Reconciling commission received against what was actually owed was a slow, manual cross-check.',
       beats:[
@@ -652,13 +673,22 @@
     }
   ];
 
-  /* ---------------- render helpers ---------------- */
+  /* ==================== render helpers (shared) ==================== */
 
   function el(tag, cls, html){
     var d = document.createElement(tag);
     if(cls) d.className = cls;
     if(html !== undefined) d.innerHTML = html;
     return d;
+  }
+  function fmtPct(x, dp){ dp = dp==null?2:dp; return (x>=0?'+':'') + (x*100).toFixed(dp) + '%'; }
+  function fmtINR(x){
+    x = Math.round(x);
+    var s = Math.abs(x).toString();
+    var last3 = s.slice(-3), rest = s.slice(0,-3);
+    if(rest) last3 = ',' + last3;
+    var out = rest.replace(/\B(?=(\d{2})+(?!\d))/g, ',') + last3;
+    return (x<0?'-':'') + '₹' + out;
   }
 
   function statTicker(stats){
@@ -707,13 +737,27 @@
     bar.appendChild(el('div','exhibit-bar-right','Migration in flight'));
     frame.appendChild(bar);
     var diag = el('div','diagram');
+    diag.style.cssText = 'padding:26px 22px;display:flex;flex-direction:column;gap:16px;background:var(--surface);';
     var row1 = el('div','diagram-row');
-    d.from.forEach(function(f){ row1.appendChild(el('div','diagram-chip', f)); });
-    row1.appendChild(el('div','diagram-arrow','&#8594;'));
-    row1.appendChild(el('div','diagram-target', d.to));
+    row1.style.cssText = 'display:flex;align-items:center;gap:14px;flex-wrap:wrap;';
+    d.from.forEach(function(f){
+      var c = el('div','', f);
+      c.style.cssText = 'font-family:var(--font-mono);font-size:12px;padding:9px 13px;border-radius:7px;border:1px solid var(--line-strong);color:var(--text-dim);background:var(--surface-sunken);';
+      row1.appendChild(c);
+    });
+    var arrow = el('div','', '&#8594;'); arrow.style.cssText = 'color:var(--text-faint);font-size:16px;';
+    row1.appendChild(arrow);
+    var target = el('div','', d.to);
+    target.style.cssText = 'font-family:var(--font-mono);font-size:13px;padding:12px 16px;border-radius:7px;border:1px solid var(--gold);color:var(--gold);background:var(--gold-fill);';
+    row1.appendChild(target);
     diag.appendChild(row1);
     var row2 = el('div','diagram-row');
-    d.chips.forEach(function(c){ row2.appendChild(el('div','diagram-chip', c)); });
+    row2.style.cssText = 'display:flex;align-items:center;gap:14px;flex-wrap:wrap;';
+    d.chips.forEach(function(c0){
+      var c = el('div','', c0);
+      c.style.cssText = 'font-family:var(--font-mono);font-size:12px;padding:9px 13px;border-radius:7px;border:1px solid var(--line-strong);color:var(--text-dim);background:var(--surface-sunken);';
+      row2.appendChild(c);
+    });
     diag.appendChild(row2);
     frame.appendChild(diag);
     col.appendChild(frame);
@@ -731,14 +775,17 @@
     bar.appendChild(left);
     bar.appendChild(el('div','exhibit-bar-right','Daily file-generation time'));
     frame.appendChild(bar);
-    var mf = el('div','metric-frame');
-    var b1 = el('div','metric-block');
-    b1.appendChild(el('div','metric-num tnum', m.beforeVal));
-    b1.appendChild(el('div','metric-cap', m.beforeLbl));
-    var arrow = el('div','metric-arrow','&#8594;');
-    var b2 = el('div','metric-block after');
-    b2.appendChild(el('div','metric-num tnum', m.afterVal));
-    b2.appendChild(el('div','metric-cap', m.afterLbl));
+    var mf = el('div','');
+    mf.style.cssText = 'padding:30px 26px;display:flex;align-items:center;justify-content:center;gap:22px;background:var(--surface);flex-wrap:wrap;';
+    var b1 = el('div',''); b1.style.textAlign='center';
+    var n1 = el('div','tnum', m.beforeVal); n1.style.cssText='font-family:var(--font-mono);font-size:30px;font-weight:600;color:var(--text-dim);';
+    var c1 = el('div','', m.beforeLbl); c1.style.cssText='margin-top:6px;font-size:11px;color:var(--text-faint);text-transform:uppercase;letter-spacing:.08em;';
+    b1.appendChild(n1); b1.appendChild(c1);
+    var arrow = el('div','', '&#8594;'); arrow.style.cssText='font-size:22px;color:var(--gold);';
+    var b2 = el('div',''); b2.style.textAlign='center';
+    var n2 = el('div','tnum', m.afterVal); n2.style.cssText='font-family:var(--font-mono);font-size:30px;font-weight:600;color:var(--gain);';
+    var c2 = el('div','', m.afterLbl); c2.style.cssText='margin-top:6px;font-size:11px;color:var(--text-faint);text-transform:uppercase;letter-spacing:.08em;';
+    b2.appendChild(n2); b2.appendChild(c2);
     mf.appendChild(b1); mf.appendChild(arrow); mf.appendChild(b2);
     frame.appendChild(mf);
     col.appendChild(frame);
@@ -756,11 +803,13 @@
     bar.appendChild(left);
     bar.appendChild(el('div','exhibit-bar-right','fincartoptima.github.io/L-D-Financial-Plan'));
     frame.appendChild(bar);
-    var lr = el('div','liveread');
-    stats.forEach(function(s){
-      var b = el('div','lr-stat');
-      b.appendChild(el('div','lr-val tnum', s.v));
-      b.appendChild(el('div','lr-lbl', s.l));
+    var lr = el('div',''); lr.style.cssText='padding:26px;background:var(--surface);display:flex;gap:0;flex-wrap:wrap;';
+    stats.forEach(function(s, i){
+      var b = el('div','');
+      b.style.cssText = 'flex:1 1 33%;padding:6px 16px;'+(i<stats.length-1?'border-right:1px solid var(--line);':'');
+      var v = el('div','tnum', s.v); v.style.cssText='font-family:var(--font-mono);font-size:26px;font-weight:600;color:var(--gold);';
+      var l = el('div','', s.l); l.style.cssText='margin-top:6px;font-size:11.5px;color:var(--text-faint);';
+      b.appendChild(v); b.appendChild(l);
       lr.appendChild(b);
     });
     frame.appendChild(lr);
@@ -789,6 +838,398 @@
     return row;
   }
 
+  /* ==================== slide 3: fund selection simulator ==================== */
+
+  function buildFundSim(slide){
+    var wrap = el('div','console');
+    var bar = el('div','console-bar');
+    bar.appendChild(el('span','', 'ML ENGINE &middot; SMALL-CAP UNIVERSE'));
+    bar.appendChild(el('span','', 'New_Filtration_Process_complete_universe.xlsx'));
+    wrap.appendChild(bar);
+
+    var body = el('div','console-body');
+    var controls = el('div','console-controls');
+    controls.appendChild(el('div','console-controls-label','Model year'));
+    var tabs = el('div','year-tabs');
+    var years = Object.keys(FUND_DATA).sort();
+    var yearBtns = {};
+    years.forEach(function(y){
+      var b = el('button','year-tab', y);
+      b.type='button';
+      b.addEventListener('click', function(){ runFundSim(y); });
+      tabs.appendChild(b);
+      yearBtns[y] = b;
+    });
+    controls.appendChild(tabs);
+    var runBtn = el('button','run-btn','&#9654; Run Model');
+    runBtn.type='button';
+    controls.appendChild(runBtn);
+    body.appendChild(controls);
+
+    var status = el('div','console-status','');
+    body.appendChild(status);
+
+    var results = el('div','console-results');
+    var colA = el('div','');
+    var colAHead = el('div','result-col-head');
+    var colATitle = el('span','', 'ML engine picks');
+    var colABadge = el('span','hit-badge','');
+    colAHead.appendChild(colATitle); colAHead.appendChild(colABadge);
+    var colABody = el('div','');
+    colA.appendChild(colAHead); colA.appendChild(colABody);
+
+    var colB = el('div','');
+    var colBHead = el('div','result-col-head');
+    var colBTitle = el('span','', 'Actual top 10, realized');
+    colBHead.appendChild(colBTitle);
+    var colBBody = el('div','');
+    colB.appendChild(colBHead); colB.appendChild(colBBody);
+
+    results.appendChild(colA); results.appendChild(colB);
+    body.appendChild(results);
+
+    var summary = el('div','console-summary','');
+    body.appendChild(summary);
+
+    wrap.appendChild(body);
+
+    var running = false;
+    var currentYear = null;
+
+    function renderResults(y){
+      var d = FUND_DATA[y];
+      colATitle.textContent = 'ML engine picks — ' + d.train_year;
+      colABadge.textContent = d.hits + ' / ' + d.total + ' hit';
+      colBTitle.textContent = 'Actual top 10 — ' + d.test_year;
+      colABody.innerHTML = '';
+      d.ml_ranking.forEach(function(f){
+        var row = el('div','fund-row'+(f.hit?' hit':''));
+        row.appendChild(el('span','fund-rank tnum', '#'+f.rank));
+        row.appendChild(el('span','fund-name', f.fund + ' <span style="color:var(--text-faint);font-family:var(--font-mono);font-size:10.5px">&nbsp;'+f.group+'</span>'));
+        row.appendChild(el('span','fund-ret tnum '+(f.ret>=0?'pos':'neg'), fmtPct(f.ret,1)));
+        row.appendChild(el('span','fund-check', f.hit ? '&#10003;' : ''));
+        colABody.appendChild(row);
+      });
+      colBBody.innerHTML = '';
+      d.actual_top10.forEach(function(f){
+        var row = el('div','fund-row');
+        row.appendChild(el('span','fund-rank tnum', '#'+f.rank));
+        row.appendChild(el('span','fund-name', f.fund));
+        row.appendChild(el('span','fund-ret tnum '+(f.ret>=0?'pos':'neg'), fmtPct(f.ret,1)));
+        colBBody.appendChild(row);
+      });
+      var totalHits = 0, totalPicks = 0;
+      years.forEach(function(yy){ totalHits += FUND_DATA[yy].hits; totalPicks += FUND_DATA[yy].total; });
+      summary.innerHTML = 'Across all five tested years (2021–2025): <b>'+totalHits+' / '+totalPicks+'</b> ML-engine picks landed in that year\'s actual top 10 — a <b>'+Math.round(100*totalHits/totalPicks)+'%</b> hit rate on out-of-sample data.';
+    }
+
+    function runFundSim(y){
+      if(running) return;
+      running = true;
+      currentYear = y;
+      years.forEach(function(yy){ yearBtns[yy].classList.toggle('active', yy===y); });
+      runBtn.disabled = true;
+      colABody.style.opacity = .35; colBBody.style.opacity = .35;
+      var steps = [
+        'Loading small-cap universe (Train '+y.slice(2)+')…',
+        'Scoring 1Y / 2Y / 3Y trailing windows…',
+        'Computing rank intersection…',
+        'Matching against '+FUND_DATA[y].test_year+' realized returns…'
+      ];
+      var i = 0;
+      status.textContent = steps[0];
+      var iv = setInterval(function(){
+        i++;
+        if(i < steps.length){ status.textContent = steps[i]; }
+        else {
+          clearInterval(iv);
+          renderResults(y);
+          colABody.style.opacity = 1; colBBody.style.opacity = 1;
+          status.textContent = 'Done — ' + FUND_DATA[y].hits + ' of ' + FUND_DATA[y].total + ' picks hit the actual top 10 of ' + FUND_DATA[y].test_year + '.';
+          runBtn.disabled = false;
+          running = false;
+        }
+      }, 260);
+    }
+
+    runBtn.addEventListener('click', function(){ runFundSim(currentYear || years[years.length-2]); });
+
+    // default state at rest: show a populated result immediately (2022, a representative mid-sample year)
+    var defaultYear = '2022';
+    years.forEach(function(yy){ yearBtns[yy].classList.toggle('active', yy===defaultYear); });
+    currentYear = defaultYear;
+    renderResults(defaultYear);
+    status.textContent = 'Ready — showing ' + defaultYear + '. Pick a year or press Run Model to re-simulate.';
+
+    var noteWrap = el('div','exhibit-caption', slide.note || '');
+    noteWrap.style.marginTop = '4px';
+
+    var outer = el('div','exhibit-col');
+    outer.appendChild(wrap);
+    outer.appendChild(noteWrap);
+    return outer;
+  }
+
+  /* ==================== slide 5: macro conclusion ==================== */
+
+  function sparkline(series, tone){
+    var pts = series.filter(function(p){ return p[1]!=null; });
+    if(pts.length < 2) return '<svg viewBox="0 0 240 44"></svg>';
+    var vals = pts.map(function(p){ return p[1]; });
+    var min = Math.min.apply(null, vals), max = Math.max.apply(null, vals);
+    if(min===max){ min -= 1; max += 1; }
+    var W=240,H=44,pad=4;
+    var stepX = (W-2*pad)/(pts.length-1);
+    var coords = pts.map(function(p,i){
+      var x = pad + i*stepX;
+      var y = H - pad - ((p[1]-min)/(max-min))*(H-2*pad);
+      return [x,y];
+    });
+    var path = coords.map(function(c,i){ return (i===0?'M':'L')+c[0].toFixed(1)+','+c[1].toFixed(1); }).join(' ');
+    var areaPath = path + ' L' + coords[coords.length-1][0].toFixed(1) + ',' + (H-pad) + ' L' + coords[0][0].toFixed(1) + ',' + (H-pad) + ' Z';
+    var colorVar = tone==='up' ? 'var(--gain)' : tone==='down' ? 'var(--loss)' : 'var(--slate)';
+    var last = coords[coords.length-1];
+    return '<svg viewBox="0 0 240 44" preserveAspectRatio="none">' +
+      '<path d="'+areaPath+'" fill="'+colorVar+'" opacity="0.08" stroke="none"></path>' +
+      '<path d="'+path+'" fill="none" stroke="'+colorVar+'" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"></path>' +
+      '<circle cx="'+last[0].toFixed(1)+'" cy="'+last[1].toFixed(1)+'" r="2.6" fill="'+colorVar+'"></circle>' +
+      '</svg>';
+  }
+
+  function monthLabel(m){
+    var mons=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    var parts = m.split('-'); return mons[parseInt(parts[1],10)-1]+' '+parts[0].slice(2);
+  }
+
+  function buildMacro(){
+    var col = el('div','exhibit-col');
+    var frame = el('div','', '');
+    frame.style.cssText='border:1px solid var(--line);border-radius:12px;background:var(--surface);box-shadow:0 1px 2px rgba(30,26,10,.04), 0 16px 40px -28px rgba(30,26,10,.25);overflow:hidden;';
+    var bar = el('div','exhibit-bar');
+    var left = el('div','exhibit-bar-left');
+    left.appendChild(el('span','dot live'));
+    left.appendChild(el('span','word live','Live'));
+    bar.appendChild(left);
+    bar.appendChild(el('div','exhibit-bar-right','fincartoptima.github.io/MacroEconomicCompleteDashboard'));
+    frame.appendChild(bar);
+
+    var body = el('div',''); body.style.padding='20px';
+    var grid = el('div','macro-grid');
+
+    var cards = [
+      {key:'bank_credit_growth_yoy', label:'Bank Credit Growth', fmt:function(v){return v.toFixed(1)+'%';}, note:'Bank lending accelerated from under 10% to a cycle-high 19.1% YoY in fourteen months — credit is expanding, a classic early-cycle signal.'},
+      {key:'gdp_growth_yoy', label:'GDP Growth (YoY)', fmt:function(v){return v.toFixed(1)+'%';}, note:'Real growth stepped up from 6.4% to 7.8% and has held there for seven straight months — broad-based expansion, not a one-quarter blip.'},
+      {key:'cpi_inflation', label:'CPI Inflation', fmt:function(v){return v.toFixed(2)+'%';}, note:'Inflation collapsed to near-zero by Oct 2025, then normalized back to 4.45% — squarely inside RBI\'s comfort band.'},
+      {key:'rbi_repo_rate', label:'RBI Repo Rate', fmt:function(v){return v.toFixed(2)+'%';}, note:'125bps of cuts (6.50% &#8594; 5.25%) as inflation fell — a monetary tailwind now sitting behind the credit and GDP reacceleration.'},
+      {key:'nifty50_pe', label:'NIFTY 50 P/E', fmt:function(v){return v.toFixed(1)+'x';}, note:'Valuations actually compressed, 23.3x &#8594; 20.4x, even as growth accelerated — the rally hasn\'t gotten ahead of fundamentals.'},
+      {key:'fii_dii', label:'FII vs DII Flow', fmt:null, note:'FII sold ₹1.23L Cr in March 2026 alone — DII bought ₹1.43L Cr the same month. Domestic capital, not foreign flows, is the market\'s ballast now.'}
+    ];
+
+    cards.forEach(function(c){
+      var card = el('div','macro-card');
+      var series, tone, deltaTxt, deltaCls, svgHtml;
+      if(c.key==='fii_dii'){
+        var fii = MACRO_DATA.fii_net_flow.filter(function(p){return p[1]!=null;});
+        var dii = MACRO_DATA.dii_net_flow.filter(function(p){return p[1]!=null;});
+        var lastFii = fii[fii.length-1][1], lastDii = dii[dii.length-1][1];
+        deltaTxt = 'DII net +';
+        deltaCls = 'up';
+        var W=240,H=44,pad=4;
+        var vals = dii.map(function(p){return p[1];}).concat(fii.map(function(p){return p[1];}));
+        var min = Math.min.apply(null,vals), max = Math.max.apply(null,vals);
+        if(min===max){min-=1;max+=1;}
+        function line(series0, colorVar){
+          var stepX=(W-2*pad)/(series0.length-1);
+          var coords = series0.map(function(p,i){ var x=pad+i*stepX; var y=H-pad-((p[1]-min)/(max-min))*(H-2*pad); return [x,y]; });
+          var path = coords.map(function(c0,i){return (i===0?'M':'L')+c0[0].toFixed(1)+','+c0[1].toFixed(1);}).join(' ');
+          return '<path d="'+path+'" fill="none" stroke="'+colorVar+'" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"></path>';
+        }
+        svgHtml = '<svg viewBox="0 0 240 44" preserveAspectRatio="none">'+line(dii,'var(--gain)')+line(fii,'var(--text-faint)')+'</svg>';
+        card.appendChild(el('div','macro-card-head', '<span>'+c.label+'</span><span class="macro-delta '+deltaCls+'">DII &#9679; FII</span>'));
+        var svgWrap = el('div','', svgHtml); svgWrap.style.marginTop='8px';
+        card.appendChild(svgWrap);
+      } else {
+        series = MACRO_DATA[c.key];
+        var valid = series.filter(function(p){return p[1]!=null;});
+        var first = valid[0][1], last = valid[valid.length-1][1];
+        tone = last>=first ? 'up' : 'down';
+        if(c.key==='cpi_inflation' || c.key==='rbi_repo_rate'){ /* neutral coloring, context dependent */ tone = 'up'; }
+        deltaTxt = (last>=first?'&#8593; ':'&#8595; ') + c.fmt(first) + ' &#8594; ' + c.fmt(last);
+        deltaCls = last>=first ? 'up' : 'down';
+        card.appendChild(el('div','macro-card-head', '<span>'+c.label+'</span><span class="macro-delta '+deltaCls+'">'+deltaTxt+'</span>'));
+        var svgWrap2 = el('div','', sparkline(series, tone)); svgWrap2.style.marginTop='8px';
+        card.appendChild(svgWrap2);
+      }
+      card.appendChild(el('div','macro-card-note', c.note));
+      grid.appendChild(card);
+    });
+
+    body.appendChild(grid);
+
+    var conclusion = el('div','macro-conclusion');
+    conclusion.innerHTML =
+      '<div class="beat-label">Reading the signals</div>' +
+      '<p>Put together, these point the same way. <b>Credit is expanding</b> (bank credit growth nearly doubled to 19.1% YoY) while <b>growth is accelerating</b> (GDP up to 7.8%, holding for seven straight months) — banks and the real economy are moving in sync, not diverging.</p>' +
+      '<p><b>Inflation is under control</b> at 4.45%, well off its brief dip toward zero, giving the RBI room to hold rates after 125bps of cuts rather than reverse course. And critically, <b>none of this looks priced in</b>: NIFTY\'s P/E actually compressed from 23.3x to 20.4x over the same stretch, and <b>domestic flows absorbed foreign selling</b> outright — DII bought ₹1.43L Cr in March 2026, the same month FII sold ₹1.23L Cr.</p>' +
+      '<p>That\'s the talking point this dashboard gives an RM in one sentence: growth and credit are both accelerating, inflation is contained, valuations haven\'t caught up yet, and the market no longer needs foreign money to hold its ground.</p>';
+    body.appendChild(conclusion);
+
+    frame.appendChild(body);
+    col.appendChild(frame);
+    col.appendChild(el('div','exhibit-caption','Six of the 30+ indicators tracked live — Oct 2024 through Aug 2026, sourced from RBI, AMFI, NSE/BSE and MoSPI releases.'));
+    return col;
+  }
+
+  /* ==================== slide 6: investment simulator ==================== */
+
+  function buildInvestSim(){
+    var col = el('div','exhibit-col');
+    var wrap = el('div','sim');
+    var bar = el('div','sim-bar');
+    bar.appendChild(el('span','', 'LIVE &middot; NAV SERIES'));
+    bar.appendChild(el('span','', 'Weekly, 2014-12-31 &rarr; 2026-06-17'));
+    wrap.appendChild(bar);
+
+    var body = el('div','sim-body');
+
+    var amountRow = el('div','sim-amount-row');
+    amountRow.appendChild(el('label','','Invest'));
+    var amtWrap = el('div','sim-amount-wrap');
+    amtWrap.appendChild(el('span','','₹'));
+    var amtInput = document.createElement('input');
+    amtInput.type='number'; amtInput.value='1000000'; amtInput.step='50000'; amtInput.min='0';
+    amtWrap.appendChild(amtInput);
+    amountRow.appendChild(amtWrap);
+    amountRow.appendChild(el('label','','on a chosen date, across three portfolios'));
+    body.appendChild(amountRow);
+
+    var rangeLabel = el('div','sim-range-label');
+    rangeLabel.innerHTML = '<span>From <b id="simStartLbl">—</b></span><span>To <b id="simEndLbl">—</b></span>';
+    body.appendChild(rangeLabel);
+
+    var rangeWrap = el('div','range-wrap');
+    rangeWrap.appendChild(el('div','range-track-bg'));
+    var fillBar = el('div','range-track-fill');
+    rangeWrap.appendChild(fillBar);
+    var startInput = document.createElement('input');
+    startInput.type='range'; startInput.min='0'; startInput.value='0';
+    var endInput = document.createElement('input');
+    endInput.type='range'; endInput.min='0'; endInput.value='0';
+    rangeWrap.appendChild(startInput);
+    rangeWrap.appendChild(endInput);
+    body.appendChild(rangeWrap);
+
+    var results = el('div','sim-results');
+    var cardClient = el('div','sim-card');
+    var cardModel = el('div','sim-card hero');
+    var cardBse = el('div','sim-card');
+    [['client','Client Portfolio',cardClient],['model','Fincart Optima',cardModel],['bse','BSE 500',cardBse]].forEach(function(t){
+      t[2].appendChild(el('div','sim-card-label', t[1]));
+      t[2].appendChild(el('div','sim-card-value tnum','—'));
+      t[2].appendChild(el('div','sim-card-sub tnum','—'));
+    });
+    results.appendChild(cardClient); results.appendChild(cardModel); results.appendChild(cardBse);
+    body.appendChild(results);
+
+    var chartWrap = el('div','sim-chart-wrap');
+    var chartSvg = document.createElementNS('http://www.w3.org/2000/svg','svg');
+    chartSvg.setAttribute('viewBox','0 0 900 120');
+    chartSvg.setAttribute('preserveAspectRatio','none');
+    chartWrap.appendChild(chartSvg);
+    body.appendChild(chartWrap);
+
+    body.appendChild(el('div','sim-note','Client Portfolio and Fincart Optima series are drawn from a live, anonymized client NAV history; BSE 500 is the public index. Past performance does not guarantee future results.'));
+
+    wrap.appendChild(body);
+    col.appendChild(wrap);
+    col.appendChild(el('div','exhibit-caption','Drag either handle — every card and the chart below recompute instantly against real weekly NAV data.'));
+
+    var DATA = null;
+
+    function fmtDate(d){
+      var months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+      var parts = d.split('-');
+      return parts[2]+' '+months[parseInt(parts[1],10)-1]+' '+parts[0];
+    }
+
+    function render(){
+      if(!DATA) return;
+      var n = DATA.dates.length;
+      var s = Math.min(parseInt(startInput.value,10), parseInt(endInput.value,10));
+      var e = Math.max(parseInt(startInput.value,10), parseInt(endInput.value,10));
+      if(e===s) e = Math.min(n-1, s+1);
+      document.getElementById('simStartLbl').textContent = fmtDate(DATA.dates[s]);
+      document.getElementById('simEndLbl').textContent = fmtDate(DATA.dates[e]);
+
+      var pct0 = (s/(n-1))*100, pct1=(e/(n-1))*100;
+      fillBar.style.left = pct0+'%'; fillBar.style.width = (pct1-pct0)+'%';
+
+      var amount = parseFloat(amtInput.value)||0;
+
+      [['client',cardClient],['model',cardModel],['bse',cardBse]].forEach(function(t){
+        var series = DATA[t[0]];
+        var v0 = series[s], v1 = series[e];
+        var ratio = v1/v0;
+        var endAmount = amount*ratio;
+        var years = (new Date(DATA.dates[e]) - new Date(DATA.dates[s])) / (365.25*86400000);
+        var cagr = years>0.08 ? (Math.pow(ratio, 1/years)-1) : (ratio-1);
+        var valEl = t[1].querySelector('.sim-card-value');
+        var subEl = t[1].querySelector('.sim-card-sub');
+        valEl.textContent = fmtINR(endAmount);
+        var gain = endAmount-amount;
+        subEl.textContent = (gain>=0?'+':'-') + fmtINR(Math.abs(gain)).replace('₹','₹') + '  ·  CAGR ' + fmtPct(cagr,1);
+        subEl.className = 'sim-card-sub tnum ' + (gain>=0?'pos':'neg');
+      });
+
+      // chart: three normalized lines over [s,e]
+      var W=900,H=120,padL=0,padR=0,padT=8,padB=8;
+      var seriesKeys=['client','model','bse'];
+      var colors={client:'#8d8f87',model:'#96650f',bse:'#2c53c4'};
+      var norm = {};
+      var allVals = [];
+      seriesKeys.forEach(function(k){
+        var arr = DATA[k].slice(s,e+1);
+        var base = arr[0];
+        norm[k] = arr.map(function(v){ return v/base; });
+        allVals = allVals.concat(norm[k]);
+      });
+      var min = Math.min.apply(null, allVals), max = Math.max.apply(null, allVals);
+      if(min===max){min-=0.01;max+=0.01;}
+      var count = norm.client.length;
+      var stepX = count>1 ? (W-padL-padR)/(count-1) : 0;
+      var svgParts = [];
+      seriesKeys.forEach(function(k){
+        var coords = norm[k].map(function(v,i){
+          var x = padL + i*stepX;
+          var y = H-padB - ((v-min)/(max-min))*(H-padT-padB);
+          return x.toFixed(1)+','+y.toFixed(1);
+        });
+        var path = 'M'+coords.join(' L');
+        var w = k==='model' ? 3 : 1.75;
+        svgParts.push('<path d="'+path+'" fill="none" stroke="'+colors[k]+'" stroke-width="'+w+'" stroke-linejoin="round" stroke-linecap="round"></path>');
+      });
+      chartSvg.innerHTML = svgParts.join('');
+    }
+
+    fetch(PERF_DATA_URL).then(function(r){ return r.json(); }).then(function(json){
+      DATA = json;
+      var n = DATA.dates.length-1;
+      startInput.max = n; endInput.max = n;
+      startInput.value = 0; endInput.value = n;
+      render();
+    }).catch(function(){
+      wrap.querySelector('.sim-body').insertAdjacentHTML('afterbegin','<div class="cta-note warn">Performance data failed to load.</div>');
+    });
+
+    startInput.addEventListener('input', render);
+    endInput.addEventListener('input', render);
+    amtInput.addEventListener('input', render);
+
+    return col;
+  }
+
+  /* ==================== generic page builder ==================== */
+
   function buildPage(slide, idx){
     var page = el('section','page'+(idx%2===1?' flip':''));
     page.id = 'p'+slide.n;
@@ -805,6 +1246,43 @@
     inner.appendChild(el('h2','headline', slide.headline));
     inner.appendChild(el('p','lede', slide.lede));
 
+    if(slide.kind === 'macro'){
+      var soloWrap = el('div',''); soloWrap.style.marginTop='36px';
+      soloWrap.appendChild(buildMacro());
+      inner.appendChild(soloWrap);
+      page.appendChild(inner);
+      return page;
+    }
+
+    if(slide.kind === 'fund-sim'){
+      var body0 = el('div','page-body');
+      body0.style.gridTemplateColumns = '1fr';
+      body0.appendChild(buildFundSim(slide));
+      inner.appendChild(body0);
+      page.appendChild(inner);
+      return page;
+    }
+
+    if(slide.kind === 'invest-sim'){
+      var body1 = el('div','page-body');
+      body1.style.gridTemplateColumns = '1fr';
+      body1.appendChild(buildInvestSim());
+      inner.appendChild(body1);
+      page.appendChild(inner);
+      return page;
+    }
+
+    if(slide.kind === 'simple'){
+      var exColS = el('div','exhibit-col');
+      exColS.style.maxWidth = '420px';
+      exColS.style.margin = '40px auto 0';
+      exColS.appendChild(exhibitFrame(slide.exhibit));
+      inner.appendChild(exColS);
+      page.appendChild(inner);
+      return page;
+    }
+
+    // standard
     var body = el('div','page-body');
     var narrative = el('div','narrative');
     slide.beats.forEach(function(b){
@@ -817,26 +1295,26 @@
     if(slide.demo) narrative.appendChild(ctaRow(slide.demo));
     body.appendChild(narrative);
 
-    var exCol = el('div','exhibit-col');
+    var exCol2 = el('div','exhibit-col');
     if(slide.exhibits){
       var group = el('div','exhibit-group'+(slide.exhibits.length>1?' pair':''));
       slide.exhibits.forEach(function(ex){ group.appendChild(exhibitFrame(ex)); });
-      exCol.appendChild(group);
+      exCol2.appendChild(group);
     } else if(slide.diagram){
-      exCol.appendChild(diagramExhibit(slide.diagram));
+      exCol2.appendChild(diagramExhibit(slide.diagram));
     } else if(slide.metric){
-      exCol.appendChild(metricExhibit(slide.metric));
+      exCol2.appendChild(metricExhibit(slide.metric));
     } else if(slide.liveread){
-      exCol.appendChild(liveReadExhibit(slide.stats));
+      exCol2.appendChild(liveReadExhibit(slide.stats));
     }
-    body.appendChild(exCol);
+    body.appendChild(exCol2);
 
     inner.appendChild(body);
     page.appendChild(inner);
     return page;
   }
 
-  function buildCover(totalTools){
+  function buildCover(){
     var page = el('section','page cover');
     page.id = 'p0';
     page.setAttribute('data-idx', 0);
@@ -860,16 +1338,6 @@
       {v:'6', l:'live dashboards in production', tone:'gain'},
       {v:'22,523', l:'transactions auto-flagged, one run', tone:'gold'}
     ]));
-
-    var exWrap = el('div','cover-exhibit');
-    exWrap.appendChild(el('div','cover-exhibit-label','Exhibit A &middot; the headline result'));
-    exWrap.appendChild(exhibitFrame({
-      img:'img/pms-performance-chart.png', kind:'live', label:'Indexed performance',
-      domain:'fincartoptima.github.io/portfolio-dashboard',
-      alt:'Indexed performance chart showing Fincart Optima reaching 569.7 versus BSE 500 at 346.5 and a hybrid 60/40 benchmark at 309.4, all indexed to 100',
-      caption:'Fincart Optima vs. BSE 500 vs. a 60/40 hybrid benchmark — indexed to 100 in 2015. Slide 06 walks through how.'
-    }));
-    inner.appendChild(exWrap);
 
     inner.appendChild(el('div','scrollcue','<span>Sixteen entries follow — scroll, or use &#8593; &#8595;</span><span class="arrow">&#8595;</span>'));
 
@@ -900,7 +1368,7 @@
     return page;
   }
 
-  /* ---------------- assemble ---------------- */
+  /* ==================== assemble ==================== */
 
   var deck = document.getElementById('deck');
   var pages = [];
@@ -961,16 +1429,22 @@
   var progFill = document.getElementById('progFill');
   var fnCount = document.getElementById('fnCount');
   var activeIdx = 0;
+  var settingActive = false;
 
   function setActive(idx){
+    if(settingActive || idx === activeIdx) return;
+    settingActive = true;
     activeIdx = idx;
     navLinks.forEach(function(li,i){ li.classList.toggle('active', i===idx); });
     var active = navLinks[idx];
-    if(active) active.scrollIntoView({block:'nearest'});
+    if(active && typeof active.scrollIntoView === 'function'){
+      active.scrollIntoView({block:'nearest'});
+    }
     progLabel.textContent = String(idx).padStart(2,'0')+' / '+String(pages.length-1).padStart(2,'0');
     progName.textContent = pages[idx].getAttribute('data-name');
     progFill.style.width = (idx/(pages.length-1)*100)+'%';
     fnCount.textContent = String(idx).padStart(2,'0');
+    settingActive = false;
   }
 
   function goTo(idx){
