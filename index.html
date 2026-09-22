@@ -159,13 +159,15 @@
   .page.flip .exhibit-col{order:1;}
 
   /* ---------- narrative ---------- */
-  .beat{margin-bottom:22px;}
-  .beat:last-of-type{margin-bottom:0;}
+  .beats{border-top:1px solid var(--line);}
+  .beat{display:flex;gap:12px;align-items:baseline;padding:13px 0;border-bottom:1px solid var(--line);}
+  .beat-mark{flex:none;width:5px;height:5px;border-radius:50%;background:var(--gold);position:relative;top:-1px;}
   .beat-label{
-    font-family:var(--font-mono);font-size:10.5px;letter-spacing:.1em;
-    color:var(--gold);text-transform:uppercase;margin-bottom:6px;font-weight:600;
+    flex:none;width:88px;
+    font-family:var(--font-mono);font-size:10px;letter-spacing:.06em;
+    color:var(--text-faint);text-transform:uppercase;font-weight:600;
   }
-  .beat p{font-size:15px;line-height:1.65;color:var(--text-dim);max-width:50ch;}
+  .beat p{flex:1;font-size:14.5px;line-height:1.5;color:var(--text-dim);max-width:44ch;}
   .beat b{color:var(--text);font-weight:600;}
 
   .stat-ticker{
@@ -229,29 +231,6 @@
   .exhibit-shot{background:#000;}
   .exhibit-shot img{width:100%;cursor:zoom-in;}
   .exhibit-caption{margin-top:9px;font-size:12.5px;color:var(--text-faint);line-height:1.5;padding:0 2px;}
-
-  /* ---------- cover ---------- */
-  .cover{padding-top:64px;}
-  .cover-eyebrow{font-family:var(--font-mono);font-size:12px;letter-spacing:.16em;color:var(--gold);text-transform:uppercase;font-weight:600;}
-  .cover h1{
-    margin-top:18px;font-size:clamp(44px,7vw,84px);line-height:1;color:var(--text);
-  }
-  .cover h1 em{font-style:normal;color:var(--gold);}
-  .cover-lede{margin-top:22px;font-size:18px;line-height:1.6;color:var(--text-dim);max-width:58ch;}
-
-  .cover-cols{
-    margin-top:46px;display:grid;grid-template-columns:repeat(3,1fr);gap:0;
-    border-top:1px solid var(--line);
-  }
-  .cover-col{padding:20px 26px 0 0;border-right:1px solid var(--line);}
-  .cover-col:last-child{border-right:none;padding-right:0;}
-  .cover-col:not(:first-child){padding-left:26px;}
-  .cover-col-label{font-family:var(--font-mono);font-size:10.5px;letter-spacing:.1em;color:var(--gold);text-transform:uppercase;margin-bottom:10px;font-weight:600;}
-  .cover-col p{font-size:13.5px;line-height:1.6;color:var(--text-dim);}
-
-  .scrollcue{margin-top:40px;display:flex;align-items:center;gap:10px;font-family:var(--font-mono);font-size:11.5px;color:var(--text-faint);}
-  .scrollcue .arrow{animation:bob 1.8s ease-in-out infinite;}
-  @keyframes bob{0%,100%{transform:translateY(0);}50%{transform:translateY(4px);}}
 
   /* ---------- closing ---------- */
   .closing h2{font-size:clamp(32px,4.2vw,52px);color:var(--text);max-width:18ch;}
@@ -337,9 +316,12 @@
   .macro-card svg{width:100%;height:44px;margin-top:8px;display:block;}
   .macro-card-note{margin-top:8px;font-size:11.5px;line-height:1.5;color:var(--text-faint);}
   .macro-conclusion{margin-top:22px;padding-top:20px;border-top:1px solid var(--line);}
-  .macro-conclusion p{font-size:14.5px;line-height:1.7;color:var(--text-dim);}
-  .macro-conclusion p+p{margin-top:10px;}
   .macro-conclusion b{color:var(--text);font-weight:600;}
+  .signal-list{list-style:none;margin:10px 0 0;padding:0;}
+  .signal-list li{position:relative;padding:6px 0 6px 16px;font-size:13.5px;line-height:1.45;color:var(--text-dim);border-bottom:1px solid var(--line);}
+  .signal-list li:last-child{border-bottom:none;}
+  .signal-list li::before{content:"";position:absolute;left:0;top:13px;width:5px;height:5px;border-radius:50%;background:var(--gold);}
+  .signal-summary{margin-top:14px;font-size:13.5px;line-height:1.6;color:var(--text-faint);font-style:normal;}
 
   /* investment simulator */
   .sim{border:1px solid var(--line);border-radius:12px;background:var(--surface);box-shadow:0 1px 2px rgba(30,26,10,.04), 0 16px 40px -28px rgba(30,26,10,.25);overflow:hidden;}
@@ -508,7 +490,7 @@
     </div>
     <div class="ledger-scroll" id="ledgerScroll"></div>
     <div class="ledger-foot">
-      <div class="ledger-progress-label"><span id="progLabel">00 / 18</span><span id="progName">Cover</span></div>
+      <div class="ledger-progress-label"><span id="progLabel">00 / 16</span><span id="progName">Entry 02</span></div>
       <div class="ledger-progress-track"><div class="ledger-progress-fill" id="progFill"></div></div>
     </div>
   </aside>
@@ -570,9 +552,9 @@
       headline:'90% of return comes from one decision — before a single fund is picked.',
       lede:'Five broad categories. 39 sub-categories. 4,000+ funds. At that scale, allocation does almost all the work.',
       beats:[
-        {label:'The problem', text:'Returns are overwhelmingly driven by <b>asset allocation</b>, not fund selection — yet most process still starts with picking funds first.'},
-        {label:'What I built', text:'A <b>Black-Litterman</b> model blends market equilibrium with Amit sir\'s market-regime indicators, regressed across multiple time horizons to find stable sector weights on the efficient frontier. A full report now generates on one click.'},
-        {label:'Why it matters', text:'Backtested 2015–2026: positive alpha in <b>11 of 12 years</b> — through both the 2020 crash and the 2022 drawdown.'}
+        {label:'Problem', text:'Allocation drives <b>90%</b> of return — most process still starts with fund picks.'},
+        {label:'Built', text:'<b>Black-Litterman</b> + Amit sir\'s regime signals → stable weights, one-click report.'},
+        {label:'Impact', text:'Positive alpha in <b>11 of 12 years</b>, 2015–2026 — crash and drawdown included.'}
       ],
       stats:[
         {v:'11 / 12', l:'years of positive alpha', tone:'gain'},
@@ -583,17 +565,17 @@
     },
     { n:3, group:'engine', tag:'Machine Learning', kind:'fund-sim',
       headline:'4,000+ funds. A model built to find next year\'s winners, not last year\'s.',
-      lede:'Top funds of one year are rarely the top funds of the next — so ranking on trailing returns alone was quietly failing. Pick a year below and run the ML engine on it.',
-      note:'Applied here to the small-cap universe. The engine keeps a fund only if it ranks near the top across overlapping 1-, 2- and 3-year windows — the "intersection" group shown against each pick.'
+      lede:'Top funds of one year rarely repeat. Pick a year, run the ML engine on it.',
+      note:'Small-cap universe. Kept only if it ranks near the top across overlapping 1-, 2- and 3-year windows.'
     },
     {
       n:4, group:'engine', tag:'Automated Signals', kind:'standard',
       headline:'When a trade signal fires, every shareholder finds out the same day.',
       lede:'Not just that a trade happened — exactly what triggered it, when, and how much.',
       beats:[
-        {label:'The problem', text:'Shareholders need an explainable trigger for every trade — not a vague, after-the-fact summary.'},
-        {label:'What I built', text:'A custom <b>RSI + Dual-EMA + Volume</b> strategy, written in Pinescript on TradingView, fires on trigger and auto-generates a formatted PDF — sector, stock, quantity, trigger type — sent straight to shareholders.'},
-        {label:'Why it matters', text:'Backed by concall-transcript summaries, block-deal tracking, FII/DII holding shifts and news — so every alert comes with the context to act on it.'}
+        {label:'Problem', text:'Every trade needs an explainable trigger — not a vague summary after the fact.'},
+        {label:'Built', text:'<b>RSI + Dual-EMA + Volume</b> strategy in Pinescript → auto-PDF straight to shareholders.'},
+        {label:'Impact', text:'Backed by concall summaries, block-deal tracking, FII/DII shifts and news.'}
       ],
       stats:[
         {v:'Same-day', l:'automated trigger alerts', tone:'gold'},
@@ -612,7 +594,7 @@
     {
       n:7, group:'trust', tag:'Marketing Collateral', kind:'simple',
       headline:'One page, zero fund names — full conviction anyway.',
-      lede:'A one-page PDF shows the strategy and its track record — holding-mix trend, trailing returns vs BSE 500 — without disclosing fund names or NAVs. It\'s the RM\'s opening line with a prospect: proof of process, without the proprietary playbook.',
+      lede:'Holding-mix trend, trailing returns vs BSE 500 — no fund names, no NAVs. The RM\'s opening line with a prospect.',
       exhibit:{img:'img/one-pager.png', kind:'static', label:'One-pager PDF · prospect-safe', alt:'One-page PDF showing portfolio holding trend and a performance snapshot table comparing Fincart Optima to BSE 500', caption:'Holding-mix trend and trailing 1Y–5Y performance — no fund names, no NAVs.'}
     },
     {
@@ -620,9 +602,9 @@
       headline:'From cold lead to converted client — the whole funnel, live.',
       lede:'Marketing spend and lead quality were hard to trace all the way to revenue.',
       beats:[
-        {label:'The problem', text:'Leads, plans, and revenue-generating clients lived in disconnected views — no single funnel to see where leads actually went.'},
-        {label:'What I built', text:'A cumulative dashboard tracking lead volume, MTD performance comparable across months, and a full funnel: leads → financial plans → clients above ₹15K revenue vs. purely transactional ones.'},
-        {label:'Why it matters', text:'13,613 YTD leads tracked end-to-end to a <b>9.51%</b> qualified-lead conversion rate — visible to marketing and RMs alike, down to team and campaign.'}
+        {label:'Problem', text:'Leads, plans, revenue — three disconnected views, no single funnel.'},
+        {label:'Built', text:'One dashboard: leads → financial plans → ₹15K+ revenue clients, by team and campaign.'},
+        {label:'Impact', text:'13,613 YTD leads → <b>9.51%</b> qualified-lead conversion, visible to everyone.'}
       ],
       stats:[
         {v:'13,613', l:'YTD leads tracked', tone:'gold'},
@@ -636,9 +618,9 @@
       headline:'Every revenue stream, every RM, one live ledger.',
       lede:'Leadership needed a single source of truth for revenue — updated continuously, not at month-end.',
       beats:[
-        {label:'The problem', text:'Revenue by stream and by RM was reconstructed by hand each month — slow, and always slightly out of date.'},
-        {label:'What I built', text:'A cumulative revenue dashboard breaking down YTD and monthly performance by stream and category, down to individual RM contribution.'},
-        {label:'Why it matters', text:'Sales leads can see exactly who\'s driving revenue and where, in real time — not in a month-end scramble.'}
+        {label:'Problem', text:'Revenue by stream and RM was rebuilt by hand every month.'},
+        {label:'Built', text:'One dashboard: YTD + monthly, by stream, category and RM.'},
+        {label:'Impact', text:'Real-time visibility — no more month-end scramble.'}
       ],
       stats:[
         {v:'65.2%', l:'of monthly AUM target reached, live run', tone:'gain'},
@@ -652,9 +634,9 @@
       headline:'Every Optima client, one screen — built for the fund manager\'s eyes only.',
       lede:'With every portfolio individually allocated, it\'s easy for one to quietly drift from the rest.',
       beats:[
-        {label:'The problem', text:'A fund-level decision made for the book needs to reach every client\'s portfolio — with nobody silently left out.'},
-        {label:'What I built', text:'A cumulative, client-by-client console showing fund-wise performance and category allocation across the entire Optima book, so allocation can be rotated and kept consistent.'},
-        {label:'Why it matters', text:'Restricted to the fund manager by design — this is the control room, not a client-facing view.'}
+        {label:'Problem', text:'One fund-level call must reach every client — nobody silently left out.'},
+        {label:'Built', text:'Client-by-client console: fund performance + category allocation, book-wide.'},
+        {label:'Impact', text:'Fund-manager only by design — the control room, not a client view.'}
       ],
       stats:[
         {v:'360°', l:'collective + per-client view', tone:'neutral'},
@@ -673,9 +655,9 @@
       headline:'Most self-directed investors are quietly trailing the index. Now they can see it.',
       lede:'Clients trading on their own usually assumed they were doing fine.',
       beats:[
-        {label:'The problem', text:'Most clients investing on their own were actually earning less than the benchmark — with no way to see it clearly.'},
-        {label:'What I built', text:'The tool ingests a client\'s real tradebook — every transaction, every stock, every split and merger — rebuilds a true NAV series for their self-managed portfolio, and lines it up against Fincart Optima.'},
-        {label:'Why it matters', text:'A client either sees the gap and converts to Optima, or at minimum gets an honest read on their own performance for the first time. Still evolving — some steps are manual today.'}
+        {label:'Problem', text:'Most DIY investors quietly trail the benchmark — with no way to see it.'},
+        {label:'Built', text:'Real tradebook → true NAV series → lined up against Fincart Optima.'},
+        {label:'Impact', text:'They convert, or at least see the truth. Still evolving — some steps manual.'}
       ],
       stats:[
         {v:'1.18', l:'Optima Sharpe ratio vs 0.44 client, sample run', tone:'gain'},
@@ -688,9 +670,9 @@
       headline:'22,500+ transactions checked automatically — and it tells you why the money\'s missing.',
       lede:'Brokerage doesn\'t always land even when the revenue is booked on the books.',
       beats:[
-        {label:'The problem', text:'Finding out why brokerage didn\'t get paid meant manually cross-checking transaction lists against what AMCs actually remitted.'},
-        {label:'What I built', text:'The tool matches every company transaction against brokerage received and surfaces exactly which ones are still pending verification, via a custom Google Sheets menu that drafts — never auto-sends — emails to the RM and the AMC. Sending stays a deliberate human step: an email can\'t be unsent.'},
-        {label:'Why it matters', text:'22,523 transactions flagged for verification in the latest run, with every stakeholder notified and able to see exactly where brokerage is pending.'}
+        {label:'Problem', text:'Brokerage often goes missing even when revenue\'s booked — checked by hand.'},
+        {label:'Built', text:'Auto-matches transactions, drafts RM/AMC emails — never auto-sends.'},
+        {label:'Impact', text:'<b>22,523</b> transactions flagged for verification in the latest run.'}
       ],
       stats:[
         {v:'22,523', l:'transactions flagged for verification', tone:'gold'},
@@ -706,9 +688,9 @@
       headline:'What used to take hours now takes seconds.',
       lede:'Health and non-health policy data only ever arrived as PDFs.',
       beats:[
-        {label:'The problem', text:'Amit Singh sir was manually downloading each PDF, copying fields into Excel by hand, then re-uploading to Workpoint — slow, and one typo away from an error.'},
-        {label:'What I built', text:'An app that takes the PDFs and CSVs directly as input and produces Workpoint-ready output — no manual transcription in between.'},
-        {label:'Why it matters', text:'A task that used to eat hours of a senior team member\'s time now runs in seconds.'}
+        {label:'Problem', text:'PDFs, copied by hand into Excel, re-uploaded to Workpoint — one policy at a time.'},
+        {label:'Built', text:'App reads PDFs + CSVs directly → Workpoint-ready output.'},
+        {label:'Impact', text:'Hours of a senior team member\'s time → seconds.'}
       ],
       stats:[
         {v:'Hours', l:'→ Seconds, per update cycle', tone:'gain'}
@@ -720,9 +702,9 @@
       headline:'Taking four tools off spreadsheets and into one secure product.',
       lede:'Black-Litterman, fund selection, portfolio tracking and the PMS comparison tool all lived on Google Sheets or local machines.',
       beats:[
-        {label:'The goal', text:'Working directly with the tech team to integrate all four into the <b>DIY app</b>, backed by a proper secure database instead of spreadsheets and local files.'},
-        {label:'Where it stands', text:'Fund Selection is furthest along — nearly finalized, being made dynamic, with its hit-rate still improving.'},
-        {label:'Why it matters', text:'This is what puts every model in this deck inside the product itself, not beside it.'}
+        {label:'Goal', text:'All four into the <b>DIY app</b>, on a proper secure database.'},
+        {label:'Status', text:'Fund Selection is furthest along — nearly finalized, hit-rate still improving.'},
+        {label:'Impact', text:'Puts every model in this deck inside the product, not beside it.'}
       ],
       stats:[
         {v:'4', l:'systems moving into the DIY app', tone:'gold'},
@@ -739,9 +721,9 @@
       headline:'A 30–60 minute manual grind, on a path to three.',
       lede:'Building the revenue MIS file meant pasting data by hand and dragging formulas down, every day.',
       beats:[
-        {label:'The problem', text:'The daily revenue MIS file was built through manual copy-paste and formula drag-downs — 30 to 60 minutes lost to it each day.'},
-        {label:'What I built', text:'An app that takes a straight Workpoint export and generates the revenue MIS file directly.'},
-        {label:'What\'s still open', text:'MF trail brokerage isn\'t counted yet, revenue rates need final verification, and the file size is still large — flagged rather than hidden.'}
+        {label:'Problem', text:'Copy-paste and formula drag-downs, 30–60 minutes lost daily.'},
+        {label:'Built', text:'Workpoint export in → revenue MIS file out, directly.'},
+        {label:'Open items', text:'MF trail brokerage, rate verification, file size — flagged, not hidden.'}
       ],
       stats:[
         {v:'30–60 min', l:'today, manual', tone:'neutral'},
@@ -754,9 +736,9 @@
       headline:'How many plans, from whom, converting how often.',
       lede:'The L&D team had no live view of how many financial plans were actually being produced.',
       beats:[
-        {label:'The problem', text:'Plan volume, category mix and conversion existed only as scattered, manually-assembled snapshots.'},
-        {label:'What I built', text:'A dashboard tracking plan volume by client category, conversion rate, and monthly plan velocity for the L&D team — filterable by month, tier, tenure, team and advisor.'},
-        {label:'What\'s next', text:'Comparing every plan the team creates directly against the model portfolio.'}
+        {label:'Problem', text:'Plan volume and conversion existed only as scattered, manual snapshots.'},
+        {label:'Built', text:'Plans by category, conversion, velocity — filterable by month, tier, team, advisor.'},
+        {label:'Next', text:'Compare every plan directly against the model portfolio.'}
       ],
       stats:[
         {v:'1,703', l:'clients in view, snapshot reading', tone:'gold'},
@@ -771,9 +753,9 @@
       headline:'Rate chart × commission received × policy file → one clean, flagged report.',
       lede:'Reconciling commission received against what was actually owed was a slow, manual cross-check.',
       beats:[
-        {label:'The problem', text:'The accounts team had to manually verify every policy against its rate chart and the commission actually received.'},
-        {label:'What I built', text:'Upload the rate chart, the commission-received file, and the Workpoint insurance file — the tool checks every policy match and rate application automatically.'},
-        {label:'Why it matters', text:'Every mismatch is flagged automatically, cutting reconciliation time for accounts and raising the integrity of the output.'}
+        {label:'Problem', text:'Every policy checked by hand against its rate chart and commission received.'},
+        {label:'Built', text:'Upload 3 files → every policy and rate matched automatically.'},
+        {label:'Impact', text:'Mismatches auto-flagged — faster reconciliation, higher integrity.'}
       ],
       stats:[
         {v:'Auto-flagged', l:'every rate / policy mismatch', tone:'gain'}
@@ -1243,9 +1225,14 @@
     var conclusion = el('div','macro-conclusion');
     conclusion.innerHTML =
       '<div class="beat-label">Reading the signals</div>' +
-      '<p>Put together, these point the same way. <b>Credit is expanding</b> (bank credit growth nearly doubled to 19.1% YoY) while <b>growth is accelerating</b> (GDP up to 7.8%, holding for seven straight months) — banks and the real economy are moving in sync, not diverging.</p>' +
-      '<p><b>Inflation is under control</b> at 4.45%, well off its brief dip toward zero, giving the RBI room to hold rates after 125bps of cuts rather than reverse course. And critically, <b>none of this looks priced in</b>: NIFTY\'s P/E actually compressed from 23.3x to 20.4x over the same stretch, and <b>domestic flows absorbed foreign selling</b> outright — DII bought ₹1.43L Cr in March 2026, the same month FII sold ₹1.23L Cr.</p>' +
-      '<p>That\'s the talking point this dashboard gives an RM in one sentence: growth and credit are both accelerating, inflation is contained, valuations haven\'t caught up yet, and the market no longer needs foreign money to hold its ground.</p>';
+      '<ul class="signal-list">' +
+        '<li><b>Credit expanding</b> — bank credit growth nearly doubled to 19.1% YoY.</li>' +
+        '<li><b>Growth accelerating</b> — GDP up to 7.8%, holding seven straight months.</li>' +
+        '<li><b>Inflation contained</b> at 4.45%, room for RBI to hold after 125bps of cuts.</li>' +
+        '<li><b>Not priced in</b> — NIFTY P/E compressed 23.3x → 20.4x over the same stretch.</li>' +
+        '<li><b>Domestic flows absorbed foreign selling</b> — DII bought ₹1.43L Cr in Mar-26, the month FII sold ₹1.23L Cr.</li>' +
+      '</ul>' +
+      '<p class="signal-summary">The one-line RM talking point: growth and credit up, inflation contained, valuations not stretched, and the market no longer needs foreign money.</p>';
     body.appendChild(conclusion);
 
     frame.appendChild(body);
@@ -1936,12 +1923,15 @@
     // standard
     var body = el('div','page-body');
     var narrative = el('div','narrative');
+    var beatsWrap = el('div','beats');
     slide.beats.forEach(function(b){
       var beat = el('div','beat');
+      beat.appendChild(el('span','beat-mark'));
       beat.appendChild(el('div','beat-label', b.label));
       beat.appendChild(el('p','', b.text));
-      narrative.appendChild(beat);
+      beatsWrap.appendChild(beat);
     });
+    narrative.appendChild(beatsWrap);
     if(!slide.liveread && !slide.metric) narrative.appendChild(statTicker(slide.stats));
     if(slide.demo || slide.attachment) narrative.appendChild(ctaRow(slide.demo, slide.attachment));
     body.appendChild(narrative);
@@ -1980,46 +1970,15 @@
     return page;
   }
 
-  function buildCover(){
-    var page = el('section','page cover');
-    page.id = 'p0';
-    page.setAttribute('data-idx', 0);
-    page.setAttribute('data-name','Cover');
-    var inner = el('div','page-inner');
-
-    inner.appendChild(el('div','cover-eyebrow','Performance appraisal &middot; Build log'));
-    inner.innerHTML += '<h1>Fincart <em>Optima</em></h1>';
-    inner.appendChild(el('p','cover-lede','A year of turning a 4,000-fund universe into an automated, data-driven portfolio system — sixteen tools, walked through end to end.'));
-
-    var cols = el('div','cover-cols');
-    var c1 = el('div','cover-col'); c1.appendChild(el('div','cover-col-label','The problem')); c1.appendChild(el('p','','5 categories, 39 sub-categories, 4,000+ funds — no manual process could personalize a portfolio at that scale, and clerical work was eating the time that should have gone to clients.'));
-    var c2 = el('div','cover-col'); c2.appendChild(el('div','cover-col-label','The approach')); c2.appendChild(el('p','','Automate fund shortlisting and asset allocation end to end, then hand RMs a transparent, data-backed story to tell — and strip out the manual work that added no value.'));
-    var c3 = el('div','cover-col'); c3.appendChild(el('div','cover-col-label','The outcome')); c3.appendChild(el('p','','Sixteen systems shipped — quant models, live dashboards and operations automation — turning hours of manual work into one-click processes.'));
-    cols.appendChild(c1); cols.appendChild(c2); cols.appendChild(c3);
-    inner.appendChild(cols);
-
-    inner.appendChild(statTicker([
-      {v:'16', l:'tools & systems shipped', tone:'gold'},
-      {v:'4,000+', l:'funds screened by the model', tone:'neutral'},
-      {v:'6', l:'live dashboards in production', tone:'gain'},
-      {v:'22,523', l:'transactions auto-flagged, one run', tone:'gold'}
-    ]));
-
-    inner.appendChild(el('div','scrollcue','<span>Sixteen entries follow — scroll, or use &#8593; &#8595;</span><span class="arrow">&#8595;</span>'));
-
-    page.appendChild(inner);
-    return page;
-  }
-
   function buildClosing(){
     var page = el('section','page closing');
     page.id = 'pclose';
-    page.setAttribute('data-idx', SLIDES.length+1);
+    page.setAttribute('data-idx', SLIDES.length);
     page.setAttribute('data-name','Closing');
     var inner = el('div','page-inner');
     inner.appendChild(el('div','eyebrow-row','<span class="eyebrow">Closing entry</span>'));
     inner.appendChild(el('h2','', 'Sixteen systems. One year. Still building.'));
-    inner.appendChild(el('p','closing-lede','From a Black-Litterman allocator to a same-day trade alert, six live dashboards and five operations tools that took hours down to minutes — the throughline is the same: turn a manual, error-prone process into something that runs on a click. Entry 14 is already the next chapter — moving these tools off spreadsheets and into the product itself.'));
+    inner.appendChild(el('p','closing-lede','Quant models, live dashboards, ops automation — every one turns a manual, error-prone process into a single click. Entry 14 is already the next chapter: off spreadsheets, into the product.'));
     inner.appendChild(statTicker([
       {v:'16', l:'tools & systems shipped', tone:'gold'},
       {v:'4,000+', l:'funds screened by the model', tone:'neutral'},
@@ -2038,26 +1997,13 @@
 
   var deck = document.getElementById('deck');
   var pages = [];
-  var coverPage = buildCover();
-  deck.appendChild(coverPage); pages.push(coverPage);
-  SLIDES.forEach(function(s,i){ var p = buildPage(s,i+1); deck.appendChild(p); pages.push(p); });
+  SLIDES.forEach(function(s,i){ var p = buildPage(s,i); deck.appendChild(p); pages.push(p); });
   var closePage = buildClosing();
   deck.appendChild(closePage); pages.push(closePage);
 
   /* ledger nav */
   var ledgerScroll = document.getElementById('ledgerScroll');
   var navLinks = [];
-
-  var coverLi = el('li','ledger-item');
-  var coverA = el('a','ledger-link');
-  coverA.appendChild(el('span','ledger-idx mono','00'));
-  coverA.appendChild(el('span','','Cover'));
-  coverA.addEventListener('click', function(){ goTo(0); });
-  coverLi.appendChild(coverA);
-  var coverList = el('ul','ledger-list');
-  coverList.appendChild(coverLi);
-  ledgerScroll.appendChild(coverList);
-  navLinks.push(coverLi);
 
   var currentGroup = null, currentList = null;
   SLIDES.forEach(function(s, i){
@@ -2071,7 +2017,7 @@
     var a = el('a','ledger-link');
     a.appendChild(el('span','ledger-idx mono', String(s.n).padStart(2,'0')));
     a.appendChild(el('span','', s.tag));
-    (function(idx){ a.addEventListener('click', function(){ goTo(idx+1); }); })(i);
+    (function(idx){ a.addEventListener('click', function(){ goTo(idx); }); })(i);
     li.appendChild(a);
     currentList.appendChild(li);
     navLinks.push(li);
@@ -2094,7 +2040,7 @@
   var progName = document.getElementById('progName');
   var progFill = document.getElementById('progFill');
   var fnCount = document.getElementById('fnCount');
-  var activeIdx = 0;
+  var activeIdx = -1;
   var settingActive = false;
 
   function setActive(idx){
