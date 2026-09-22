@@ -315,6 +315,16 @@
   .fund-ret.neg{color:var(--loss);}
   .fund-check{width:14px;flex:none;color:var(--gain);font-size:12px;}
   .console-summary{margin-top:18px;padding-top:16px;border-top:1px solid var(--line);font-size:13px;color:var(--text-dim);}
+  .universe-head{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-bottom:12px;}
+  .universe-head h4{font-family:var(--font-display);font-size:18px;font-weight:600;color:var(--text);}
+  .universe-head h4 em{font-style:normal;color:var(--gold);}
+  .universe-count{font-family:var(--font-mono);font-size:11px;color:var(--text-faint);}
+  .universe-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:8px;overflow:hidden;max-height:340px;overflow-y:auto;}
+  .universe-row{display:flex;align-items:center;gap:8px;padding:7px 10px;background:var(--paper);font-size:12px;color:var(--text-dim);}
+  .universe-q{flex:none;width:15px;height:15px;border-radius:50%;background:var(--gold-fill);color:var(--gold);font-family:var(--font-mono);font-size:9.5px;display:flex;align-items:center;justify-content:center;font-weight:600;}
+  .universe-cta{margin-top:16px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;}
+  .results-back{font-family:var(--font-mono);font-size:11.5px;color:var(--text-faint);background:none;border:none;cursor:pointer;padding:0;margin-bottom:12px;text-decoration:underline;text-underline-offset:2px;}
+  .results-back:hover{color:var(--text);}
   .console-summary b{color:var(--text);font-family:var(--font-mono);}
 
   /* macro grid */
@@ -399,6 +409,22 @@
   .miniapp-tip{position:absolute;pointer-events:none;background:var(--text);color:var(--paper);font-family:var(--font-mono);font-size:11px;padding:5px 8px;border-radius:5px;transform:translate(-50%,-115%);white-space:nowrap;opacity:0;transition:opacity .1s ease;z-index:5;}
   .miniapp-chart-wrap{position:relative;}
   .miniapp-note{margin-top:14px;font-size:11.5px;color:var(--text-faint);line-height:1.5;}
+
+  .miniapp-tabs{display:flex;gap:4px;flex-wrap:wrap;border-bottom:1px solid var(--line);margin-bottom:16px;padding-bottom:0;}
+  .miniapp-tab{font-family:var(--font-mono);font-size:11px;padding:8px 12px;border:none;background:transparent;color:var(--text-faint);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;}
+  .miniapp-tab:hover{color:var(--text-dim);}
+  .miniapp-tab.active{color:var(--text);border-bottom-color:var(--gold);font-weight:600;}
+  .miniapp-pane{display:none;}
+  .miniapp-pane.active{display:block;}
+  .miniapp-table-wrap{overflow-x:auto;}
+  table.miniapp-table{width:100%;border-collapse:collapse;font-size:11.5px;}
+  table.miniapp-table th{font-family:var(--font-mono);font-size:9.5px;letter-spacing:.04em;text-transform:uppercase;color:var(--text-faint);text-align:right;padding:6px 8px;border-bottom:1px solid var(--line-strong);white-space:nowrap;}
+  table.miniapp-table th:first-child{text-align:left;}
+  table.miniapp-table td{padding:6px 8px;text-align:right;border-bottom:1px solid var(--line);color:var(--text-dim);font-family:var(--font-mono);white-space:nowrap;}
+  table.miniapp-table td:first-child{text-align:left;color:var(--text);font-family:var(--font-body);font-weight:500;}
+  table.miniapp-table tr:last-child td{border-bottom:none;}
+  table.miniapp-table tr.total-row td{font-weight:600;color:var(--text);border-top:1.5px solid var(--line-strong);border-bottom:none;}
+  table.miniapp-table tr:hover td{background:var(--surface-sunken);}
 
   /* PDF attachment + modal */
   .pdf-modal{position:fixed;inset:0;background:rgba(20,18,12,.6);display:none;align-items:center;justify-content:center;padding:40px;z-index:65;}
@@ -525,6 +551,8 @@
 
   var PERF_DATA_URL = "data/perf_series.json";
 
+  var FUND_UNIVERSE = ["Abakkus Small Cap Fund Direct Growth","Aditya Birla Sun Life Small Cap Fund Direct Plan Growth","Axis Small Cap Fund Direct Growth","Bajaj Small Cap Fund Direct Growth","Bandhan Small Cap Fund Direct Growth","Bank of India Small Cap Fund Direct Growth","Baroda BNP Paribas Small Cap Fund Direct Growth","Canara Robeco Small Cap Fund Direct Growth","DSP Small Cap Fund Direct Plan Growth","Edelweiss Small Cap Fund Direct Growth","Franklin India Small Cap Fund Direct Growth","Groww Small Cap Fund Direct Growth","HDFC Small Cap Fund-Direct Growth Option","HSBC Small Cap Fund Fund Direct Growth","Helios Small Cap Fund Direct Growth","ICICI Prudential Smallcap Fund Direct Plan Growth","ITI Small Cap Fund Direct Growth","Invesco India Smallcap Fund Direct Growth","JM Small Cap Fund Direct Growth","Kotak Small Cap Direct Growth","LIC MF Small Cap Fund Direct Growth","Mahindra Manulife Small Cap Fund Direct Growth","Mirae Asset Small Cap Fund Direct Growth","Motilal Oswal Small Cap Fund Direct Growth","Nippon India Small Cap Fund - Direct Plan - Growth Plan","PGIM India Small Cap Fund Direct Growth","Quant Small Cap Fund Growth Option Direct Plan","Quantum Small Cap Fund Direct Growth","SBI Small Cap Fund Direct Plan Growth","Samco Small Cap Fund Direct Growth","Sundaram Small Cap Fund - Direct Plan - Growth Option","Tata Small Cap Fund Direct Growth","The Wealth Company Small Cap Fund Direct Growth","TrustMF Small Cap Fund Direct Growth","UTI Small Cap Fund Direct Growth","Union Small Cap Fund Direct Growth"];
+
   /* ==================== groups + slide content ==================== */
 
   var GROUPS = {
@@ -594,11 +622,11 @@
       beats:[
         {label:'The problem', text:'Leads, plans, and revenue-generating clients lived in disconnected views — no single funnel to see where leads actually went.'},
         {label:'What I built', text:'A cumulative dashboard tracking lead volume, MTD performance comparable across months, and a full funnel: leads → financial plans → clients above ₹15K revenue vs. purely transactional ones.'},
-        {label:'Why it matters', text:'6,409 YTD leads tracked end-to-end to a <b>9.69%</b> qualified-lead conversion rate — visible to marketing and RMs alike.'}
+        {label:'Why it matters', text:'13,613 YTD leads tracked end-to-end to a <b>9.51%</b> qualified-lead conversion rate — visible to marketing and RMs alike, down to team and campaign.'}
       ],
       stats:[
-        {v:'6,409', l:'YTD leads tracked', tone:'gold'},
-        {v:'9.69%', l:'qualified-lead conversion rate', tone:'gain'}
+        {v:'13,613', l:'YTD leads tracked', tone:'gold'},
+        {v:'9.51%', l:'qualified-lead conversion rate', tone:'gain'}
       ],
       miniapp:'marketing',
       demo:{url:'https://fincartoptima.github.io/MarketingMISDashboard/', label:'Open full live dashboard', note:'The console on the right is a static snapshot, running for real — the live version tracks 10 more tabs.'}
@@ -637,7 +665,8 @@
         {img:'img/birds-eye-holdings.png', kind:'restricted', label:'Top holdings', domain:'optima-birds-eye-view.onrender.com', alt:'Table of a client\'s top 5 fund holdings with category, current value, allocation percentage and profit or loss', caption:'Top five holdings — value, weight, and unrealised P/L at a glance.'}
       ],
       demo:{url:'https://optima-birds-eye-view.onrender.com', label:'Open live console', note:'🔒 Sign-in required — restricted to authorised users', warn:true, secondaryUrl:'https://github.com/FincartOptima/Optima-Birds-Eye-View', secondaryLabel:'View source on GitHub'},
-      attachment:{url:'assets/overall-portfolio-factsheet-aug-2026.pdf', label:'View factsheet PDF', note:'The one-click PDF the console generates from its Master Dashboard tab.'}
+      attachment:{url:'assets/overall-portfolio-factsheet-aug-2026.pdf', label:'View factsheet PDF', note:'The one-click PDF the console generates from its Master Dashboard tab.'},
+      walkthrough:'birdseye'
     },
     {
       n:11, group:'convert', tag:'Client Conversion', kind:'standard',
@@ -684,7 +713,7 @@
       stats:[
         {v:'Hours', l:'→ Seconds, per update cycle', tone:'gain'}
       ],
-      walkthrough:true
+      walkthrough:'insurance'
     },
     {
       n:14, group:'next', tag:'In Progress', kind:'standard',
@@ -732,8 +761,10 @@
       stats:[
         {v:'1,703', l:'clients in view, snapshot reading', tone:'gold'},
         {v:'1,281', l:'FY tickets tracked, snapshot reading', tone:'neutral'},
-        {v:'360', l:'converted, snapshot reading', tone:'gain'}
-      ]
+        {v:'369', l:'converted, snapshot reading', tone:'gain'}
+      ],
+      miniapp:'lnd',
+      demo:{url:'https://fincartoptima.github.io/L-D-Financial-Plan/', label:'Open full live dashboard', note:'The console on the right is a static snapshot, running for real — the live version has ten filters and a 10-section drilldown.'}
     },
     {
       n:17, group:'ops', tag:'Ops Automation', kind:'standard',
@@ -747,7 +778,8 @@
       stats:[
         {v:'Auto-flagged', l:'every rate / policy mismatch', tone:'gain'}
       ],
-      exhibits:[{img:'img/health-insurance-recon.png', kind:'live', label:'Health Insurance Commission Reconciliation', domain:'Internal web app', alt:'Health Insurance Commission Reconciliation app with fields for AMC and period, and upload zones for rate charts, commission received files and insurance-done files', caption:'Rate chart, commission received, and policy file in — one reviewable, flagged report out.'}]
+      exhibits:[{img:'img/health-insurance-recon.png', kind:'live', label:'Health Insurance Commission Reconciliation', domain:'Internal web app', alt:'Health Insurance Commission Reconciliation app with fields for AMC and period, and upload zones for rate charts, commission received files and insurance-done files', caption:'Rate chart, commission received, and policy file in — one reviewable, flagged report out.'}],
+      walkthrough:'recon'
     }
   ];
 
@@ -947,7 +979,13 @@
     years.forEach(function(y){
       var b = el('button','year-tab', y);
       b.type='button';
-      b.addEventListener('click', function(){ runFundSim(y); });
+      b.addEventListener('click', function(){
+        if(phase === 'universe'){
+          selectYear(y);
+        } else {
+          runFundSim(y);
+        }
+      });
       tabs.appendChild(b);
       yearBtns[y] = b;
     });
@@ -959,6 +997,32 @@
 
     var status = el('div','console-status','');
     body.appendChild(status);
+
+    // Phase 1: fund universe list — the question, before the model runs
+    var universePane = el('div','');
+    var uHead = el('div','universe-head');
+    uHead.innerHTML = '<h4>36 funds. <em>Which of these will perform well next year?</em></h4>';
+    uHead.appendChild(el('div','universe-count', FUND_UNIVERSE.length + ' funds'));
+    universePane.appendChild(uHead);
+    var grid = el('div','universe-grid');
+    FUND_UNIVERSE.forEach(function(name){
+      var row = el('div','universe-row');
+      row.appendChild(el('span','universe-q','?'));
+      row.appendChild(el('span','', name));
+      grid.appendChild(row);
+    });
+    universePane.appendChild(grid);
+    var uCta = el('div','universe-cta');
+    uCta.appendChild(el('div','cta-note','Pick a model year above, then press Run Model to see which of these the engine backs.'));
+    universePane.appendChild(uCta);
+    body.appendChild(universePane);
+
+    // Phase 2: results — hidden until Run Model is pressed
+    var resultsPane = el('div','');
+    resultsPane.style.display = 'none';
+    var backBtn = el('button','results-back','&#8592; Back to the 36-fund universe');
+    backBtn.type = 'button';
+    resultsPane.appendChild(backBtn);
 
     var results = el('div','console-results');
     var colA = el('div','');
@@ -977,15 +1041,35 @@
     colB.appendChild(colBHead); colB.appendChild(colBBody);
 
     results.appendChild(colA); results.appendChild(colB);
-    body.appendChild(results);
+    resultsPane.appendChild(results);
 
     var summary = el('div','console-summary','');
-    body.appendChild(summary);
+    resultsPane.appendChild(summary);
 
+    body.appendChild(resultsPane);
     wrap.appendChild(body);
 
     var running = false;
     var currentYear = null;
+    var phase = 'universe'; // 'universe' | 'results'
+
+    function showUniverse(){
+      phase = 'universe';
+      universePane.style.display = '';
+      resultsPane.style.display = 'none';
+      status.textContent = years.length + ' model years available. Pick one, then press Run Model.';
+    }
+    function showResults(){
+      phase = 'results';
+      universePane.style.display = 'none';
+      resultsPane.style.display = '';
+    }
+    backBtn.addEventListener('click', showUniverse);
+    function selectYear(y){
+      currentYear = y;
+      years.forEach(function(yy){ yearBtns[yy].classList.toggle('active', yy===y); });
+      status.textContent = 'Selected Train '+y+' → Test '+FUND_DATA[y].test_year+'. Press Run Model to see the engine\'s picks.';
+    }
 
     function renderResults(y){
       var d = FUND_DATA[y];
@@ -1018,6 +1102,7 @@
       if(running) return;
       running = true;
       currentYear = y;
+      showResults();
       years.forEach(function(yy){ yearBtns[yy].classList.toggle('active', yy===y); });
       runBtn.disabled = true;
       colABody.style.opacity = .35; colBBody.style.opacity = .35;
@@ -1045,12 +1130,10 @@
 
     runBtn.addEventListener('click', function(){ runFundSim(currentYear || years[years.length-2]); });
 
-    // default state at rest: show a populated result immediately (2022, a representative mid-sample year)
+    // default state at rest: the fund universe, question posed, nothing run yet
     var defaultYear = '2022';
-    years.forEach(function(yy){ yearBtns[yy].classList.toggle('active', yy===defaultYear); });
-    currentYear = defaultYear;
-    renderResults(defaultYear);
-    status.textContent = 'Ready — showing ' + defaultYear + '. Pick a year or press Run Model to re-simulate.';
+    selectYear(defaultYear);
+    showUniverse();
 
     var noteWrap = el('div','exhibit-caption', slide.note || '');
     noteWrap.style.marginTop = '4px';
@@ -1355,6 +1438,38 @@
     });
   }
 
+  function renderTable(columns, rows, totalRowIdx){
+    var wrap = el('div','miniapp-table-wrap');
+    var table = document.createElement('table');
+    table.className = 'miniapp-table';
+    var thead = document.createElement('thead');
+    var htr = document.createElement('tr');
+    columns.forEach(function(c){ htr.appendChild(el('th','',c)); });
+    thead.appendChild(htr);
+    table.appendChild(thead);
+    var tbody = document.createElement('tbody');
+    rows.forEach(function(r, i){
+      var tr = document.createElement('tr');
+      if(i === totalRowIdx) tr.className = 'total-row';
+      r.forEach(function(cell){ tr.appendChild(el('td','', String(cell))); });
+      tbody.appendChild(tr);
+    });
+    table.appendChild(tbody);
+    wrap.appendChild(table);
+    return wrap;
+  }
+
+  function miniTabs(tabLabels){
+    var bar = el('div','miniapp-tabs');
+    var btns = tabLabels.map(function(label, i){
+      var b = el('button','miniapp-tab'+(i===0?' active':''), label);
+      b.type = 'button';
+      bar.appendChild(b);
+      return b;
+    });
+    return {bar: bar, btns: btns};
+  }
+
   /* ==================== slide 8: marketing mini-app ==================== */
 
   function buildMarketingMini(){
@@ -1365,12 +1480,12 @@
     left.appendChild(el('span','dot'));
     left.appendChild(el('span','word','Static snapshot'));
     bar.appendChild(left);
-    bar.appendChild(el('div','miniapp-bar-right','Marketing MIS · data through 24 Jun 2026'));
+    bar.appendChild(el('div','miniapp-bar-right','Marketing MIS · data through 22 Sep 2026'));
     app.appendChild(bar);
 
     var body = el('div','miniapp-body');
     var kpis = el('div','miniapp-kpis');
-    [['6,409','YTD Leads'],['284','Converted'],['9.69%','Conv. Rate'],['406','B2B Corp']].forEach(function(k){
+    [['13,613','YTD Leads'],['487','Converted'],['9.51%','Conv. Rate'],['1,231','B2B Corp']].forEach(function(k){
       var c = el('div','miniapp-kpi');
       c.appendChild(el('div','miniapp-kpi-val tnum', k[0]));
       c.appendChild(el('div','miniapp-kpi-lbl', k[1]));
@@ -1378,15 +1493,21 @@
     });
     body.appendChild(kpis);
 
+    var tabDefs = miniTabs(['Overview','Status by Month','Team Performance','Cost Summary']);
+    body.appendChild(tabDefs.bar);
+
+    var panes = [];
+
+    // Pane 0: Overview (chart)
+    var pane0 = el('div','miniapp-pane active');
     var toolbar = el('div','miniapp-toolbar');
-    toolbar.appendChild(el('div','miniapp-toolbar-label','STATUS DISTRIBUTION'));
+    toolbar.appendChild(el('div','miniapp-toolbar-label','STATUS DISTRIBUTION · MAPPED TEAMS'));
     var toggle = el('div','toggle');
     var btnCount = el('button','active','Count'); btnCount.type='button';
     var btnShare = el('button','','% share'); btnShare.type='button';
     toggle.appendChild(btnCount); toggle.appendChild(btnShare);
     toolbar.appendChild(toggle);
-    body.appendChild(toolbar);
-
+    pane0.appendChild(toolbar);
     var chartWrap = el('div','miniapp-chart-wrap');
     var chartDiv = el('div','miniapp-chart');
     var svg = document.createElementNS('http://www.w3.org/2000/svg','svg');
@@ -1394,26 +1515,17 @@
     chartWrap.appendChild(chartDiv);
     var tip = el('div','miniapp-tip','');
     chartWrap.appendChild(tip);
-    body.appendChild(chartWrap);
-
-    body.appendChild(el('div','miniapp-note','Real point-in-time figures from the live dashboard, frozen here so the demo runs without a network call. Hover any bar — switch Count / % share.'));
-
-    app.appendChild(body);
-    col.appendChild(app);
-    col.appendChild(el('div','exhibit-caption','Assigned, on hold, follow-up, in process, converted, dead — the same six-stage funnel as the live tool.'));
+    pane0.appendChild(chartWrap);
+    pane0.appendChild(el('div','miniapp-note','Hover any bar — switch Count / % share.'));
+    panes.push(pane0);
 
     var raw = [
-      {label:'Assigned', value:1102},
-      {label:'On Hold', value:3094},
-      {label:'Follow Up', value:539},
-      {label:'In Process', value:337},
-      {label:'Converted', value:284},
-      {label:'Dead', value:534}
+      {label:'Converted', value:487}, {label:'In Process', value:408}, {label:'Assigned', value:1164},
+      {label:'Re-assigned', value:75}, {label:'Follow Up', value:730}, {label:'On Hold', value:1}
     ];
-    var colors = {'Assigned':'#2c53c4','On Hold':'#2c53c4','Follow Up':'#c8901f','In Process':'#2c53c4','Converted':'#187a51','Dead':'#b23751'};
+    var colors = {'Assigned':'#2c53c4','On Hold':'#2c53c4','Follow Up':'#c8901f','In Process':'#2c53c4','Converted':'#187a51','Re-assigned':'#6247b8','Dead':'#b23751'};
     var total = raw.reduce(function(s,x){return s+x.value;},0);
-
-    function draw(mode){
+    function drawChart(mode){
       var items = raw.map(function(x){
         if(mode==='share'){
           return {label:x.label, value: x.value/total*100, tipText: (x.value/total*100).toFixed(1)+'% ('+x.value.toLocaleString()+')'};
@@ -1422,10 +1534,78 @@
       });
       renderMiniBars(svg, tip, chartWrap, items, function(it){ return colors[it.label]; });
     }
-    draw('count');
-    btnCount.addEventListener('click', function(){ btnCount.classList.add('active'); btnShare.classList.remove('active'); draw('count'); });
-    btnShare.addEventListener('click', function(){ btnShare.classList.add('active'); btnCount.classList.remove('active'); draw('share'); });
+    drawChart('count');
+    btnCount.addEventListener('click', function(){ btnCount.classList.add('active'); btnShare.classList.remove('active'); drawChart('count'); });
+    btnShare.addEventListener('click', function(){ btnShare.classList.add('active'); btnCount.classList.remove('active'); drawChart('share'); });
 
+    // Pane 1: Status by Month (Mapped Teams)
+    var pane1 = el('div','miniapp-pane');
+    pane1.appendChild(el('div','miniapp-toolbar-label','STATUS DISTRIBUTION · MAPPED TEAMS, BY MONTH'));
+    var statusRows = [
+      ['Converted',57,71,124,92,92,51,487],
+      ['In Process',14,41,66,67,123,97,408],
+      ['Assigned',2,1,39,229,284,609,1164],
+      ['Re-assigned',0,2,5,12,31,25,75],
+      ['Follow Up',45,74,101,167,228,115,730],
+      ['On Hold',1,0,0,0,0,0,1]
+    ].map(function(r){ return r.map(function(v,i){ return i>0 ? v.toLocaleString() : v; }); });
+    var tbl1 = el('div',''); tbl1.style.marginTop='10px';
+    tbl1.appendChild(renderTable(['Status','Apr-26','May-26','Jun-26','Jul-26','Aug-26','Sep-26','Total'], statusRows));
+    pane1.appendChild(tbl1);
+    pane1.appendChild(el('div','miniapp-note','Leads mapped to a team, by status, month over month — the same matrix as the live dashboard\'s Team Performance tab.'));
+    panes.push(pane1);
+
+    // Pane 2: Team Performance
+    var pane2 = el('div','miniapp-pane');
+    pane2.appendChild(el('div','miniapp-toolbar-label','TEAM PERFORMANCE MATRIX'));
+    var teamRows = [
+      ['Vivek S','1,563','86','5.50%','74','93','94','71','1,080','84'],
+      ['Ambika','1,757','20','1.14%','93','116','289','45','1,173','20'],
+      ['Anmol G','1,367','55','4.02%','71','140','91','36','942','52'],
+      ['Akanksha','1,355','78','5.76%','68','81','65','66','925','102'],
+      ['Ankit S','1,330','68','5.11%','80','77','69','54','857','144'],
+      ['Ratan P','1,196','73','6.10%','68','120','85','45','732','101'],
+      ['Yash T','1,137','58','5.10%','30','76','63','57','728','139'],
+      ['Vidhi','560','30','5.36%','23','24','35','15','412','27'],
+      ['DIY Team','430','3','0.70%','8','3','402','13','1','0']
+    ];
+    var tbl2 = el('div',''); tbl2.style.marginTop='10px';
+    tbl2.appendChild(renderTable(['Team','Total Leads','Converted','Conv. Rate','In Process','Follow Up','Assigned','Re-assigned','On Hold','Dead'], teamRows));
+    pane2.appendChild(tbl2);
+    pane2.appendChild(el('div','miniapp-note','Team comes from the RM on the lead record. Sorted by total leads.'));
+    panes.push(pane2);
+
+    // Pane 3: Cost Summary
+    var pane3 = el('div','miniapp-pane');
+    pane3.appendChild(el('div','miniapp-toolbar-label','COST SUMMARY BY CAMPAIGN'));
+    var costRows = [
+      ['Google','2,951','₹86,51,275','₹2,932','265','₹32,646','110','₹78,648'],
+      ['Social Media','4,059','₹31,66,505','₹780','138','₹22,946','50','₹63,330'],
+      ['Corporate','2,251','₹13,43,973','₹597','245','₹5,486','90','₹14,933'],
+      ['Branding','730','₹0','₹0','84','₹0','49','₹0'],
+      ['Referral','309','₹0','₹0','274','₹0','199','₹0'],
+      ['Cold Data','2','₹0','₹0','3','₹0','3','₹0'],
+      ['Email Marketing','1','₹0','₹0','0','₹0','0','₹0'],
+      ['Grand Total','10,303','₹1,31,61,754','₹1,277','1,009','₹13,044','501','₹26,271']
+    ];
+    var tbl3 = el('div',''); tbl3.style.marginTop='10px';
+    tbl3.appendChild(renderTable(['Campaign','Leads','Cost','CPL','Quality Leads','CPQL','Converted','CAC'], costRows, costRows.length-1));
+    pane3.appendChild(tbl3);
+    pane3.appendChild(el('div','miniapp-note','CPL = cost per lead. CPQL = cost per quality lead. CAC = cost per acquired client. From the editable Cost Per Campaign tab.'));
+    panes.push(pane3);
+
+    panes.forEach(function(p){ body.appendChild(p); });
+
+    tabDefs.btns.forEach(function(btn, i){
+      btn.addEventListener('click', function(){
+        tabDefs.btns.forEach(function(b,j){ b.classList.toggle('active', i===j); });
+        panes.forEach(function(p,j){ p.classList.toggle('active', i===j); });
+      });
+    });
+
+    app.appendChild(body);
+    col.appendChild(app);
+    col.appendChild(el('div','exhibit-caption','Four tabs, one snapshot — overview funnel, monthly status, team matrix, and campaign cost, all from the same live pull.'));
     return col;
   }
 
@@ -1452,8 +1632,18 @@
     });
     body.appendChild(kpis);
 
+    var viewRow = el('div','miniapp-toolbar');
+    viewRow.appendChild(el('div','miniapp-toolbar-label','REVENUE BREAKDOWN'));
+    var viewToggle = el('div','toggle');
+    var btnByTeam = el('button','active','By Team'); btnByTeam.type='button';
+    var btnBySource = el('button','','By Source'); btnBySource.type='button';
+    viewToggle.appendChild(btnByTeam); viewToggle.appendChild(btnBySource);
+    viewRow.appendChild(viewToggle);
+    body.appendChild(viewRow);
+
     var toolbar = el('div','miniapp-toolbar');
-    toolbar.appendChild(el('div','miniapp-toolbar-label','REVENUE BY TEAM'));
+    var toolbarLabel = el('div','miniapp-toolbar-label','AUG-2026 MTD');
+    toolbar.appendChild(toolbarLabel);
     var toggle = el('div','toggle');
     var btnAbs = el('button','active','₹ Lakh'); btnAbs.type='button';
     var btnShare = el('button','','% of total'); btnShare.type='button';
@@ -1470,80 +1660,224 @@
     chartWrap.appendChild(tip);
     body.appendChild(chartWrap);
 
-    body.appendChild(el('div','miniapp-note','Real revenue-by-team figures from the live dashboard, frozen here so the demo runs without a network call. Hover any bar — switch ₹ Lakh / % of total.'));
+    var note = el('div','miniapp-note','Real revenue-by-team figures from the live dashboard, frozen here so the demo runs without a network call. Hover any bar — switch ₹ Lakh / % of total.');
+    body.appendChild(note);
 
     app.appendChild(body);
     col.appendChild(app);
-    col.appendChild(el('div','exhibit-caption','Eight teams, one month-to-date view — the same chart the live dashboard\'s Revenue tab draws.'));
+    var caption = el('div','exhibit-caption','Eight teams, one month-to-date view — the same chart the live dashboard\'s Revenue tab draws.');
+    col.appendChild(caption);
 
-    var raw = [
+    var byTeam = [
       {label:'Ankit S', value:19.79}, {label:'Anmol G', value:15.15}, {label:'Ravi S', value:14.85},
       {label:'Vivek S', value:13.66}, {label:'Ratan P', value:12.51}, {label:'Akanksha', value:11.62},
       {label:'Vidhi', value:7.46}, {label:'Yash T', value:7.14}
     ];
-    var total = raw.reduce(function(s,x){return s+x.value;},0);
+    var bySource = [
+      {label:'Insurance', value:342}, {label:'MF Trail', value:263}, {label:'PMS', value:195}, {label:'Fees', value:4.5}
+    ];
+
+    var currentView = 'team';
 
     function draw(mode){
+      var raw = currentView==='team' ? byTeam : bySource;
+      var unit = currentView==='team' ? 'L' : 'L';
+      var total = raw.reduce(function(s,x){return s+x.value;},0);
       var items = raw.map(function(x){
         if(mode==='share'){
-          return {label:x.label, value: x.value/total*100, tipText: (x.value/total*100).toFixed(1)+'% (₹'+x.value.toFixed(2)+'L)'};
+          return {label:x.label, value: x.value/total*100, tipText: (x.value/total*100).toFixed(1)+'% (₹'+x.value.toFixed(2)+unit+')'};
         }
-        return {label:x.label, value:x.value, tipText: '₹'+x.value.toFixed(2)+' L'};
+        return {label:x.label, value:x.value, tipText: '₹'+x.value.toFixed(2)+' '+unit};
       });
-      renderMiniBars(svg, tip, chartWrap, items, function(){ return 'var(--gold)'; });
+      renderMiniBars(svg, tip, chartWrap, items, function(){ return currentView==='team' ? 'var(--gold)' : 'var(--signal)'; });
     }
     draw('abs');
     btnAbs.addEventListener('click', function(){ btnAbs.classList.add('active'); btnShare.classList.remove('active'); draw('abs'); });
     btnShare.addEventListener('click', function(){ btnShare.classList.add('active'); btnAbs.classList.remove('active'); draw('share'); });
+
+    btnByTeam.addEventListener('click', function(){
+      currentView = 'team';
+      btnByTeam.classList.add('active'); btnBySource.classList.remove('active');
+      toolbarLabel.textContent = 'AUG-2026 MTD';
+      note.textContent = 'Real revenue-by-team figures from the live dashboard, frozen here so the demo runs without a network call. Hover any bar — switch ₹ Lakh / % of total.';
+      caption.textContent = 'Eight teams, one month-to-date view — the same chart the live dashboard\'s Revenue tab draws.';
+      draw(btnShare.classList.contains('active') ? 'share' : 'abs');
+    });
+    btnBySource.addEventListener('click', function(){
+      currentView = 'source';
+      btnBySource.classList.add('active'); btnByTeam.classList.remove('active');
+      toolbarLabel.textContent = 'FY 2026–27, YEAR TO DATE';
+      note.textContent = 'MF trail, insurance, fees and PMS/AIF — four streams, full-year total ₹8.05 Cr. Hover any bar — switch ₹ Lakh / % of total.';
+      caption.textContent = 'Insurance and PMS now rival MF trail — the same Revenue Breakdown tab the live dashboard draws, FY to date.';
+      draw(btnShare.classList.contains('active') ? 'share' : 'abs');
+    });
+
+    return col;
+  }
+
+  /* ==================== slide 16: L&D mini-app ==================== */
+
+  function buildLndMini(){
+    var col = el('div','exhibit-col');
+    var app = el('div','miniapp');
+    var bar = el('div','miniapp-bar');
+    var left = el('div','miniapp-bar-left');
+    left.appendChild(el('span','dot'));
+    left.appendChild(el('span','word','Static snapshot'));
+    bar.appendChild(left);
+    bar.appendChild(el('div','miniapp-bar-right','L&D Financial Plan · built 17 Sep 2026'));
+    app.appendChild(bar);
+
+    var body = el('div','miniapp-body');
+    var kpis = el('div','miniapp-kpis');
+    [['1,703','Clients in View'],['422','Plan Approvals'],['369','Converted'],['1,628','Mapped, 95.6%']].forEach(function(k){
+      var c = el('div','miniapp-kpi');
+      c.appendChild(el('div','miniapp-kpi-val tnum', k[0]));
+      c.appendChild(el('div','miniapp-kpi-lbl', k[1]));
+      kpis.appendChild(c);
+    });
+    body.appendChild(kpis);
+
+    var toolbar = el('div','miniapp-toolbar');
+    toolbar.appendChild(el('div','miniapp-toolbar-label','TEAM PERFORMANCE'));
+    var toggle = el('div','toggle');
+    var btnClients = el('button','active','Clients'); btnClients.type='button';
+    var btnConv = el('button','','Converted'); btnConv.type='button';
+    toggle.appendChild(btnClients); toggle.appendChild(btnConv);
+    toolbar.appendChild(toggle);
+    body.appendChild(toolbar);
+
+    var chartWrap = el('div','miniapp-chart-wrap');
+    var chartDiv = el('div','miniapp-chart');
+    var svg = document.createElementNS('http://www.w3.org/2000/svg','svg');
+    chartDiv.appendChild(svg);
+    chartWrap.appendChild(chartDiv);
+    var tip = el('div','miniapp-tip','');
+    chartWrap.appendChild(tip);
+    body.appendChild(chartWrap);
+
+    body.appendChild(el('div','miniapp-note','Real per-team figures from the live dashboard, frozen here so the demo runs without a network call. Hover any bar — switch Clients / Converted.'));
+
+    app.appendChild(body);
+    col.appendChild(app);
+    col.appendChild(el('div','exhibit-caption','Nine teams, mapped-client totals vs. conversions — the same table the live dashboard\'s "By Team" section draws.'));
+
+    var raw = [
+      {label:'Ratan P', total:299, conv:81}, {label:'Akanksha', total:259, conv:61}, {label:'SV', total:208, conv:0},
+      {label:'Vivek S', total:208, conv:64}, {label:'Ankit S', total:197, conv:66}, {label:'Anmol G', total:187, conv:30},
+      {label:'Yash T', total:131, conv:34}, {label:'Ravi S', total:74, conv:10}, {label:'Vidhi', total:65, conv:23}
+    ];
+
+    function draw(mode){
+      var items = raw.map(function(x){
+        if(mode==='conv'){
+          return {label:x.label, value:x.conv, tipText: x.conv.toLocaleString()+' converted'};
+        }
+        return {label:x.label, value:x.total, tipText: x.total.toLocaleString()+' clients'};
+      });
+      renderMiniBars(svg, tip, chartWrap, items, function(){ return mode==='conv' ? 'var(--gain)' : 'var(--gold)'; });
+    }
+    draw('total');
+    btnClients.addEventListener('click', function(){ btnClients.classList.add('active'); btnConv.classList.remove('active'); draw('total'); });
+    btnConv.addEventListener('click', function(){ btnConv.classList.add('active'); btnClients.classList.remove('active'); draw('conv'); });
 
     return col;
   }
 
   /* ==================== slide 13: animated walkthrough ==================== */
 
-  function buildWalkthrough(){
+  function buildWalkthrough(cfg){
     var col = el('div','exhibit-col');
     var frame = el('div','walkthrough-frame');
     var bar = el('div','walkthrough-bar');
-    bar.innerHTML = '<span><span class="dot"></span>Auto-playing walkthrough</span><span>Insurance Policy Tracker</span>';
+    bar.innerHTML = '<span><span class="dot"></span>Auto-playing walkthrough</span><span>'+cfg.title+'</span>';
     frame.appendChild(bar);
 
     var stage = el('div','walkthrough-stage');
-    stage.innerHTML =
-      '<div class="wt-scene wt-1"><div class="wt-card">' +
-        '<div class="wt-label">Step 1 &middot; Select company</div>' +
-        '<div class="wt-row"><span>AMC / Insurer</span><b>Niva Bupa &#9662;</b></div>' +
-        '<div class="wt-row"><span>Period</span><b>Aug 2026 &#9662;</b></div>' +
-      '</div></div>' +
-      '<div class="wt-scene wt-2"><div class="wt-card">' +
-        '<div class="wt-label">Step 2 &middot; Upload files</div>' +
-        '<div class="wt-row"><span>Rate chart</span><span class="wt-check">&#10003;</span></div>' +
-        '<div class="wt-row"><span>Commission received</span><span class="wt-check">&#10003;</span></div>' +
-        '<div class="wt-row"><span>Insurance done (Workpoint)</span><span class="wt-check">&#10003;</span></div>' +
-      '</div></div>' +
-      '<div class="wt-scene wt-3"><div class="wt-card">' +
-        '<div class="wt-label">Step 3 &middot; Run</div>' +
-        '<div class="wt-row"><span>Matching policies to rate chart&hellip;</span><span class="wt-check">&#10003;</span></div>' +
-        '<div class="wt-row"><span>Flagging mismatches&hellip;</span><span class="wt-check">&#10003;</span></div>' +
-        '<div class="wt-btn">Run Reconciliation</div>' +
-      '</div></div>' +
-      '<div class="wt-scene wt-4"><div class="wt-card">' +
-        '<div class="wt-label">Step 4 &middot; Output</div>' +
-        '<div class="wt-row"><span>Policies checked</span><b>1,214</b></div>' +
-        '<div class="wt-row"><span>Rate mismatches flagged</span><b style="color:var(--loss)">37</b></div>' +
-        '<div class="wt-row"><span>One reviewable report</span><span class="wt-check">&#10003;</span></div>' +
-      '</div></div>';
+    stage.innerHTML = cfg.scenes.map(function(html, i){
+      return '<div class="wt-scene wt-'+(i+1)+'"><div class="wt-card">'+html+'</div></div>';
+    }).join('');
     frame.appendChild(stage);
 
-    var prog = el('div','walkthrough-progress');
-    frame.appendChild(prog);
-
-    var caption = el('div','walkthrough-caption','A 10-second animated walkthrough of the real flow — pick the company, attach the three files, run it, get one flagged report. Loops automatically.');
-    frame.appendChild(caption);
+    frame.appendChild(el('div','walkthrough-progress'));
+    frame.appendChild(el('div','walkthrough-caption', cfg.caption));
 
     col.appendChild(frame);
     return col;
   }
+
+  var WALKTHROUGHS = {
+    insurance: {
+      title:'Insurance Policy Tracker',
+      caption:'A 10-second animated walkthrough of the real flow — pick the company, attach two files, run it, get one Excel report. Loops automatically.',
+      scenes:[
+        '<div class="wt-label">Step 1 &middot; Select company</div>' +
+        '<div class="wt-row"><span>Insurance company</span><b>Niva Bupa &#9662;</b></div>' +
+        '<div class="wt-row"><span>Period</span><b>Aug 2026 &#9662;</b></div>',
+
+        '<div class="wt-label">Step 2 &middot; Upload files</div>' +
+        '<div class="wt-row"><span>Policies file (PDF)</span><span class="wt-check">&#10003;</span></div>' +
+        '<div class="wt-row"><span>Policies file (Excel)</span><span class="wt-check">&#10003;</span></div>',
+
+        '<div class="wt-label">Step 3 &middot; Generate</div>' +
+        '<div class="wt-row"><span>Reading PDF line items&hellip;</span><span class="wt-check">&#10003;</span></div>' +
+        '<div class="wt-row"><span>Merging with Excel rows&hellip;</span><span class="wt-check">&#10003;</span></div>' +
+        '<div class="wt-btn">Generate Report</div>',
+
+        '<div class="wt-label">Step 4 &middot; Output</div>' +
+        '<div class="wt-row"><span>&#128202; policy_details.xlsx</span><span class="wt-check">&#10003;</span></div>' +
+        '<div class="wt-row"><span>Policy no. &middot; holder &middot; premium &middot; status</span><b>247 rows</b></div>' +
+        '<div class="wt-row"><span>One unified report</span><span class="wt-check">&#10003;</span></div>'
+      ]
+    },
+    recon: {
+      title:'Health Insurance Commission Reconciliation',
+      caption:'A 10-second animated walkthrough of the real flow — pick the AMC, attach the three files, run it, get one flagged report. Loops automatically.',
+      scenes:[
+        '<div class="wt-label">Step 1 &middot; Select company</div>' +
+        '<div class="wt-row"><span>AMC / Insurer</span><b>Niva Bupa &#9662;</b></div>' +
+        '<div class="wt-row"><span>Period</span><b>Aug 2026 &#9662;</b></div>',
+
+        '<div class="wt-label">Step 2 &middot; Upload files</div>' +
+        '<div class="wt-row"><span>Rate chart</span><span class="wt-check">&#10003;</span></div>' +
+        '<div class="wt-row"><span>Commission received</span><span class="wt-check">&#10003;</span></div>' +
+        '<div class="wt-row"><span>Insurance done (Workpoint)</span><span class="wt-check">&#10003;</span></div>',
+
+        '<div class="wt-label">Step 3 &middot; Run</div>' +
+        '<div class="wt-row"><span>Matching policies to rate chart&hellip;</span><span class="wt-check">&#10003;</span></div>' +
+        '<div class="wt-row"><span>Flagging mismatches&hellip;</span><span class="wt-check">&#10003;</span></div>' +
+        '<div class="wt-btn">Run Reconciliation</div>',
+
+        '<div class="wt-label">Step 4 &middot; Output</div>' +
+        '<div class="wt-row"><span>Policies checked</span><b>1,214</b></div>' +
+        '<div class="wt-row"><span>Rate mismatches flagged</span><b style="color:var(--loss)">37</b></div>' +
+        '<div class="wt-row"><span>One reviewable report</span><span class="wt-check">&#10003;</span></div>'
+      ]
+    },
+    birdseye: {
+      title:'Optima Birds Eye View',
+      caption:'A 10-second animated walkthrough of the real console — pick a client, review strategy and holdings, then switch to the fund-manager\'s master view. Loops automatically.',
+      scenes:[
+        '<div class="wt-label">Step 1 &middot; Select client</div>' +
+        '<div class="wt-row"><span>Client</span><b>Search / select &#9662;</b></div>' +
+        '<div class="wt-row"><span>View</span><b>Client View</b></div>',
+
+        '<div class="wt-label">Step 2 &middot; Strategy &amp; allocation</div>' +
+        '<div class="wt-row"><span>Multi-Asset Strategic Allocation</span><span class="wt-check">&#10003;</span></div>' +
+        '<div class="wt-row"><span>Cost value &middot; current value</span><span class="wt-check">&#10003;</span></div>' +
+        '<div class="wt-row"><span>Category-wise allocation table</span><span class="wt-check">&#10003;</span></div>',
+
+        '<div class="wt-label">Step 3 &middot; Top holdings</div>' +
+        '<div class="wt-row"><span>Top 5 Holdings</span><span class="wt-check">&#10003;</span></div>' +
+        '<div class="wt-row"><span>Allocation % &middot; unrealised P/L</span><span class="wt-check">&#10003;</span></div>',
+
+        '<div class="wt-label">Step 4 &middot; Master Dashboard</div>' +
+        '<div class="wt-row"><span>Switch to</span><b>Master Dashboard &#9662;</b></div>' +
+        '<div class="wt-row"><span>All clients, fund-wise performance</span><span class="wt-check">&#10003;</span></div>' +
+        '<div class="wt-row"><span>Rotate allocation, book-wide</span><span class="wt-check">&#10003;</span></div>'
+      ]
+    }
+  };
 
   /* ==================== generic page builder ==================== */
 
@@ -1629,8 +1963,11 @@
         exCol2.appendChild(buildMarketingMini());
       } else if(slide.miniapp === 'revenue'){
         exCol2.appendChild(buildRevenueMini());
-      } else if(slide.walkthrough){
-        exCol2.appendChild(buildWalkthrough());
+      } else if(slide.miniapp === 'lnd'){
+        exCol2.appendChild(buildLndMini());
+      }
+      if(slide.walkthrough){
+        exCol2.appendChild(buildWalkthrough(WALKTHROUGHS[slide.walkthrough]));
       }
       body.appendChild(exCol2);
     } else {
