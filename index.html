@@ -1,30 +1,35 @@
-<title>Fincart Optima</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dev Singhal — Work Done</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
 <style>
   :root{
-    --paper:#ffffff;
-    --sidebar:#f7f7f5;
-    --surface:#ffffff;
-    --surface-sunken:#f2f2ef;
-    --surface-hover:#ececE7;
-    --line:#e2e1da;
-    --line-strong:#cfcdc2;
-    --text:#1c1d1a;
-    --text-dim:#5a5c56;
-    --text-faint:#8d8f87;
-    --gold:#96650f;
-    --gold-soft:#7a5209;
-    --gold-fill:#f7ead0;
-    --signal:#2c53c4;
-    --gain:#187a51;
-    --gain-fill:#e1f3ea;
-    --loss:#b23751;
+    --paper:#F3F7FE;
+    --sidebar:#F3F7FE;
+    --surface:#FFFFFF;
+    --surface-sunken:#E8F0FF;
+    --surface-hover:#dce9ff;
+    --line:#D8E3F2;
+    --line-strong:#b9cce8;
+    --text:#102D55;
+    --text-dim:#536B88;
+    --text-faint:#8398b2;
+    --gold:#245CE0;
+    --gold-soft:#1948bf;
+    --gold-fill:#E8F0FF;
+    --signal:#245CE0;
+    --gain:#1a7a4c;
+    --gain-fill:#e2f3ea;
+    --loss:#b0304a;
     --loss-fill:#fbe8ec;
-    --violet:#6247b8;
-    --slate:#54687a;
+    --violet:#5b4fc4;
+    --slate:#5c7290;
 
-    --font-display:'Fraunces',ui-serif,Georgia,'Times New Roman',serif;
-    --font-body:'IBM Plex Sans',ui-sans-serif,system-ui,-apple-system,'Segoe UI',sans-serif;
+    --font-display:'Inter',ui-sans-serif,system-ui,-apple-system,'Segoe UI',sans-serif;
+    --font-body:'Inter',ui-sans-serif,system-ui,-apple-system,'Segoe UI',sans-serif;
     --font-mono:'IBM Plex Mono',ui-monospace,'SFMono-Regular',Consolas,'Liberation Mono',monospace;
 
     --sidebar-w:296px;
@@ -32,6 +37,7 @@
   }
 
   *{box-sizing:border-box;}
+  html{scroll-behavior:auto;}
   body{
     background:var(--paper);
     color:var(--text);
@@ -40,7 +46,7 @@
   }
   ::selection{background:var(--gold-fill);color:var(--gold-soft);}
 
-  h1,h2,h3{font-family:var(--font-display);font-weight:600;margin:0;text-wrap:balance;}
+  h1,h2,h3{font-family:var(--font-display);font-weight:700;margin:0;text-wrap:balance;letter-spacing:-.01em;}
   p{margin:0;}
   a{color:inherit;}
   img{display:block;max-width:100%;}
@@ -48,91 +54,111 @@
 
   .mono{font-family:var(--font-mono);}
   .tnum{font-variant-numeric:tabular-nums;}
+  .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;}
+  :focus-visible{outline:2.5px solid var(--gold);outline-offset:2px;border-radius:4px;}
 
-  /* ---------- layout shell ---------- */
-  .shell{display:flex;min-height:100vh;}
+  /* ---------- title slide ---------- */
+  .slide-title-inner{min-height:100%;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;justify-content:safe center;text-align:center;background:radial-gradient(ellipse 900px 560px at 50% 42%, #eaf1ff 0%, var(--paper) 72%);}
+  .title-name{font-size:clamp(44px,7vw,80px);font-weight:800;color:var(--text);letter-spacing:-.02em;line-height:1;}
+  .title-sub{margin-top:16px;font-size:clamp(20px,2.6vw,30px);font-weight:600;color:var(--gold);letter-spacing:-.01em;}
+  .title-begin{
+    position:fixed;right:40px;bottom:40px;z-index:15;
+    width:56px;height:56px;border-radius:50%;
+    background:var(--gold);color:#fff;border:none;cursor:pointer;
+    display:flex;align-items:center;justify-content:center;font-size:20px;
+    box-shadow:0 10px 28px -8px rgba(36,92,224,.55);
+    transition:transform .15s ease,background .15s ease;
+  }
+  .title-begin:hover{transform:translateY(-2px);background:var(--gold-soft);}
 
-  .navtoggle{
-    display:none;
-    position:fixed;top:16px;left:16px;z-index:40;
-    width:40px;height:40px;border-radius:8px;
-    background:var(--surface);border:1px solid var(--line);
-    color:var(--text);align-items:center;justify-content:center;
-    cursor:pointer;box-shadow:0 2px 8px rgba(20,18,10,.08);
-  }
-  .navtoggle span, .navtoggle span::before, .navtoggle span::after{
-    content:"";display:block;width:16px;height:1.5px;background:var(--text);position:relative;
-  }
-  .navtoggle span::before{position:absolute;top:-5px;}
-  .navtoggle span::after{position:absolute;top:5px;}
-
-  /* ---------- ledger sidebar ---------- */
-  .ledger{
-    width:var(--sidebar-w);flex:none;
-    position:fixed;top:0;left:0;bottom:0;
-    background:var(--sidebar);
-    border-right:1px solid var(--line);
-    display:flex;flex-direction:column;
-    z-index:30;
-  }
-  .ledger-brand{
-    padding:28px 26px 18px;
+  /* ---------- header ---------- */
+  .phdr{
+    position:fixed;top:0;left:0;right:0;height:64px;z-index:20;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:0 32px;background:rgba(243,247,254,.9);backdrop-filter:blur(10px);
     border-bottom:1px solid var(--line);
   }
-  .ledger-eyebrow{
-    font-size:10.5px;letter-spacing:.14em;color:var(--gold);
-    text-transform:uppercase;margin-bottom:10px;font-weight:600;
+  .phdr-brand{display:flex;align-items:baseline;gap:10px;min-width:0;}
+  .phdr-brand b{font-size:15px;font-weight:700;color:var(--text);white-space:nowrap;}
+  .phdr-brand span{font-size:12.5px;color:var(--text-faint);white-space:nowrap;}
+  .phdr-index-btn{
+    display:flex;align-items:center;gap:8px;flex:none;
+    font-family:var(--font-mono);font-size:12px;letter-spacing:.02em;
+    padding:9px 14px;border-radius:8px;border:1px solid var(--line-strong);
+    background:var(--surface);color:var(--text-dim);cursor:pointer;min-height:40px;
   }
-  .ledger-brand h1{font-size:24px;line-height:1.15;color:var(--text);}
-  .ledger-byline{margin-top:8px;font-size:12px;color:var(--text-faint);}
+  .phdr-index-btn:hover{background:var(--surface-hover);color:var(--text);}
 
-  .ledger-scroll{flex:1;overflow-y:auto;padding:6px 0 18px;}
-  .ledger-act{padding:16px 26px 6px;font-size:10px;letter-spacing:.13em;color:var(--text-faint);text-transform:uppercase;}
-  .ledger-list{list-style:none;margin:0;padding:0;}
-  .ledger-item{}
-  .ledger-link{
-    display:flex;align-items:baseline;gap:11px;
-    padding:7px 26px 7px 22px;
-    border-left:2px solid transparent;
-    color:var(--text-dim);text-decoration:none;
-    font-size:13.5px;line-height:1.3;
-    cursor:pointer;
-  }
-  .ledger-link:hover{color:var(--text);background:var(--surface-hover);}
-  .ledger-idx{font-family:var(--font-mono);font-size:11.5px;color:var(--text-faint);width:16px;flex:none;}
-  .ledger-item.active .ledger-link{
-    border-left-color:var(--gold);
-    color:var(--text);
-    background:var(--surface-hover);
-    font-weight:500;
-  }
-  .ledger-item.active .ledger-idx{color:var(--gold);}
+  /* ---------- stage ---------- */
+  .stage{position:fixed;top:64px;bottom:76px;left:0;right:0;overflow:hidden;transition:top .2s ease,bottom .2s ease;}
+  body.chrome-hidden .phdr,body.chrome-hidden .pftr{display:none;}
+  body.chrome-hidden .stage{top:0;bottom:0;}
 
-  .ledger-foot{
-    padding:16px 26px 22px;border-top:1px solid var(--line);
+  .slide{
+    position:absolute;inset:0;overflow-y:auto;
+    opacity:0;transform:translateX(32px);
+    transition:opacity .38s cubic-bezier(.22,1,.36,1),transform .38s cubic-bezier(.22,1,.36,1);
+    visibility:hidden;pointer-events:none;
   }
-  .ledger-progress-label{display:flex;justify-content:space-between;font-size:11px;color:var(--text-faint);margin-bottom:8px;}
-  .ledger-progress-track{height:2px;background:var(--line);border-radius:2px;overflow:hidden;}
-  .ledger-progress-fill{height:100%;width:0%;background:var(--gold);transition:width .25s ease;}
+  .slide.active{opacity:1;transform:translateX(0);visibility:visible;pointer-events:auto;z-index:2;}
+  .slide.exit-left{opacity:0;transform:translateX(-32px);z-index:1;}
+  .slide.exit-right{opacity:0;transform:translateX(32px);z-index:1;}
+  .slide:not(.active) *{animation-play-state:paused !important;}
+  .slide:focus{outline:none;}
+  @media (prefers-reduced-motion:reduce){
+    .slide{transition:opacity .18s linear;transform:none !important;}
+  }
 
-  /* ---------- deck ---------- */
-  .deck{
-    margin-left:var(--sidebar-w);
-    flex:1;
-    height:100vh;
-    overflow-y:auto;
-    scroll-snap-type:y proximity;
-  }
-  .page{
-    min-height:100svh;
-    scroll-snap-align:start;
-    scroll-snap-stop:always;
-    padding:78px 72px 64px;
-    display:flex;flex-direction:column;justify-content:center;
-    border-bottom:1px solid var(--line);
-    position:relative;
-  }
+  .page{padding:56px 64px 64px;min-height:100%;display:flex;flex-direction:column;justify-content:flex-start;justify-content:safe center;}
   .page-inner{max-width:1180px;margin:0 auto;width:100%;}
+
+  /* ---------- footer ---------- */
+  .pftr{
+    position:fixed;bottom:0;left:0;right:0;height:76px;z-index:20;
+    display:flex;align-items:center;gap:24px;
+    padding:0 32px;background:var(--surface);border-top:1px solid var(--line);
+  }
+  .pftr-progress-track{position:absolute;top:-1px;left:0;right:0;height:2px;background:var(--line);}
+  .pftr-progress-fill{height:100%;width:0%;background:var(--gold);transition:width .35s cubic-bezier(.22,1,.36,1);}
+  .pftr-section{flex:1;min-width:0;}
+  .pftr-section-label{font-size:13px;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .pftr-count{font-family:var(--font-mono);font-size:11.5px;color:var(--text-faint);margin-top:2px;}
+  .pftr-nav{display:flex;gap:10px;flex:none;}
+  .pftr-btn{
+    display:flex;align-items:center;gap:6px;
+    font-family:var(--font-mono);font-size:13px;font-weight:600;
+    padding:0 18px;height:44px;border-radius:8px;cursor:pointer;border:1px solid var(--line-strong);
+    background:var(--surface);color:var(--text);
+  }
+  .pftr-btn:hover{background:var(--surface-hover);}
+  .pftr-btn:disabled{opacity:.4;cursor:default;}
+  .pftr-btn.primary{background:var(--gold);color:#fff;border-color:var(--gold);}
+  .pftr-btn.primary:hover{background:var(--gold-soft);}
+
+  /* ---------- project index drawer ---------- */
+  .drawer-overlay{position:fixed;inset:0;background:rgba(16,45,85,.35);z-index:70;display:none;}
+  .drawer-overlay.open{display:block;}
+  .drawer{
+    position:fixed;top:0;right:0;bottom:0;width:min(420px,92vw);z-index:71;
+    background:var(--surface);box-shadow:-24px 0 60px rgba(16,45,85,.18);
+    transform:translateX(100%);transition:transform .32s cubic-bezier(.22,1,.36,1);
+    display:flex;flex-direction:column;
+  }
+  .drawer.open{transform:translateX(0);}
+  .drawer-head{display:flex;align-items:center;justify-content:space-between;padding:20px 24px;border-bottom:1px solid var(--line);flex:none;}
+  .drawer-head h3{font-size:17px;color:var(--text);}
+  .drawer-close{width:36px;height:36px;border-radius:50%;border:none;background:var(--surface-sunken);color:var(--text);cursor:pointer;font-size:15px;}
+  .drawer-close:hover{background:var(--line);}
+  .drawer-body{flex:1;overflow-y:auto;padding:8px 0 24px;}
+  .drawer-group-label{padding:18px 24px 6px;font-family:var(--font-mono);font-size:10.5px;letter-spacing:.1em;color:var(--text-faint);text-transform:uppercase;}
+  .drawer-item{
+    display:flex;align-items:center;gap:12px;width:100%;text-align:left;
+    padding:10px 24px;border:none;background:transparent;cursor:pointer;
+    font-size:14px;color:var(--text-dim);min-height:44px;
+  }
+  .drawer-item:hover{background:var(--surface-sunken);}
+  .drawer-item.current{background:var(--gold-fill);color:var(--text);font-weight:600;}
+  .drawer-item-idx{font-family:var(--font-mono);font-size:11px;color:var(--text-faint);width:20px;flex:none;}
 
   .eyebrow-row{display:flex;align-items:center;gap:10px;margin-bottom:18px;}
   .eyebrow{
@@ -147,7 +173,8 @@
   .status-dot.slate{background:var(--slate);}
   .status-dot.faint{background:var(--text-faint);}
 
-  .headline{font-size:clamp(28px,3.1vw,42px);line-height:1.12;color:var(--text);max-width:17ch;}
+  .project-name{margin-top:14px;font-size:15px;font-weight:700;color:var(--gold);}
+  .headline{margin-top:10px;font-size:clamp(28px,3.1vw,42px);line-height:1.12;color:var(--text);max-width:17ch;}
   .lede{margin-top:16px;font-size:16px;line-height:1.6;color:var(--text-dim);max-width:52ch;}
 
   .page-body{
@@ -236,20 +263,14 @@
   .closing h2{font-size:clamp(32px,4.2vw,52px);color:var(--text);max-width:18ch;}
   .closing-lede{margin-top:18px;font-size:16px;line-height:1.65;color:var(--text-dim);max-width:56ch;}
   .closing-foot{margin-top:48px;display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:16px;font-family:var(--font-mono);font-size:12px;color:var(--text-faint);border-top:1px solid var(--line);padding-top:20px;}
+  .closing-actions{margin-top:28px;display:flex;flex-wrap:wrap;gap:12px;}
 
-  /* ---------- floating controls ---------- */
-  .floatnav{
-    position:fixed;right:26px;bottom:26px;z-index:35;
-    display:flex;flex-direction:column;gap:8px;
-    background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:8px;
-    box-shadow:0 4px 16px rgba(20,18,10,.08);
-  }
-  .floatnav button{
-    width:34px;height:34px;border-radius:6px;border:none;background:transparent;color:var(--text-dim);
-    cursor:pointer;display:flex;align-items:center;justify-content:center;
-  }
-  .floatnav button:hover{background:var(--surface-hover);color:var(--text);}
-  .floatnav .fn-count{font-family:var(--font-mono);font-size:10px;text-align:center;color:var(--text-faint);padding:2px 0;}
+  /* ---------- overview ---------- */
+  .ov-grid{margin-top:36px;display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:12px;overflow:hidden;}
+  .ov-card{background:var(--surface);padding:20px 18px;}
+  .ov-card-count{font-family:var(--font-mono);font-size:22px;font-weight:600;color:var(--gold);}
+  .ov-card-label{margin-top:8px;font-size:13.5px;font-weight:600;color:var(--text);}
+  .ov-card-text{margin-top:6px;font-size:12px;line-height:1.5;color:var(--text-faint);}
 
   /* ---------- lightbox ---------- */
   .lightbox{
@@ -454,54 +475,69 @@
     .page-body{grid-template-columns:1fr;gap:36px;}
     .page.flip .narrative,.page.flip .exhibit-col{order:initial;}
     .exhibit-group.pair{flex-direction:column;}
-    .cover-cols{grid-template-columns:1fr;}
-    .cover-col{border-right:none;border-bottom:1px solid var(--line);padding:18px 0;}
-    .cover-col:first-child{padding-top:0;}
+    .ov-grid{grid-template-columns:repeat(2,1fr);}
     .console-results{grid-template-columns:1fr;}
     .macro-grid{grid-template-columns:repeat(2,1fr);}
     .sim-results{grid-template-columns:1fr;}
     .simple-body{grid-template-columns:1fr;}
   }
-  @media (max-width:860px){
-    .navtoggle{display:flex;}
-    .ledger{transform:translateX(-100%);transition:transform .25s ease;width:min(84vw,320px);}
-    .ledger.open{transform:translateX(0);box-shadow:20px 0 60px rgba(0,0,0,.15);}
-    .deck{margin-left:0;}
-    .page{padding:88px 24px 48px;}
-    .floatnav{display:none;}
+  @media (max-width:720px){
+    .page{padding:32px 20px 40px;}
+    .phdr{padding:0 16px;}
+    .phdr-brand span{display:none;}
+    .pftr{padding:0 16px;gap:12px;}
+    .pftr-btn span.label{display:none;}
+    .pftr-btn{padding:0 14px;}
     .macro-grid{grid-template-columns:1fr;}
+    .miniapp-kpis{grid-template-columns:repeat(2,1fr);}
+    .ov-grid{grid-template-columns:1fr;}
+    .title-begin{right:20px;bottom:20px;}
   }
 
   @media (prefers-reduced-motion:reduce){
-    .scrollcue .arrow{animation:none;}
     .dot.live{animation:none;}
     .btn{transition:none;}
+    .drawer,.drawer-overlay,.pftr-progress-fill,.title-begin,.lightbox,.pdf-modal{transition-duration:.01ms !important;}
   }
 </style>
+</head>
+<body>
 
-<div class="shell">
-  <button class="navtoggle" id="navToggle" aria-label="Toggle contents"><span></span></button>
+<div class="app" id="app">
 
-  <aside class="ledger" id="ledger">
-    <div class="ledger-brand">
-      <div class="ledger-eyebrow">Build Log &middot; Performance Appraisal</div>
-      <h1>Fincart<br>Optima</h1>
-      <div class="ledger-byline">Dev Singhal</div>
+  <header class="phdr" id="phdr">
+    <div class="phdr-brand">
+      <b>Fincart Optima</b>
+      <span>Dev Singhal</span>
     </div>
-    <div class="ledger-scroll" id="ledgerScroll"></div>
-    <div class="ledger-foot">
-      <div class="ledger-progress-label"><span id="progLabel">00 / 16</span><span id="progName">Entry 02</span></div>
-      <div class="ledger-progress-track"><div class="ledger-progress-fill" id="progFill"></div></div>
+    <button class="phdr-index-btn" id="indexBtn" aria-haspopup="dialog" aria-controls="drawer" aria-expanded="false">
+      <span aria-hidden="true">&#9776;</span> Project index
+    </button>
+  </header>
+
+  <main class="stage" id="stage"></main>
+  <div class="sr-only" id="liveRegion" aria-live="polite" aria-atomic="true"></div>
+
+  <footer class="pftr" id="pftr">
+    <div class="pftr-progress-track"><div class="pftr-progress-fill" id="pftrFill"></div></div>
+    <div class="pftr-section">
+      <div class="pftr-section-label" id="pftrSection">—</div>
+      <div class="pftr-count mono tnum" id="pftrCount">1 / 1</div>
     </div>
+    <div class="pftr-nav">
+      <button class="pftr-btn" id="btnBack">&#8592; <span class="label">Back</span></button>
+      <button class="pftr-btn primary" id="btnNext"><span class="label">Next</span> &#8594;</button>
+    </div>
+  </footer>
+
+  <div class="drawer-overlay" id="drawerOverlay"></div>
+  <aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-labelledby="drawerTitle" hidden>
+    <div class="drawer-head">
+      <h3 id="drawerTitle">Project index</h3>
+      <button class="drawer-close" id="drawerClose" aria-label="Close project index">&#10005;</button>
+    </div>
+    <div class="drawer-body" id="drawerBody"></div>
   </aside>
-
-  <main class="deck" id="deck"></main>
-
-  <div class="floatnav">
-    <button id="fnPrev" aria-label="Previous">&#8593;</button>
-    <div class="fn-count mono tnum" id="fnCount">00</div>
-    <button id="fnNext" aria-label="Next">&#8595;</button>
-  </div>
 </div>
 
 <div class="lightbox" id="lightbox">
@@ -538,17 +574,16 @@
   /* ==================== groups + slide content ==================== */
 
   var GROUPS = {
-    engine:  {label:'Investment Engine',        dot:'gold'},
-    trust:   {label:'Trust &amp; Client Tools',  dot:'signal'},
-    intel:   {label:'Business Intelligence',     dot:'violet'},
-    convert: {label:'Client Conversion',         dot:'gain'},
-    ops:     {label:'Operations Automation',     dot:'slate'},
-    next:    {label:"What's Next",               dot:'faint'}
+    engine:  {label:'Investment Intelligence',            dot:'gold'},
+    trust:   {label:'Client Tools &amp; Communication',   dot:'signal'},
+    intel:   {label:'Business Intelligence',              dot:'violet'},
+    ops:     {label:'Operations Automation',              dot:'slate'},
+    next:    {label:'Roadmap',                            dot:'faint'}
   };
 
   var SLIDES = [
     {
-      n:2, group:'engine', tag:'Quant Model', kind:'standard',
+      n:2, group:'engine', tag:'Asset Allocation Model', kind:'standard',
       headline:'90% of return comes from one decision — before a single fund is picked.',
       lede:'Five broad categories. 39 sub-categories. 4,000+ funds. At that scale, allocation does almost all the work.',
       beats:[
@@ -563,13 +598,13 @@
       ],
       exhibits:[{img:'img/backtest-alpha.png', kind:'static', label:'Backtested output · 2015–2026', alt:'Year-by-year portfolio return, volatility, beta and alpha table from 2015 to 2026', caption:'Year-by-year return, volatility, beta and alpha — twelve backtested cycles, one framework.'}]
     },
-    { n:3, group:'engine', tag:'Machine Learning', kind:'fund-sim',
+    { n:3, group:'engine', tag:'Fund Selection Engine', kind:'fund-sim',
       headline:'4,000+ funds. A model built to find next year\'s winners, not last year\'s.',
       lede:'Top funds of one year rarely repeat. Pick a year, run the ML engine on it.',
       note:'Small-cap universe. Kept only if it ranks near the top across overlapping 1-, 2- and 3-year windows.'
     },
     {
-      n:4, group:'engine', tag:'Automated Signals', kind:'standard',
+      n:4, group:'engine', tag:'Automated Trade Signals', kind:'standard',
       headline:'When a trade signal fires, every shareholder finds out the same day.',
       lede:'Not just that a trade happened — exactly what triggered it, when, and how much.',
       beats:[
@@ -586,22 +621,37 @@
         {img:'img/stock-signal-alert.png', kind:'static', label:'Auto-generated alert · EMA Exit', alt:'Automated PDF listing EMA exit triggers by sector, stock, company and quantity', caption:'The same trigger, auto-compiled by sector and mailed out — stock, quantity, and the rule that fired.'}
       ]
     },
-    { n:5, group:'trust', tag:'Macro Analysis', kind:'macro',
+    { n:5, group:'engine', tag:'Macro Dashboard', kind:'macro',
       headline:'30+ signals on the Indian economy. Here\'s what they say right now.',
       lede:'Live indicators are only useful if someone reads them. Here\'s the read, in my own words, off the actual live dashboard.'
     },
-    { n:6, group:'trust', tag:'Live Simulator', kind:'invest-sim',
+    { n:6, group:'trust', tag:'Investment Simulator', kind:'invest-sim',
       headline:'Pick any date. See what ₹10 lakh would actually be worth today.',
       lede:'The client\'s own portfolio, next to Optima, next to the index — drag the range and watch the money move.'
     },
     {
-      n:7, group:'trust', tag:'Marketing Collateral', kind:'simple',
+      n:7, group:'trust', tag:'Prospect One-Pager', kind:'simple',
       headline:'One page, zero fund names — full conviction anyway.',
       lede:'Holding-mix trend, trailing returns vs BSE 500 — no fund names, no NAVs. The RM\'s opening line with a prospect.',
       exhibit:{img:'img/one-pager.png', kind:'static', label:'One-pager PDF · prospect-safe', alt:'One-page PDF showing portfolio holding trend and a performance snapshot table comparing Fincart Optima to BSE 500', caption:'Holding-mix trend and trailing 1Y–5Y performance — no fund names, no NAVs.'}
     },
     {
-      n:8, group:'intel', tag:'Live Dashboard', kind:'standard',
+      n:11, group:'trust', tag:'Stock PMS Comparison', kind:'standard',
+      headline:'Most self-directed investors are quietly trailing the index. Now they can see it.',
+      lede:'Clients trading on their own usually assumed they were doing fine.',
+      beats:[
+        {label:'Problem', text:'Most DIY investors quietly trail the benchmark — with no way to see it.'},
+        {label:'Built', text:'Real tradebook → true NAV series → lined up against Fincart Optima.'},
+        {label:'Impact', text:'They convert, or at least see the truth. Still evolving — some steps manual.'}
+      ],
+      stats:[
+        {v:'1.18', l:'Optima Sharpe ratio vs 0.44 client, sample run', tone:'gain'},
+        {v:'-10.4%', l:'Optima max drawdown vs -21.4% client, sample run', tone:'gold'}
+      ],
+      exhibits:[{img:'img/stock-pms-comparison.png', kind:'draft', label:'Portfolio Comparison — draft output', alt:'Draft portfolio comparison dashboard showing client XIRR of 13.19%, Fincart Optima at 16.64%, BSE 500 at 8.62%, with a NAV performance chart, metrics table and sector-allocation donut', caption:'Draft output, built to visualise the idea — XIRR, NAV curve, Sharpe, drawdown and sector mix in one view.'}]
+    },
+    {
+      n:8, group:'intel', tag:'Marketing MIS', kind:'standard',
       headline:'From cold lead to converted client — the whole funnel, live.',
       lede:'Marketing spend and lead quality were hard to trace all the way to revenue.',
       beats:[
@@ -617,7 +667,7 @@
       demo:{url:'https://fincartoptima.github.io/MarketingMISDashboard/', label:'Open full live dashboard', note:'The console on the right is a static snapshot, running for real — the live version tracks 10 more tabs.'}
     },
     {
-      n:9, group:'intel', tag:'Live Dashboard', kind:'standard',
+      n:9, group:'intel', tag:'Revenue MIS', kind:'standard',
       headline:'Every revenue stream, every RM, one live ledger.',
       lede:'Leadership needed a single source of truth for revenue — updated continuously, not at month-end.',
       beats:[
@@ -633,7 +683,7 @@
       demo:{url:'https://fincartoptima.github.io/RevenueMISDashboard/', label:'Open full live dashboard', note:'The console on the right is a static snapshot, running for real — the live version tracks 7 revenue streams.'}
     },
     {
-      n:10, group:'intel', tag:'Fund-Manager Console', kind:'standard',
+      n:10, group:'intel', tag:'Birds Eye View Console', kind:'standard',
       headline:'Every Optima client, one screen — built for the fund manager\'s eyes only.',
       lede:'With every portfolio individually allocated, it\'s easy for one to quietly drift from the rest.',
       beats:[
@@ -654,22 +704,24 @@
       walkthrough:'birdseye'
     },
     {
-      n:11, group:'convert', tag:'Client Conversion', kind:'standard',
-      headline:'Most self-directed investors are quietly trailing the index. Now they can see it.',
-      lede:'Clients trading on their own usually assumed they were doing fine.',
+      n:16, group:'intel', tag:'L&amp;D Plan Dashboard', kind:'standard',
+      headline:'How many plans, from whom, converting how often.',
+      lede:'The L&D team had no live view of how many financial plans were actually being produced.',
       beats:[
-        {label:'Problem', text:'Most DIY investors quietly trail the benchmark — with no way to see it.'},
-        {label:'Built', text:'Real tradebook → true NAV series → lined up against Fincart Optima.'},
-        {label:'Impact', text:'They convert, or at least see the truth. Still evolving — some steps manual.'}
+        {label:'Problem', text:'Plan volume and conversion existed only as scattered, manual snapshots.'},
+        {label:'Built', text:'Plans by category, conversion, velocity — filterable by month, tier, team, advisor.'},
+        {label:'Next', text:'Compare every plan directly against the model portfolio.'}
       ],
       stats:[
-        {v:'1.18', l:'Optima Sharpe ratio vs 0.44 client, sample run', tone:'gain'},
-        {v:'-10.4%', l:'Optima max drawdown vs -21.4% client, sample run', tone:'gold'}
+        {v:'1,703', l:'clients in view, snapshot reading', tone:'gold'},
+        {v:'1,281', l:'FY tickets tracked, snapshot reading', tone:'neutral'},
+        {v:'369', l:'converted, snapshot reading', tone:'gain'}
       ],
-      exhibits:[{img:'img/stock-pms-comparison.png', kind:'draft', label:'Portfolio Comparison — draft output', alt:'Draft portfolio comparison dashboard showing client XIRR of 13.19%, Fincart Optima at 16.64%, BSE 500 at 8.62%, with a NAV performance chart, metrics table and sector-allocation donut', caption:'Draft output, built to visualise the idea — XIRR, NAV curve, Sharpe, drawdown and sector mix in one view.'}]
+      miniapp:'lnd',
+      demo:{url:'https://fincartoptima.github.io/L-D-Financial-Plan/', label:'Open full live dashboard', note:'The console on the right is a static snapshot, running for real — the live version has ten filters and a 10-section drilldown.'}
     },
     {
-      n:12, group:'ops', tag:'Ops Automation', kind:'standard',
+      n:12, group:'ops', tag:'Brokerage Reconciliation', kind:'standard',
       headline:'22,500+ transactions checked automatically — and it tells you why the money\'s missing.',
       lede:'Brokerage doesn\'t always land even when the revenue is booked on the books.',
       beats:[
@@ -687,7 +739,7 @@
       ]
     },
     {
-      n:13, group:'ops', tag:'Ops Automation', kind:'standard',
+      n:13, group:'ops', tag:'Insurance Data Automation', kind:'standard',
       headline:'What used to take hours now takes seconds.',
       lede:'Health and non-health policy data only ever arrived as PDFs.',
       beats:[
@@ -701,7 +753,37 @@
       walkthrough:'insurance'
     },
     {
-      n:14, group:'next', tag:'In Progress', kind:'standard',
+      n:15, group:'ops', tag:'Revenue MIS Automation', kind:'standard',
+      headline:'A 30–60 minute manual grind, on a path to three.',
+      lede:'Building the revenue MIS file meant pasting data by hand and dragging formulas down, every day.',
+      beats:[
+        {label:'Problem', text:'Copy-paste and formula drag-downs, 30–60 minutes lost daily.'},
+        {label:'Built', text:'Workpoint export in → revenue MIS file out, directly.'},
+        {label:'Open items', text:'MF trail brokerage, rate verification, file size — flagged, not hidden.'}
+      ],
+      stats:[
+        {v:'30–60 min', l:'today, manual', tone:'neutral'},
+        {v:'2–3 min', l:'projected, once rates are finalized', tone:'gain'}
+      ],
+      metric:{beforeVal:'30–60', beforeLbl:'minutes / day, today', afterVal:'2–3', afterLbl:'minutes / day, projected'}
+    },
+    {
+      n:17, group:'ops', tag:'Health Insurance Reconciliation', kind:'standard',
+      headline:'Rate chart × commission received × policy file → one clean, flagged report.',
+      lede:'Reconciling commission received against what was actually owed was a slow, manual cross-check.',
+      beats:[
+        {label:'Problem', text:'Every policy checked by hand against its rate chart and commission received.'},
+        {label:'Built', text:'Upload 3 files → every policy and rate matched automatically.'},
+        {label:'Impact', text:'Mismatches auto-flagged — faster reconciliation, higher integrity.'}
+      ],
+      stats:[
+        {v:'Auto-flagged', l:'every rate / policy mismatch', tone:'gain'}
+      ],
+      exhibits:[{img:'img/health-insurance-recon.png', kind:'live', label:'Health Insurance Commission Reconciliation', domain:'Internal web app', alt:'Health Insurance Commission Reconciliation app with fields for AMC and period, and upload zones for rate charts, commission received files and insurance-done files', caption:'Rate chart, commission received, and policy file in — one reviewable, flagged report out.'}],
+      walkthrough:'recon'
+    },
+    {
+      n:14, group:'next', tag:'DIY App Roadmap', kind:'standard',
       headline:'Taking four tools off spreadsheets and into one secure product.',
       lede:'Black-Litterman, fund selection, portfolio tracking and the PMS comparison tool all lived on Google Sheets or local machines.',
       beats:[
@@ -718,53 +800,6 @@
         to:'DIY App — secure database',
         chips:['Black-Litterman','Fund Selection','Portfolio Tracking','PMS Comparison']
       }
-    },
-    {
-      n:15, group:'ops', tag:'Ops Automation', kind:'standard',
-      headline:'A 30–60 minute manual grind, on a path to three.',
-      lede:'Building the revenue MIS file meant pasting data by hand and dragging formulas down, every day.',
-      beats:[
-        {label:'Problem', text:'Copy-paste and formula drag-downs, 30–60 minutes lost daily.'},
-        {label:'Built', text:'Workpoint export in → revenue MIS file out, directly.'},
-        {label:'Open items', text:'MF trail brokerage, rate verification, file size — flagged, not hidden.'}
-      ],
-      stats:[
-        {v:'30–60 min', l:'today, manual', tone:'neutral'},
-        {v:'2–3 min', l:'projected, once rates are finalized', tone:'gain'}
-      ],
-      metric:{beforeVal:'30–60', beforeLbl:'minutes / day, today', afterVal:'2–3', afterLbl:'minutes / day, projected'}
-    },
-    {
-      n:16, group:'intel', tag:'Business Intelligence', kind:'standard',
-      headline:'How many plans, from whom, converting how often.',
-      lede:'The L&D team had no live view of how many financial plans were actually being produced.',
-      beats:[
-        {label:'Problem', text:'Plan volume and conversion existed only as scattered, manual snapshots.'},
-        {label:'Built', text:'Plans by category, conversion, velocity — filterable by month, tier, team, advisor.'},
-        {label:'Next', text:'Compare every plan directly against the model portfolio.'}
-      ],
-      stats:[
-        {v:'1,703', l:'clients in view, snapshot reading', tone:'gold'},
-        {v:'1,281', l:'FY tickets tracked, snapshot reading', tone:'neutral'},
-        {v:'369', l:'converted, snapshot reading', tone:'gain'}
-      ],
-      miniapp:'lnd',
-      demo:{url:'https://fincartoptima.github.io/L-D-Financial-Plan/', label:'Open full live dashboard', note:'The console on the right is a static snapshot, running for real — the live version has ten filters and a 10-section drilldown.'}
-    },
-    {
-      n:17, group:'ops', tag:'Ops Automation', kind:'standard',
-      headline:'Rate chart × commission received × policy file → one clean, flagged report.',
-      lede:'Reconciling commission received against what was actually owed was a slow, manual cross-check.',
-      beats:[
-        {label:'Problem', text:'Every policy checked by hand against its rate chart and commission received.'},
-        {label:'Built', text:'Upload 3 files → every policy and rate matched automatically.'},
-        {label:'Impact', text:'Mismatches auto-flagged — faster reconciliation, higher integrity.'}
-      ],
-      stats:[
-        {v:'Auto-flagged', l:'every rate / policy mismatch', tone:'gain'}
-      ],
-      exhibits:[{img:'img/health-insurance-recon.png', kind:'live', label:'Health Insurance Commission Reconciliation', domain:'Internal web app', alt:'Health Insurance Commission Reconciliation app with fields for AMC and period, and upload zones for rate charts, commission received files and insurance-done files', caption:'Rate chart, commission received, and policy file in — one reviewable, flagged report out.'}],
-      walkthrough:'recon'
     }
   ];
 
@@ -1871,18 +1906,28 @@
 
   /* ==================== generic page builder ==================== */
 
+  function slugify(s){
+    return s.toLowerCase().replace(/&amp;/g,'and').replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'');
+  }
+
   function buildPage(slide, idx){
-    var page = el('section','page'+(idx%2===1?' flip':''));
+    var page = el('section','slide page'+(idx%2===1?' flip':''));
     page.id = 'p'+slide.n;
-    page.setAttribute('data-idx', idx);
-    page.setAttribute('data-name', 'Entry '+String(slide.n).padStart(2,'0'));
+    page.setAttribute('data-slug', slugify(slide.tag));
+    page.setAttribute('data-name', slide.tag);
+    page.setAttribute('data-section', GROUPS[slide.group].label);
+    page.setAttribute('tabindex','-1');
+    page.setAttribute('role','group');
+    page.setAttribute('aria-roledescription','slide');
+    page.setAttribute('aria-label', slide.tag);
 
     var inner = el('div','page-inner');
 
     var eyebrowRow = el('div','eyebrow-row');
     eyebrowRow.appendChild(el('span','status-dot '+GROUPS[slide.group].dot));
-    eyebrowRow.appendChild(el('span','eyebrow','Ledger entry '+String(slide.n).padStart(2,'0')+' &middot; '+GROUPS[slide.group].label));
+    eyebrowRow.appendChild(el('span','eyebrow', GROUPS[slide.group].label));
     inner.appendChild(eyebrowRow);
+    inner.appendChild(el('div','project-name', slide.tag));
 
     inner.appendChild(el('h2','headline', slide.headline));
     inner.appendChild(el('p','lede', slide.lede));
@@ -1973,24 +2018,112 @@
     return page;
   }
 
-  function buildClosing(){
-    var page = el('section','page closing');
-    page.id = 'pclose';
-    page.setAttribute('data-idx', SLIDES.length);
-    page.setAttribute('data-name','Closing');
+  function buildTitle(){
+    var page = el('section','slide title-slide');
+    page.id = 'ptitle';
+    page.setAttribute('data-slug','');
+    page.setAttribute('data-name','Title');
+    page.setAttribute('data-section','');
+    page.setAttribute('tabindex','-1');
+    page.setAttribute('role','group');
+    page.setAttribute('aria-roledescription','slide');
+    page.setAttribute('aria-label','Title — Dev Singhal, Work Done');
+
+    var inner = el('div','slide-title-inner');
+    inner.appendChild(el('h1','title-name','Dev Singhal'));
+    inner.appendChild(el('p','title-sub','Work Done'));
+    page.appendChild(inner);
+
+    var begin = document.createElement('button');
+    begin.type = 'button';
+    begin.className = 'title-begin';
+    begin.setAttribute('aria-label','Begin presentation');
+    begin.innerHTML = '<svg width="18" height="18" viewBox="0 0 20 20" fill="none" aria-hidden="true" focusable="false"><path d="M4 10h12M11 5l5 5-5 5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+    begin.addEventListener('click', function(){ goTo(1); });
+    page.appendChild(begin);
+
+    return page;
+  }
+
+  function buildOverview(){
+    var page = el('section','slide page');
+    page.id = 'poverview';
+    page.setAttribute('data-slug','overview');
+    page.setAttribute('data-name','Overview');
+    page.setAttribute('data-section','Overview');
+    page.setAttribute('tabindex','-1');
+    page.setAttribute('role','group');
+    page.setAttribute('aria-roledescription','slide');
+    page.setAttribute('aria-label','Overview');
+
     var inner = el('div','page-inner');
-    inner.appendChild(el('div','eyebrow-row','<span class="eyebrow">Closing entry</span>'));
-    inner.appendChild(el('h2','', 'Sixteen systems. One year. Still building.'));
-    inner.appendChild(el('p','closing-lede','Quant models, live dashboards, ops automation — every one turns a manual, error-prone process into a single click. Entry 14 is already the next chapter: off spreadsheets, into the product.'));
+    var eyebrowRow = el('div','eyebrow-row');
+    eyebrowRow.appendChild(el('span','eyebrow','Overview'));
+    inner.appendChild(eyebrowRow);
+    inner.appendChild(el('h2','headline','A year of work across research, client tools, reporting and operations.'));
+    inner.appendChild(el('p','lede','Sixteen projects built for Fincart Optima’s investment and advisory teams: quant models and trading signals, client-facing tools, internal reporting dashboards, and back-office automation. Status varies by project, from live in daily use to draft and in progress — each slide states which.'));
+
+    var grid = el('div','ov-grid');
+    [
+      {n:'4', label:'Investment intelligence', text:'Allocation model, fund selection, trade signals, macro dashboard.'},
+      {n:'3', label:'Client tools &amp; communication', text:'Investment simulator, prospect one-pager, portfolio comparison.'},
+      {n:'4', label:'Business intelligence', text:'Marketing MIS, Revenue MIS, fund-manager console, L&amp;D dashboard.'},
+      {n:'4', label:'Operations automation', text:'Brokerage, insurance, revenue-file and health-insurance reconciliation.'}
+    ].forEach(function(a){
+      var card = el('div','ov-card');
+      card.appendChild(el('div','ov-card-count', a.n));
+      card.appendChild(el('div','ov-card-label', a.label));
+      card.appendChild(el('div','ov-card-text', a.text));
+      grid.appendChild(card);
+    });
+    inner.appendChild(grid);
+
     inner.appendChild(statTicker([
-      {v:'16', l:'tools & systems shipped', tone:'gold'},
-      {v:'4,000+', l:'funds screened by the model', tone:'neutral'},
-      {v:'6', l:'live dashboards in production', tone:'gain'},
-      {v:'22,523', l:'transactions auto-flagged, one run', tone:'gold'}
+      {v:'16', l:'projects, plus a migration roadmap', tone:'neutral'},
+      {v:'4,000+', l:'funds screened by the selection model', tone:'neutral'},
+      {v:'22,523', l:'transactions flagged in one reconciliation run', tone:'gold'}
     ]));
+
+    page.appendChild(inner);
+    return page;
+  }
+
+  function buildClosing(){
+    var page = el('section','slide page closing');
+    page.id = 'pclose';
+    page.setAttribute('data-slug','closing');
+    page.setAttribute('data-name','Closing');
+    page.setAttribute('data-section','Closing');
+    page.setAttribute('tabindex','-1');
+    page.setAttribute('role','group');
+    page.setAttribute('aria-roledescription','slide');
+    page.setAttribute('aria-label','Closing');
+
+    var inner = el('div','page-inner');
+    var eyebrowRow = el('div','eyebrow-row');
+    eyebrowRow.appendChild(el('span','eyebrow','Closing'));
+    inner.appendChild(eyebrowRow);
+    inner.appendChild(el('h2','headline','Sixteen projects, every stage from live to prototype.'));
+    inner.appendChild(el('p','closing-lede','Investment models, client tools, internal dashboards and ops automation — built end to end, from data pipeline to interface. A few are in daily use, some are drafts built to prove an idea, and one is mid-migration into a shared application. Each slide names its own status.'));
+    inner.appendChild(statTicker([
+      {v:'4,000+', l:'funds screened by the selection model', tone:'neutral'},
+      {v:'22,523', l:'transactions flagged in one reconciliation run', tone:'gold'}
+    ]));
+    var actions = el('div','closing-actions');
+    var btnRestart = document.createElement('button');
+    btnRestart.type = 'button'; btnRestart.className = 'btn btn-primary';
+    btnRestart.textContent = 'Back to start';
+    btnRestart.addEventListener('click', function(){ goTo(0); });
+    var btnIndex = document.createElement('button');
+    btnIndex.type = 'button'; btnIndex.className = 'btn btn-outline';
+    btnIndex.textContent = 'Project index';
+    btnIndex.addEventListener('click', function(){ openDrawer(); });
+    actions.appendChild(btnRestart);
+    actions.appendChild(btnIndex);
+    inner.appendChild(actions);
     var foot = el('div','closing-foot');
     foot.appendChild(el('span','','Prepared by Dev Singhal'));
-    foot.appendChild(el('span','','Fincart Optima &middot; Build Log'));
+    foot.appendChild(el('span','','Fincart Optima'));
     inner.appendChild(foot);
     page.appendChild(inner);
     return page;
@@ -1998,128 +2131,305 @@
 
   /* ==================== assemble ==================== */
 
-  var deck = document.getElementById('deck');
-  var pages = [];
-  SLIDES.forEach(function(s,i){ var p = buildPage(s,i); deck.appendChild(p); pages.push(p); });
-  var closePage = buildClosing();
-  deck.appendChild(closePage); pages.push(closePage);
+  var stage = document.getElementById('stage');
+  var titlePage = buildTitle();
+  var overviewPage = buildOverview();
+  var slidePages = SLIDES.map(function(s,i){ return buildPage(s,i); });
+  var closingPage = buildClosing();
 
-  /* ledger nav */
-  var ledgerScroll = document.getElementById('ledgerScroll');
-  var navLinks = [];
-
-  var currentGroup = null, currentList = null;
-  SLIDES.forEach(function(s, i){
-    if(s.group !== currentGroup){
-      currentGroup = s.group;
-      ledgerScroll.appendChild(el('div','ledger-act', GROUPS[s.group].label));
-      currentList = el('ul','ledger-list');
-      ledgerScroll.appendChild(currentList);
-    }
-    var li = el('li','ledger-item');
-    var a = el('a','ledger-link');
-    a.appendChild(el('span','ledger-idx mono', String(s.n).padStart(2,'0')));
-    a.appendChild(el('span','', s.tag));
-    (function(idx){ a.addEventListener('click', function(){ goTo(idx); }); })(i);
-    li.appendChild(a);
-    currentList.appendChild(li);
-    navLinks.push(li);
+  var pages = [titlePage, overviewPage].concat(slidePages, [closingPage]);
+  pages.forEach(function(p, i){
+    p.setAttribute('data-idx', i);
+    stage.appendChild(p);
   });
 
-  var closeLi = el('li','ledger-item');
-  var closeA = el('a','ledger-link');
-  closeA.appendChild(el('span','ledger-idx mono','&#8226;'));
-  closeA.appendChild(el('span','','Closing'));
-  closeA.addEventListener('click', function(){ goTo(pages.length-1); });
-  closeLi.appendChild(closeA);
-  var closeList = el('ul','ledger-list');
-  closeList.appendChild(closeLi);
-  ledgerScroll.appendChild(closeList);
-  navLinks.push(closeLi);
+  /* ---------------- project index drawer ---------------- */
 
-  /* ---------------- interactivity ---------------- */
+  var drawerOverlay = document.getElementById('drawerOverlay');
+  var drawerEl = document.getElementById('drawer');
+  var drawerBody = document.getElementById('drawerBody');
+  var indexBtn = document.getElementById('indexBtn');
+  var drawerCloseBtn = document.getElementById('drawerClose');
+  var lastFocusBeforeDrawer = null;
+  var drawerItems = [];
 
-  var progLabel = document.getElementById('progLabel');
-  var progName = document.getElementById('progName');
-  var progFill = document.getElementById('progFill');
-  var fnCount = document.getElementById('fnCount');
-  var activeIdx = -1;
-  var settingActive = false;
+  function buildDrawer(){
+    drawerBody.innerHTML = '';
+    drawerItems = [];
 
-  function setActive(idx){
-    if(settingActive || idx === activeIdx) return;
-    settingActive = true;
-    activeIdx = idx;
-    navLinks.forEach(function(li,i){ li.classList.toggle('active', i===idx); });
-    var active = navLinks[idx];
-    if(active && typeof active.scrollIntoView === 'function'){
-      active.scrollIntoView({block:'nearest'});
+    function addItem(idx, idxLabel, name){
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'drawer-item';
+      btn.appendChild(el('span','drawer-item-idx mono', idxLabel));
+      btn.appendChild(el('span','', name));
+      btn.addEventListener('click', function(){ closeDrawer(); goTo(idx); });
+      drawerBody.appendChild(btn);
+      drawerItems.push({idx:idx, el:btn});
     }
-    progLabel.textContent = String(idx).padStart(2,'0')+' / '+String(pages.length-1).padStart(2,'0');
-    progName.textContent = pages[idx].getAttribute('data-name');
-    progFill.style.width = (idx/(pages.length-1)*100)+'%';
-    fnCount.textContent = String(idx).padStart(2,'0');
-    settingActive = false;
-  }
 
-  function goTo(idx){
-    idx = Math.max(0, Math.min(pages.length-1, idx));
-    pages[idx].scrollIntoView({behavior:'smooth', block:'start'});
-  }
+    addItem(1, '—', 'Overview');
 
-  var observer = new IntersectionObserver(function(entries){
-    entries.forEach(function(entry){
-      if(entry.isIntersecting && entry.intersectionRatio > 0.5){
-        var idx = parseInt(entry.target.getAttribute('data-idx'),10);
-        setActive(idx);
+    var currentGroup = null;
+    slidePages.forEach(function(p, i){
+      var slide = SLIDES[i];
+      if(slide.group !== currentGroup){
+        currentGroup = slide.group;
+        drawerBody.appendChild(el('div','drawer-group-label', GROUPS[slide.group].label));
       }
+      addItem(i+2, String(i+1).padStart(2,'0'), slide.tag);
     });
-  }, {root: document.getElementById('deck'), threshold:[0.5]});
-  pages.forEach(function(p){ observer.observe(p); });
 
-  document.getElementById('fnPrev').addEventListener('click', function(){ goTo(activeIdx-1); });
-  document.getElementById('fnNext').addEventListener('click', function(){ goTo(activeIdx+1); });
+    addItem(pages.length-1, '•', 'Closing');
+  }
 
-  document.addEventListener('keydown', function(e){
-    if(e.target.tagName==='INPUT' || e.target.tagName==='TEXTAREA') return;
-    if(e.key==='ArrowDown' || e.key==='PageDown'){ e.preventDefault(); goTo(activeIdx+1); }
-    else if(e.key==='ArrowUp' || e.key==='PageUp'){ e.preventDefault(); goTo(activeIdx-1); }
-  });
+  function syncDrawerCurrent(){
+    drawerItems.forEach(function(it){
+      var isCurrent = it.idx === currentIdx;
+      it.el.classList.toggle('current', isCurrent);
+      it.el.setAttribute('aria-current', isCurrent ? 'true' : 'false');
+    });
+  }
 
-  /* mobile drawer */
-  var ledger = document.getElementById('ledger');
-  var navToggle = document.getElementById('navToggle');
-  navToggle.addEventListener('click', function(){ ledger.classList.toggle('open'); });
-  navLinks.forEach(function(li){
-    li.querySelector('a').addEventListener('click', function(){ ledger.classList.remove('open'); });
-  });
+  var drawerOpenState = false;
+  function drawerIsOpen(){ return drawerOpenState; }
 
-  /* lightbox */
+  function openDrawer(){
+    if(drawerOpenState) return;
+    drawerOpenState = true;
+    buildDrawer();
+    syncDrawerCurrent();
+    lastFocusBeforeDrawer = document.activeElement;
+    drawerEl.hidden = false;
+    drawerOverlay.classList.add('open');
+    requestAnimationFrame(function(){ drawerEl.classList.add('open'); });
+    indexBtn.setAttribute('aria-expanded','true');
+    drawerCloseBtn.focus();
+    document.addEventListener('keydown', drawerKeyHandler, true);
+  }
+
+  function closeDrawer(){
+    if(!drawerOpenState) return;
+    drawerOpenState = false;
+    drawerEl.classList.remove('open');
+    drawerOverlay.classList.remove('open');
+    indexBtn.setAttribute('aria-expanded','false');
+    document.removeEventListener('keydown', drawerKeyHandler, true);
+    window.setTimeout(function(){ if(!drawerOpenState) drawerEl.hidden = true; }, 340);
+    var restoreTo = (lastFocusBeforeDrawer && document.contains(lastFocusBeforeDrawer)) ? lastFocusBeforeDrawer : indexBtn;
+    try{ restoreTo.focus(); }catch(e){}
+  }
+
+  function drawerKeyHandler(e){
+    if(e.key === 'Escape'){ e.preventDefault(); closeDrawer(); return; }
+    if(e.key !== 'Tab') return;
+    var focusables = drawerEl.querySelectorAll('button:not([disabled]), [href]');
+    if(!focusables.length) return;
+    var first = focusables[0], last = focusables[focusables.length-1];
+    if(e.shiftKey && document.activeElement === first){ e.preventDefault(); last.focus(); }
+    else if(!e.shiftKey && document.activeElement === last){ e.preventDefault(); first.focus(); }
+  }
+
+  indexBtn.addEventListener('click', function(){ drawerIsOpen() ? closeDrawer() : openDrawer(); });
+  drawerCloseBtn.addEventListener('click', closeDrawer);
+  drawerOverlay.addEventListener('click', closeDrawer);
+
+  /* ---------------- lightbox ---------------- */
+
   var lightbox = document.getElementById('lightbox');
   var lightboxImg = document.getElementById('lightboxImg');
-  function openLightbox(src, alt){ lightboxImg.src = src; lightboxImg.alt = alt; lightbox.classList.add('open'); }
-  function closeLightbox(){ lightbox.classList.remove('open'); lightboxImg.src=''; }
+  var lastFocusBeforeLightbox = null;
+  function openLightbox(src, alt){
+    lastFocusBeforeLightbox = document.activeElement;
+    lightboxImg.src = src; lightboxImg.alt = alt; lightbox.classList.add('open');
+    document.getElementById('lightboxClose').focus();
+  }
+  function closeLightbox(){
+    if(!lightbox.classList.contains('open')) return;
+    lightbox.classList.remove('open'); lightboxImg.src='';
+    if(lastFocusBeforeLightbox && document.contains(lastFocusBeforeLightbox)){ try{ lastFocusBeforeLightbox.focus(); }catch(e){} }
+  }
   lightbox.addEventListener('click', closeLightbox);
   document.getElementById('lightboxClose').addEventListener('click', function(e){ e.stopPropagation(); closeLightbox(); });
 
-  /* pdf modal */
+  /* ---------------- pdf modal ---------------- */
+
   var pdfModal = document.getElementById('pdfModal');
   var pdfFrame = document.getElementById('pdfModalFrame');
   var pdfTitle = document.getElementById('pdfModalTitle');
   var pdfOpen = document.getElementById('pdfModalOpen');
+  var lastFocusBeforePdf = null;
   window.openPdfModal = function(url, label){
+    lastFocusBeforePdf = document.activeElement;
     pdfFrame.src = url;
     pdfTitle.textContent = label || 'Attachment';
     pdfOpen.href = url;
     pdfModal.classList.add('open');
+    document.getElementById('pdfModalClose').focus();
   };
-  function closePdfModal(){ pdfModal.classList.remove('open'); pdfFrame.src=''; }
+  function closePdfModal(){
+    if(!pdfModal.classList.contains('open')) return;
+    pdfModal.classList.remove('open'); pdfFrame.src='';
+    if(lastFocusBeforePdf && document.contains(lastFocusBeforePdf)){ try{ lastFocusBeforePdf.focus(); }catch(e){} }
+  }
   document.getElementById('pdfModalClose').addEventListener('click', closePdfModal);
   pdfModal.addEventListener('click', function(e){ if(e.target===pdfModal) closePdfModal(); });
 
-  document.addEventListener('keydown', function(e){ if(e.key==='Escape'){ closeLightbox(); closePdfModal(); } });
+  function overlayOpen(){
+    return drawerIsOpen() || lightbox.classList.contains('open') || pdfModal.classList.contains('open');
+  }
 
-  setActive(0);
+  document.addEventListener('keydown', function(e){
+    if(e.key==='Escape'){ closeLightbox(); closePdfModal(); }
+  });
+
+  /* ---------------- slide state machine ---------------- */
+
+  var btnBack = document.getElementById('btnBack');
+  var btnNext = document.getElementById('btnNext');
+  var pftrFill = document.getElementById('pftrFill');
+  var pftrSection = document.getElementById('pftrSection');
+  var pftrCount = document.getElementById('pftrCount');
+  var liveRegion = document.getElementById('liveRegion');
+
+  var currentIdx = -1;
+  var transitioning = false;
+  var transitionTimer = null;
+  var focusTimer = null;
+
+  function slugToIdx(slug){
+    for(var i=0;i<pages.length;i++){ if(pages[i].getAttribute('data-slug') === slug) return i; }
+    return -1;
+  }
+
+  function hashForIdx(idx){
+    var slug = pages[idx].getAttribute('data-slug');
+    return slug ? '#'+slug : '';
+  }
+
+  function syncA11y(newIdx){
+    pages.forEach(function(p, i){
+      var isActive = i === newIdx;
+      p.setAttribute('aria-hidden', isActive ? 'false' : 'true');
+      if('inert' in p){ p.inert = !isActive; }
+    });
+  }
+
+  function syncChrome(newIdx){
+    document.body.classList.toggle('chrome-hidden', newIdx === 0);
+    var page = pages[newIdx];
+    var section = page.getAttribute('data-section') || '';
+    pftrSection.textContent = section || page.getAttribute('data-name');
+    pftrCount.textContent = (newIdx+1)+' / '+pages.length;
+    pftrFill.style.width = (newIdx/(pages.length-1)*100)+'%';
+    btnBack.disabled = newIdx <= 0;
+    btnNext.disabled = newIdx >= pages.length-1;
+  }
+
+  function announce(newIdx){
+    var page = pages[newIdx];
+    var section = page.getAttribute('data-section');
+    var name = page.getAttribute('data-name');
+    liveRegion.textContent = (section ? section+' — ' : '') + name;
+  }
+
+  function goTo(newIdx, opts){
+    opts = opts || {};
+    newIdx = Math.max(0, Math.min(pages.length-1, newIdx));
+    if(transitioning) return;
+    if(newIdx === currentIdx && !opts.force) return;
+
+    var oldIdx = currentIdx;
+    var dir = oldIdx === -1 ? 1 : (newIdx > oldIdx ? 1 : -1);
+    var newPage = pages[newIdx];
+    var oldPage = oldIdx >= 0 ? pages[oldIdx] : null;
+    var instant = !!opts.instant;
+
+    transitioning = !instant;
+
+    if(instant){
+      newPage.classList.remove('exit-left','exit-right');
+      newPage.classList.add('active');
+    } else {
+      newPage.classList.remove('active','exit-left','exit-right');
+      if(dir === -1){ newPage.classList.add('exit-left'); }
+      void newPage.offsetWidth;
+
+      if(oldPage){ oldPage.classList.remove('active'); oldPage.classList.add(dir===1 ? 'exit-left' : 'exit-right'); }
+
+      requestAnimationFrame(function(){
+        newPage.classList.remove('exit-left','exit-right');
+        newPage.classList.add('active');
+      });
+    }
+
+    currentIdx = newIdx;
+    syncA11y(newIdx);
+    syncChrome(newIdx);
+    syncDrawerCurrent();
+
+    if(opts.push !== false){
+      var hash = hashForIdx(newIdx);
+      var url = hash || (location.pathname + location.search);
+      history.pushState({idx:newIdx}, '', url);
+    }
+
+    if(!instant){
+      window.clearTimeout(transitionTimer);
+      transitionTimer = window.setTimeout(function(){
+        transitioning = false;
+        if(oldPage){ oldPage.classList.remove('exit-left','exit-right'); }
+      }, 420);
+    }
+
+    window.clearTimeout(focusTimer);
+    focusTimer = window.setTimeout(function(){
+      announce(newIdx);
+      if(!opts.skipFocus){
+        try{ newPage.focus({preventScroll:true}); }catch(e){ try{ newPage.focus(); }catch(e2){} }
+      }
+    }, 60);
+  }
+
+  window.addEventListener('popstate', function(){
+    var slug = location.hash.replace(/^#/, '');
+    var idx = slug ? slugToIdx(slug) : 0;
+    if(idx === -1) idx = 0;
+    goTo(idx, {push:false});
+  });
+
+  /* ---------------- keyboard nav ---------------- */
+
+  function isFormFocus(node){
+    if(!node) return false;
+    var tag = node.tagName;
+    if(tag==='INPUT' || tag==='TEXTAREA' || tag==='SELECT' || tag==='IFRAME') return true;
+    if(node.isContentEditable) return true;
+    var role = node.getAttribute && node.getAttribute('role');
+    if(role==='slider' || role==='textbox') return true;
+    return false;
+  }
+
+  document.addEventListener('keydown', function(e){
+    if(overlayOpen()) return;
+    if(isFormFocus(document.activeElement)) return;
+    if(e.key==='ArrowRight' || e.key==='PageDown'){ e.preventDefault(); goTo(currentIdx+1); }
+    else if(e.key==='ArrowLeft' || e.key==='PageUp'){ e.preventDefault(); goTo(currentIdx-1); }
+  });
+
+  btnBack.addEventListener('click', function(){ goTo(currentIdx-1); });
+  btnNext.addEventListener('click', function(){ goTo(currentIdx+1); });
+
+  /* ---------------- initial route ---------------- */
+
+  (function initRoute(){
+    var slug = location.hash.replace(/^#/, '');
+    var idx = slug ? slugToIdx(slug) : 0;
+    if(idx === -1) idx = 0;
+    goTo(idx, {push:false, force:true, instant:true, skipFocus:true});
+  })();
 
 })();
 </script>
+</body>
+</html>
