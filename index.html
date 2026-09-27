@@ -109,7 +109,7 @@
     .slide{transition:opacity .18s linear;transform:none !important;}
   }
 
-  .page{padding:56px 64px 64px;min-height:100%;display:flex;flex-direction:column;justify-content:flex-start;justify-content:safe center;}
+  .page{padding:40px 64px 40px;min-height:100%;display:flex;flex-direction:column;justify-content:flex-start;justify-content:safe center;}
   .page-inner{max-width:1180px;margin:0 auto;width:100%;}
 
   /* ---------- footer ---------- */
@@ -160,10 +160,11 @@
   .drawer-item.current{background:var(--gold-fill);color:var(--text);font-weight:600;}
   .drawer-item-idx{font-family:var(--font-mono);font-size:11px;color:var(--text-faint);width:20px;flex:none;}
 
-  .eyebrow-row{display:flex;align-items:center;gap:10px;margin-bottom:18px;}
+  .eyebrow-row{display:flex;align-items:center;gap:10px;margin-bottom:12px;min-width:0;}
   .eyebrow{
     font-family:var(--font-mono);font-size:11.5px;letter-spacing:.1em;
     color:var(--text-faint);text-transform:uppercase;
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
   }
   .status-dot{width:6px;height:6px;border-radius:50%;flex:none;}
   .status-dot.gold{background:var(--gold);}
@@ -173,12 +174,12 @@
   .status-dot.slate{background:var(--slate);}
   .status-dot.faint{background:var(--text-faint);}
 
-  .project-name{margin-top:14px;font-size:15px;font-weight:700;color:var(--gold);}
-  .headline{margin-top:10px;font-size:clamp(28px,3.1vw,42px);line-height:1.12;color:var(--text);max-width:17ch;}
-  .lede{margin-top:16px;font-size:16px;line-height:1.6;color:var(--text-dim);max-width:52ch;}
+  .project-name{margin-top:10px;font-size:15px;font-weight:700;color:var(--gold);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .headline{margin-top:6px;font-size:clamp(28px,3.1vw,42px);line-height:1.12;color:var(--text);max-width:17ch;}
+  .lede{margin-top:10px;font-size:16px;line-height:1.6;color:var(--text-dim);max-width:52ch;}
 
   .page-body{
-    margin-top:44px;
+    margin-top:28px;
     display:grid;grid-template-columns:0.92fr 1.08fr;gap:56px;align-items:start;
   }
   .page.flip .page-body{grid-template-columns:1.08fr 0.92fr;}
@@ -187,7 +188,7 @@
 
   /* ---------- narrative ---------- */
   .beats{border-top:1px solid var(--line);}
-  .beat{display:flex;gap:12px;align-items:baseline;padding:13px 0;border-bottom:1px solid var(--line);}
+  .beat{display:flex;gap:12px;align-items:baseline;padding:9px 0;border-bottom:1px solid var(--line);}
   .beat-mark{flex:none;width:5px;height:5px;border-radius:50%;background:var(--gold);position:relative;top:-1px;}
   .beat-label{
     flex:none;width:88px;
@@ -199,10 +200,10 @@
 
   .stat-ticker{
     display:flex;flex-wrap:wrap;gap:0;
-    margin-top:28px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+    margin-top:18px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);
   }
   .stat{
-    flex:1 1 120px;padding:16px 20px 16px 0;
+    flex:1 1 120px;padding:11px 20px 11px 0;
     border-right:1px solid var(--line);
   }
   .stat:last-child{border-right:none;}
@@ -229,7 +230,7 @@
   .cta-note.warn{color:var(--loss);}
 
   /* ---------- exhibits ---------- */
-  .exhibit-col{display:flex;flex-direction:column;gap:18px;}
+  .exhibit-col{display:flex;flex-direction:column;gap:12px;}
   .exhibit-group{display:flex;flex-direction:column;gap:22px;}
   .exhibit-group.pair{flex-direction:row;gap:18px;}
   .exhibit{flex:1;min-width:0;}
@@ -256,7 +257,7 @@
   .exhibit-bar-left .word.draft{color:var(--violet);}
   .exhibit-bar-right{font-family:var(--font-mono);font-size:10.5px;color:var(--text-faint);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:52%;}
   .exhibit-shot{background:#000;}
-  .exhibit-shot img{width:100%;cursor:zoom-in;}
+  .exhibit-shot img{width:100%;max-height:235px;object-fit:contain;cursor:zoom-in;display:block;margin:0 auto;}
   .exhibit-caption{margin-top:9px;font-size:12.5px;color:var(--text-faint);line-height:1.5;padding:0 2px;}
 
   /* ---------- closing ---------- */
@@ -264,6 +265,22 @@
   .closing-lede{margin-top:18px;font-size:16px;line-height:1.65;color:var(--text-dim);max-width:56ch;}
   .closing-foot{margin-top:48px;display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:16px;font-family:var(--font-mono);font-size:12px;color:var(--text-faint);border-top:1px solid var(--line);padding-top:20px;}
   .closing-actions{margin-top:28px;display:flex;flex-wrap:wrap;gap:12px;}
+
+  /* ---------- pms diff chart ---------- */
+  .diff-chart{margin-top:16px;border:1px solid var(--line);border-radius:10px;background:var(--surface);padding:12px 14px;}
+  .diff-chart-title{font-size:11.5px;font-weight:600;color:var(--text);margin-bottom:10px;}
+  .diff-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+  .diff-panel-title{font-family:var(--font-mono);font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--text-faint);margin-bottom:7px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .diff-bar-row{display:flex;align-items:center;gap:5px;margin-bottom:5px;}
+  .diff-bar-label{flex:none;width:58px;font-size:10px;color:var(--text-dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .diff-bar-track{flex:1;height:7px;background:var(--surface-sunken);border-radius:4px;overflow:hidden;min-width:18px;}
+  .diff-bar-fill{height:100%;border-radius:4px;}
+  .diff-bar-fill.neutral{background:var(--text-faint);}
+  .diff-bar-fill.gold{background:var(--gold);}
+  .diff-bar-fill.slate{background:var(--slate);}
+  .diff-bar-fill.gain{background:var(--gain);}
+  .diff-bar-value{flex:none;width:40px;font-family:var(--font-mono);font-size:10px;font-weight:600;color:var(--text);text-align:right;white-space:nowrap;}
+  .diff-panel-note{margin-top:6px;font-size:9.5px;line-height:1.35;color:var(--text-faint);}
 
   /* ---------- overview ---------- */
   .ov-grid{margin-top:36px;display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:12px;overflow:hidden;}
@@ -491,6 +508,7 @@
     .macro-grid{grid-template-columns:1fr;}
     .miniapp-kpis{grid-template-columns:repeat(2,1fr);}
     .ov-grid{grid-template-columns:1fr;}
+    .diff-grid{grid-template-columns:1fr;}
     .title-begin{right:20px;bottom:20px;}
   }
 
@@ -575,7 +593,7 @@
 
   var GROUPS = {
     engine:  {label:'Investment Intelligence',            dot:'gold'},
-    trust:   {label:'Client Tools &amp; Communication',   dot:'signal'},
+    trust:   {label:'Client Tools & Communication',   dot:'signal'},
     intel:   {label:'Business Intelligence',              dot:'violet'},
     ops:     {label:'Operations Automation',              dot:'slate'},
     next:    {label:'Roadmap',                            dot:'faint'}
@@ -623,7 +641,8 @@
     },
     { n:5, group:'engine', tag:'Macro Dashboard', kind:'macro',
       headline:'30+ signals on the Indian economy. Here\'s what they say right now.',
-      lede:'Live indicators are only useful if someone reads them. Here\'s the read, in my own words, off the actual live dashboard.'
+      lede:'Live indicators are only useful if someone reads them. Here\'s the read, in my own words, off the actual live dashboard.',
+      demo:{url:'https://fincartoptima.github.io/MacroEconomicCompleteDashboard/', label:'Open full live dashboard', note:'The six cards above are a snapshot — the live dashboard tracks 30+ indicators across five categories.'}
     },
     { n:6, group:'trust', tag:'Investment Simulator', kind:'invest-sim',
       headline:'Pick any date. See what ₹10 lakh would actually be worth today.',
@@ -637,8 +656,9 @@
     },
     {
       n:11, group:'trust', tag:'Stock PMS Comparison', kind:'standard',
-      headline:'Most self-directed investors are quietly trailing the index. Now they can see it.',
+      headline:'Client vs Optima vs the index.',
       lede:'Clients trading on their own usually assumed they were doing fine.',
+      pmsDiff:{client:13.19, optima:16.64, bse500:8.62, years:3},
       beats:[
         {label:'Problem', text:'Most DIY investors quietly trail the benchmark — with no way to see it.'},
         {label:'Built', text:'Real tradebook → true NAV series → lined up against Fincart Optima.'},
@@ -704,7 +724,7 @@
       walkthrough:'birdseye'
     },
     {
-      n:16, group:'intel', tag:'L&amp;D Plan Dashboard', kind:'standard',
+      n:16, group:'intel', tag:'L&D Plan Dashboard', kind:'standard',
       headline:'How many plans, from whom, converting how often.',
       lede:'The L&D team had no live view of how many financial plans were actually being produced.',
       beats:[
@@ -1195,7 +1215,7 @@
     var parts = m.split('-'); return mons[parseInt(parts[1],10)-1]+' '+parts[0].slice(2);
   }
 
-  function buildMacro(){
+  function buildMacro(demo){
     var col = el('div','exhibit-col');
     var frame = el('div','', '');
     frame.style.cssText='border:1px solid var(--line);border-radius:12px;background:var(--surface);box-shadow:0 1px 2px rgba(30,26,10,.04), 0 16px 40px -28px rgba(30,26,10,.25);overflow:hidden;';
@@ -1276,6 +1296,7 @@
     frame.appendChild(body);
     col.appendChild(frame);
     col.appendChild(el('div','exhibit-caption','Six of the 30+ indicators tracked live — Oct 2024 through Aug 2026, sourced from RBI, AMFI, NSE/BSE and MoSPI releases.'));
+    if(demo){ col.appendChild(ctaRow(demo)); }
     return col;
   }
 
@@ -1493,6 +1514,52 @@
       return b;
     });
     return {bar: bar, btns: btns};
+  }
+
+  /* ==================== stock PMS comparison: CAGR / absolute / gap chart ==================== */
+
+  function buildPmsDiffChart(data){
+    var years = data.years || 3;
+    function absReturn(cagrPct){ return (Math.pow(1 + cagrPct/100, years) - 1) * 100; }
+
+    var rows1 = [
+      {label:'Client', value:data.client, tone:'neutral'},
+      {label:'Fincart Optima', value:data.optima, tone:'gold'},
+      {label:'BSE 500', value:data.bse500, tone:'slate'}
+    ];
+    var rows2 = rows1.map(function(r){ return {label:r.label, value:absReturn(r.value), tone:r.tone}; });
+    var rows3 = [
+      {label:'Optima ahead of client', value:data.optima - data.client, tone:'gold'},
+      {label:'Client ahead of BSE 500', value:data.client - data.bse500, tone:'gain'}
+    ];
+
+    function panel(title, rows, unit, note){
+      var p = el('div','diff-panel');
+      p.appendChild(el('div','diff-panel-title', title));
+      var max = Math.max.apply(null, rows.map(function(r){ return Math.abs(r.value); })) || 1;
+      rows.forEach(function(r){
+        var row = el('div','diff-bar-row');
+        row.appendChild(el('div','diff-bar-label', r.label));
+        var track = el('div','diff-bar-track');
+        var fill = el('div','diff-bar-fill '+r.tone);
+        fill.style.width = Math.max(4, Math.abs(r.value)/max*100) + '%';
+        track.appendChild(fill);
+        row.appendChild(track);
+        row.appendChild(el('div','diff-bar-value', (r.value>=0?'+':'')+r.value.toFixed(1)+unit));
+        p.appendChild(row);
+      });
+      if(note) p.appendChild(el('div','diff-panel-note', note));
+      return p;
+    }
+
+    var wrap = el('div','diff-chart');
+    wrap.appendChild(el('div','diff-chart-title','CAGR, absolute return and the gap — client vs Optima vs the index'));
+    var grid = el('div','diff-grid');
+    grid.appendChild(panel('CAGR / XIRR', rows1, '%'));
+    grid.appendChild(panel('Absolute return, '+years+'yr', rows2, '%', 'Illustrative — compounds the XIRR above over '+years+' years.'));
+    grid.appendChild(panel('Gap vs client portfolio', rows3, 'pp'));
+    wrap.appendChild(grid);
+    return wrap;
   }
 
   /* ==================== slide 8: marketing mini-app ==================== */
@@ -1907,7 +1974,7 @@
   /* ==================== generic page builder ==================== */
 
   function slugify(s){
-    return s.toLowerCase().replace(/&amp;/g,'and').replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'');
+    return s.toLowerCase().replace(/&/g,'and').replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'');
   }
 
   function buildPage(slide, idx){
@@ -1934,7 +2001,7 @@
 
     if(slide.kind === 'macro'){
       var soloWrap = el('div',''); soloWrap.style.marginTop='36px';
-      soloWrap.appendChild(buildMacro());
+      soloWrap.appendChild(buildMacro(slide.demo));
       inner.appendChild(soloWrap);
       page.appendChild(inner);
       return page;
@@ -2014,6 +2081,7 @@
     }
 
     inner.appendChild(body);
+    if(slide.pmsDiff){ inner.appendChild(buildPmsDiffChart(slide.pmsDiff)); }
     page.appendChild(inner);
     return page;
   }
@@ -2066,8 +2134,8 @@
     var grid = el('div','ov-grid');
     [
       {n:'4', label:'Investment intelligence', text:'Allocation model, fund selection, trade signals, macro dashboard.'},
-      {n:'3', label:'Client tools &amp; communication', text:'Investment simulator, prospect one-pager, portfolio comparison.'},
-      {n:'4', label:'Business intelligence', text:'Marketing MIS, Revenue MIS, fund-manager console, L&amp;D dashboard.'},
+      {n:'3', label:'Client tools & communication', text:'Investment simulator, prospect one-pager, portfolio comparison.'},
+      {n:'4', label:'Business intelligence', text:'Marketing MIS, Revenue MIS, fund-manager console, L&D dashboard.'},
       {n:'4', label:'Operations automation', text:'Brokerage, insurance, revenue-file and health-insurance reconciliation.'}
     ].forEach(function(a){
       var card = el('div','ov-card');
