@@ -461,7 +461,7 @@
   .walkthrough-frame{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--surface);box-shadow:0 1px 2px rgba(30,26,10,.04), 0 16px 40px -28px rgba(30,26,10,.25);}
   .walkthrough-bar{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:9px 13px;border-bottom:1px solid var(--line);background:var(--surface-sunken);font-family:var(--font-mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--text-faint);}
   .walkthrough-bar .dot{width:6px;height:6px;border-radius:50%;background:var(--gain);display:inline-block;margin-right:6px;box-shadow:0 0 0 3px var(--gain-fill);}
-  .walkthrough-stage{position:relative;aspect-ratio:16/10;background:#f4f3ef;overflow:hidden;}
+  .walkthrough-stage{position:relative;aspect-ratio:16/9;background:#f4f3ef;overflow:hidden;}
   .wt-scene{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:28px;opacity:0;animation:wtCycle 10s infinite;}
   .wt-scene b{color:var(--text);}
   .wt-scene .wt-card{width:100%;max-width:420px;background:#fff;border:1px solid var(--line);border-radius:10px;padding:20px;box-shadow:0 8px 24px -14px rgba(20,18,10,.3);}
@@ -620,6 +620,23 @@
       headline:'4,000+ funds. A model built to find next year\'s winners, not last year\'s.',
       lede:'Top funds of one year rarely repeat. Pick a year, run the ML engine on it.',
       note:'Small-cap universe. Kept only if it ranks near the top across overlapping 1-, 2- and 3-year windows.'
+    },
+    {
+      n:18, group:'engine', tag:'Calculating Mutual Fund Expected Growth', kind:'standard',
+      headline:'One fund score, stock by stock.',
+      lede:'Pull real holdings by ISIN, match every stock to its TradingView target price, then blend it into one ranked growth number per fund.',
+      beats:[
+        {label:'Problem', text:'A factsheet shows where a fund has been — not what the stocks inside it are expected to do next.'},
+        {label:'Built', text:'ISIN &#8594; real holdings &#8594; TradingView 1-year target prices &#8594; one blended expected-growth score per fund.'},
+        {label:'Impact', text:'Funds rank by forward expected growth, not history — and the coverage columns show exactly how much of that score to trust.'}
+      ],
+      stats:[
+        {v:'23.18%', l:'highest expected growth, mid-cap screen, one run', tone:'gain'},
+        {v:'21', l:'mid-cap funds screened, one run', tone:'neutral'},
+        {v:'84–98%', l:'range of fund weight backed by a real target price', tone:'gold'}
+      ],
+      walkthrough:'growthCalc',
+      growthTable:true
     },
     {
       n:4, group:'engine', tag:'Automated Trade Signals', kind:'standard',
@@ -1562,6 +1579,28 @@
     return wrap;
   }
 
+  /* ==================== mutual fund expected growth: ranked table ==================== */
+
+  var GROWTH_SUMMARY = [
+    ['1','Franklin India Mid Cap Fund - Direct - Growth','INF090I01FH9','93.51','6.47','23.18','93.9','6.1'],
+    ['2','Motilal Oswal Midcap Fund - Direct Plan - Growth Option','INF247L01445','93.98','2.4','22.16','96.67','3.33'],
+    ['3','Sundaram Mid Cap Fund - Direct Plan - Growth','INF903J01MJ3','91.34','8.26','21.7','89.61','10.39'],
+    ['4','Kotak Midcap Fund - Direct Plan - Growth','INF174K01LT0','89.63','7.87','21.54','91.43','8.57'],
+    ['5','Mahindra Manulife Mid Cap Fund - Direct Plan - Growth','INF174V01507','90.24','7.47','21.45','93.22','6.78'],
+    ['6','UTI Mid Cap Fund - Direct Plan - Growth Option','INF789F01UA6','96.02','3.96','21.43','91.57','8.43']
+  ];
+
+  function buildGrowthTable(){
+    var wrap = el('div','diff-chart');
+    wrap.appendChild(el('div','diff-chart-title','Growth Summary — top 6 of 21 mid-cap funds screened, one run'));
+    wrap.appendChild(renderTable(
+      ['Rank','Fund','ISIN','Wt. w/ Real Data %','Wt. Assumed (6%) %','Expected Growth %','Stocks w/ Target %','Stocks w/o Target %'],
+      GROWTH_SUMMARY
+    ));
+    wrap.appendChild(el('div','diff-panel-note','Blends each stock’s TradingView target-price upside, weighted by real holding weight, with a flat 6% assumption for weight that has no analyst target — read it next to the coverage columns.'));
+    return wrap;
+  }
+
   /* ==================== slide 8: marketing mini-app ==================== */
 
   function buildMarketingMini(){
@@ -1899,6 +1938,29 @@
   }
 
   var WALKTHROUGHS = {
+    growthCalc: {
+      title:'Mutual Fund Expected Growth Calculator',
+      caption:'A 10-second animated walkthrough of the real 3-stage pipeline — holdings out, target prices in, one ranked growth table out. Loops automatically.',
+      scenes:[
+        '<div class="wt-label">Step 1 &middot; Fund Holdings Explorer</div>' +
+        '<div class="wt-row"><span>Upload fund list (Scheme + ISIN)</span><span class="wt-check">&#10003;</span></div>' +
+        '<div class="wt-btn">Process &amp; Download</div>',
+
+        '<div class="wt-label">Step 2 &middot; TradingView</div>' +
+        '<div class="wt-row"><span>Import watchlist.txt</span><span class="wt-check">&#10003;</span></div>' +
+        '<div class="wt-row"><span>Add Price + Target Price (1Y)</span><span class="wt-check">&#10003;</span></div>' +
+        '<div class="wt-row"><span>Export watchlist as CSV</span><span class="wt-check">&#10003;</span></div>',
+
+        '<div class="wt-label">Step 3 &middot; Growth Calculator</div>' +
+        '<div class="wt-row"><span>TradingView CSV + fund_holdings.xlsx</span><span class="wt-check">&#10003;</span></div>' +
+        '<div class="wt-btn">Calculate &amp; Download</div>',
+
+        '<div class="wt-label">Step 4 &middot; Output</div>' +
+        '<div class="wt-row"><span>&#128202; Growth Summary tab</span><span class="wt-check">&#10003;</span></div>' +
+        '<div class="wt-row"><span>Funds ranked by expected growth</span><b>21 funds</b></div>' +
+        '<div class="wt-row"><span>+ per-fund holding detail</span><span class="wt-check">&#10003;</span></div>'
+      ]
+    },
     insurance: {
       title:'Insurance Policy Tracker',
       caption:'A 10-second animated walkthrough of the real flow — pick the company, attach two files, run it, get one Excel report. Loops automatically.',
@@ -2082,6 +2144,7 @@
 
     inner.appendChild(body);
     if(slide.pmsDiff){ inner.appendChild(buildPmsDiffChart(slide.pmsDiff)); }
+    if(slide.growthTable){ inner.appendChild(buildGrowthTable()); }
     page.appendChild(inner);
     return page;
   }
